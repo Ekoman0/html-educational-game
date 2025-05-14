@@ -82,6 +82,25 @@
       color: #4f46e5;
       font-weight: bold;
     }
+
+    .home-button {
+      display: block;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .home-button a {
+      padding: 0.7rem 1.5rem;
+      background-color: #10b981;
+      color: white;
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-weight: bold;
+    }
+
+    .home-button a:hover {
+      background-color: #059669;
+    }
   </style>
 </head>
 <body>
@@ -95,6 +114,10 @@
     <div class="preview" id="preview">Önizleme: Burada doğru cevabı görebilirsiniz.</div>
 
     <div class="score" id="score">Puan: 0</div>
+
+    <div class="home-button">
+      <a href="MainMenu.html">Ana Sayfaya Dön</a>
+    </div>
   </div>
 
   <script>
@@ -102,8 +125,8 @@
       {
         id: 1,
         text: '1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.',
-        draggables: ["<h1>", "</h1>"],
-        ids: ["h1", "/h1"],
+        draggables: ["<h1>", "</h1>", "<p>", "<div>"],
+        ids: ["h1", "/h1", "p", "div"],
         html: '<span class="dropzone" data-accept="h1"></span>Merhaba Dünya<span class="dropzone" data-accept="/h1"></span>',
         render: () => {
           const preview = document.getElementById('preview');
@@ -119,8 +142,8 @@
       {
         id: 2,
         text: '2. Paragraf etiketi ile bir paragraf oluştur.',
-        draggables: ["<p>", "</p>"],
-        ids: ["p", "/p"],
+        draggables: ["<p>", "</p>", "<h2>", "<span>"],
+        ids: ["p", "/p", "h2", "span"],
         html: '<span class="dropzone" data-accept="p"></span>Bu bir paragraftır.<span class="dropzone" data-accept="/p"></span>',
         render: () => {
           const preview = document.getElementById('preview');
