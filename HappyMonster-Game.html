@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kod Canavarı Eğitimi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      color: #111827;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      text-align: center;
+      background: #fff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      width: 90%;
+      max-width: 600px;
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    #monster img {
+      width: 150px;
+      height: auto;
+      border-radius: 1rem;
+      border: 2px solid #d1d5db;
+      margin: 1rem 0;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 1rem;
+      font-family: monospace;
+      border-radius: 0.5rem;
+      border: 1px solid #d1d5db;
+      resize: none;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      background-color: #4f46e5;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      margin: 1rem 0.5rem 0 0.5rem;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #3730a3;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👾 Kod Canavarı Eğitimi</h1>
+
+    <div id="monster">
+      <img id="monsterImage" src="kizgin.png" alt="Kod Canavarı">
+    </div>
+
+    <p id="questionText">Canavar sinirli çünkü HTML kodu hatalı. Hadi düzelt!</p>
+
+    <textarea id="codeInput"></textarea>
+
+    <br>
+    <button class="btn" onclick="checkCode()">Kodu Kontrol Et</button>
+    <button class="btn" onclick="goHome()">Anasayfaya Dön</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        code: "<p>Merhaba Canavar",
+        correct: (code) => code.includes("<p>") && code.includes("</p>")
+      },
+      {
+        code: "<h1>Başlık",
+        correct: (code) => code.includes("<h1>") && code.includes("</h1>")
+      },
+      {
+        code: "<ul><li>Öğe 1<li>Öğe 2</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<a href='https://ornek.com'>Link",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      }
+    ];
+
+    let currentIndex = 0;
+
+    function loadQuestion() {
+      document.getElementById("codeInput").value = questions[currentIndex].code;
+      document.getElementById("monsterImage").src = "kizgin.png";
+      document.getElementById("message").textContent = "";
+    }
+
+    function checkCode() {
+      const input = document.getElementById("codeInput").value;
+      const isCorrect = questions[currentIndex].correct(input);
+      const monsterImage = document.getElementById("monsterImage");
+      const message = document.getElementById("message");
+
+      if (isCorrect) {
+        monsterImage.src = "mutlu.png";
+        message.textContent = "Harika! Canavar mutlu oldu.";
+
+        setTimeout(() => {
+          currentIndex++;
+          if (currentIndex < questions.length) {
+            loadQuestion();
+          } else {
+            message.textContent = "Tüm canavarlar mutlu! 🎉";
+            document.getElementById("codeInput").style.display = "none";
+            monsterImage.src = "mutlu.png";
+          }
+        }, 1500);
+      } else {
+        monsterImage.src = "kizgin.png";
+        message.textContent = "Hatalı... Etiketleri kontrol et!";
+      }
+    }
+
+    function goHome() {
+      window.location.href = "MainMenu.html"; // Anasayfanın adı buysa
+    }
+
+    // Sayfa yüklendiğinde ilk soruyu göster
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>
