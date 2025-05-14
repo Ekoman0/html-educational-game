@@ -5,56 +5,488 @@
   <title>HTML Oyun Anasayfa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    body {
+    :root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #ec4899;
+      --success: #10b981;
+      --background: #f8fafc;
+      --card-bg: #ffffff;
+    }
+    
+    * {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--background);
+      color: #1e293b;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
     }
-
+    
     .container {
+      width: 90%;
+      max-width: 800px;
       text-align: center;
-      background: #fff;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e5e7eb;
+      background: var(--card-bg);
+      padding: 3rem 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(231, 231, 240, 0.8);
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+      transform: translateY(0);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
     }
-
+    
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 70%);
+      opacity: 0;
+      z-index: -1;
+      transform: translate3d(0,0,0) rotate(0);
+      transition: opacity 0.5s;
+    }
+    
+    .container:hover::before {
+      opacity: 1;
+      animation: rotate 15s linear infinite;
+    }
+    
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
     h1 {
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
     }
-
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    .game-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+    
     .btn {
-      background-color: #4f46e5;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
       color: white;
-      padding: 1rem 2rem;
+      padding: 1rem 1.5rem;
       border: none;
       font-size: 1rem;
-      border-radius: 0.5rem;
+      font-weight: 600;
+      border-radius: 0.75rem;
       cursor: pointer;
-      margin: 1rem;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 120px;
+      box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
     }
-
+    
+    .btn span {
+      position: relative;
+      z-index: 2;
+    }
+    
+    .btn .btn-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+    
     .btn:hover {
-      background-color: #3730a3;
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn:hover .btn-icon {
+      transform: scale(1.2);
+    }
+    
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s;
+    }
+    
+    .btn:hover::before {
+      left: 100%;
+    }
+    
+    /* Leaderboard styles */
+    .leaderboard-container {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background-color: var(--card-bg);
+      border: 1px solid rgba(231, 231, 240, 0.8);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      width: 280px;
+      max-width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+      transform: translateX(120%);
+      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      z-index: 100;
+      overflow: hidden;
+    }
+    
+    .leaderboard-container.open {
+      transform: translateX(0);
+    }
+    
+    .leaderboard-toggle {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      z-index: 101;
+      border: none;
+      transition: transform 0.3s;
+    }
+    
+    .leaderboard-toggle:hover {
+      transform: scale(1.1);
+    }
+    
+    .leaderboard-container h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .leaderboard-container h3 .trophy {
+      font-size: 1.5rem;
+      color: gold;
+      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+    
+    .leaderboard-container table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    .leaderboard-container th,
+    .leaderboard-container td {
+      border-bottom: 1px solid rgba(231, 231, 240, 0.8);
+      padding: 0.75rem 0.5rem;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+    
+    .leaderboard-container th {
+      font-weight: 600;
+      color: #64748b;
+    }
+    
+    .leaderboard-container tbody tr {
+      transition: background-color 0.2s;
+    }
+    
+    .leaderboard-container tbody tr:hover {
+      background-color: rgba(99, 102, 241, 0.05);
+    }
+    
+    .leaderboard-container tbody td:last-child {
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    /* Top 3 styling */
+    .leaderboard-container tbody tr:nth-child(1) td:last-child {
+      color: gold;
+    }
+    
+    .leaderboard-container tbody tr:nth-child(2) td:last-child {
+      color: silver;
+    }
+    
+    .leaderboard-container tbody tr:nth-child(3) td:last-child {
+      color: #cd7f32; /* bronze */
+    }
+    
+    /* Animations */
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+    
+    .floating {
+      animation: float 5s ease-in-out infinite;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    /* Confetti effect for container hover */
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      top: -20px;
+      opacity: 0;
+    }
+    
+    .container:hover .confetti-piece {
+      animation: confetti 5s ease-in-out forwards;
+    }
+    
+    @keyframes confetti {
+      0% { 
+        transform: rotate(0deg) translateY(0); 
+        opacity: 1;
+      }
+      100% { 
+        transform: rotate(360deg) translateY(1000px); 
+        opacity: 0;
+      }
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .container {
+        padding: 2rem 1rem;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .game-buttons {
+        gap: 1rem;
+      }
+      
+      .btn {
+        min-height: 100px;
+        padding: 0.75rem;
+      }
+    }
+    
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background: #0f172a;
+        --card-bg: #1e293b;
+      }
+      
+      body {
+        color: #f1f5f9;
+      }
+      
+      .container {
+        border-color: rgba(71, 85, 105, 0.3);
+      }
+      
+      .leaderboard-container {
+        border-color: rgba(71, 85, 105, 0.3);
+      }
+      
+      .leaderboard-container th {
+        color: #94a3b8;
+      }
+      
+      .leaderboard-container tbody tr:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+      }
     }
   </style>
 </head>
 <body>
-
+  <!-- Main container -->
   <div class="container">
-    <h1>HTML Öğretici Oyunlar 🎮</h1>
-    <button class="btn" onclick="window.location.href='Write-Game.html'">Yazılı Etiket Oyunu</button>
-    <button class="btn" onclick="window.location.href='Drag-and-Drop-Game.html'">Sürükle Bırak Etiket Oyunu</button>
-    <button class="btn" onclick="window.location.href='HappyMonster-Game.html'">Kod Canavarı Oyunu</button>
-    <button class="btn" onclick="window.location.href='Make-Site-Game.html'">Blog Oluşturma Oyunu</button>
+    <h1 class="pulse">HTML Öğretici Oyunlar 🎮</h1>
+    
+    <div class="game-buttons">
+      <button class="btn floating" onclick="window.location.href='Write-Game.html'">
+        <div class="btn-icon">✏️</div>
+        <span>Yazılı Etiket Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 0.5s" onclick="window.location.href='Drag-and-Drop-Game.html'">
+        <div class="btn-icon">🔄</div>
+        <span>Sürükle Bırak Etiket Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 1s" onclick="window.location.href='HappyMonster-Game.html'">
+        <div class="btn-icon">👾</div>
+        <span>Kod Canavarı Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 1.5s" onclick="window.location.href='Make-Site-Game.html'">
+        <div class="btn-icon">🌐</div>
+        <span>Blog Oluşturma Oyunu</span>
+      </button>
+    </div>
+    
+    <!-- Confetti elements -->
+    <div class="confetti-piece" style="left: 10%; animation-delay: 0s; background: #6366f1;"></div>
+    <div class="confetti-piece" style="left: 20%; animation-delay: 0.2s; background: #ec4899;"></div>
+    <div class="confetti-piece" style="left: 30%; animation-delay: 0.4s; background: #10b981;"></div>
+    <div class="confetti-piece" style="left: 40%; animation-delay: 0.6s; background: #eab308;"></div>
+    <div class="confetti-piece" style="left: 50%; animation-delay: 0.8s; background: #6366f1;"></div>
+    <div class="confetti-piece" style="left: 60%; animation-delay: 1.0s; background: #ec4899;"></div>
+    <div class="confetti-piece" style="left: 70%; animation-delay: 1.2s; background: #10b981;"></div>
+    <div class="confetti-piece" style="left: 80%; animation-delay: 1.4s; background: #eab308;"></div>
+    <div class="confetti-piece" style="left: 90%; animation-delay: 1.6s; background: #6366f1;"></div>
   </div>
-
+  
+  <!-- Leaderboard toggle button -->
+  <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
+  
+  <!-- Leaderboard panel -->
+  <div class="leaderboard-container" id="leaderboardContainer">
+    <h3><span>Skor Tablosu</span> <span class="trophy">🏆</span></h3>
+    <table>
+      <thead>
+        <tr><th>İsim</th><th>Skor</th></tr>
+      </thead>
+      <tbody id="leaderboard"></tbody>
+    </table>
+  </div>
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  
+  <script>
+    // Firebase yapılandırması
+    const firebaseConfig = {
+      apiKey: "AIzaSyAIfrsCikknBrkiocDdY_8vGtth2c20Hao",
+      authDomain: "learnhtmlgame.firebaseapp.com",
+      databaseURL: "https://learnhtmlgame-default-rtdb.firebaseio.com",
+      projectId: "learnhtmlgame",
+      storageBucket: "learnhtmlgame.appspot.com",
+      messagingSenderId: "58028478626",
+      appId: "1:58028478626:web:a9897fa9c57b36afa987fb",
+      measurementId: "G-77PDPX66EH"
+    };
+    
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    
+    // Skorları oku ve göster
+    db.ref("scores").orderByChild("score").limitToLast(10).on("value", snapshot => {
+      const leaderboard = document.getElementById("leaderboard");
+      leaderboard.innerHTML = "";
+      
+      const entries = [];
+      snapshot.forEach(child => {
+        entries.push(child.val());
+      });
+      
+      entries.sort((a, b) => b.score - a.score);
+      
+      entries.forEach((entry, index) => {
+        // Emoji ekleyelim ilk 3 sıra için
+        let prefix = "";
+        if (index === 0) prefix = "🥇 ";
+        else if (index === 1) prefix = "🥈 ";
+        else if (index === 2) prefix = "🥉 ";
+        
+        const row = `<tr><td>${prefix}${entry.name}</td><td>${entry.score}</td></tr>`;
+        leaderboard.innerHTML += row;
+      });
+    });
+    
+    // Leaderboard toggle functionality
+    const leaderboardToggle = document.getElementById('leaderboardToggle');
+    const leaderboardContainer = document.getElementById('leaderboardContainer');
+    
+    leaderboardToggle.addEventListener('click', () => {
+      leaderboardContainer.classList.toggle('open');
+      
+      // Buton efekti
+      leaderboardToggle.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        leaderboardToggle.style.transform = '';
+      }, 150);
+    });
+    
+    // Sayfa yüklendiğinde animasyon efekti
+    document.addEventListener('DOMContentLoaded', () => {
+      const container = document.querySelector('.container');
+      container.style.opacity = '0';
+      container.style.transform = 'translateY(20px)';
+      
+      setTimeout(() => {
+        container.style.transition = 'opacity 1s ease, transform 1s ease';
+        container.style.opacity = '1';
+        container.style.transform = 'translateY(0)';
+      }, 100);
+    });
+  </script>
 </body>
 </html>
