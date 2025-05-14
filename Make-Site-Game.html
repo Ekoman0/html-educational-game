@@ -239,11 +239,11 @@
             },
             {
                 title: "Profil Resmi Ekleme",
-                instruction: "<strong>Görev:</strong> Blogunuza bir profil resmi ekleyin. <code>&lt;img&gt;</code> etiketini kullanarak kaynak olarak \"profil.jpeg\" adresini belirtin ve alternatif metin olarak \"Profil Resmi\" yazın.",
-                hint: "İpucu: <code>&lt;img src=\"profil.jpeg\" alt=\"Profil Resmi\"&gt;</code> şeklinde yazmalısınız.",
-                solution: "<img src=\"profil.jpeg\" alt=\"Profil Resmi\">",
+                instruction: "<strong>Görev:</strong> Blogunuza bir profil resmi ekleyin. <code>&lt;img&gt;</code> etiketini kullanarak kaynak olarak \"/api/placeholder/150/150\" adresini belirtin ve alternatif metin olarak \"Profil Resmi\" yazın.",
+                hint: "İpucu: <code>&lt;img src=\"/api/placeholder/150/150\" alt=\"Profil Resmi\"&gt;</code> şeklinde yazmalısınız.",
+                solution: "<img src=\"/api/placeholder/150/150\" alt=\"Profil Resmi\">",
                 check: function(code) {
-                    return code.toLowerCase().includes("<img src=\"profil.jpeg\" alt=\"profil resmi\">");
+                    return code.toLowerCase().includes("<img src=\"/api/placeholder/150/150\" alt=\"profil resmi\">");
                 }
             },
             {
@@ -258,15 +258,15 @@
             },
             {
                 title: "İlgi Alanları Listesi",
-                instruction: "<strong>Görev:</strong> İlgi alanlarınızı gösteren sırasız bir liste oluşturun. <code>&lt;h2&gt;</code> başlığıyla \"İlgi Alanlarım\" yazın ve altına <code>&lt;ul&gt;</code> ve <code>&lt;li&gt;</code> etiketlerini kullanarak \"Yazılım\", \"Web Tasarım\" ve \"Oyun Geliştirme\" maddelerini içeren bir liste yapın.",
-                hint: "İpucu: <code>&lt;h2&gt;İlgi Alanlarım&lt;/h2&gt;<br>&lt;ul&gt;<br>&nbsp;&nbsp;&lt;li&gt;Yazılım&lt;/li&gt;<br>&nbsp;&nbsp;&lt;li&gt;Web Tasarım&lt;/li&gt;<br>&nbsp;&nbsp;&lt;li&gt;Oyun Geliştirme&lt;/li&gt;<br>&lt;/ul&gt;</code>",
-                solution: "<h2>İlgi Alanlarım</h2>\n<ul>\n<li>Yazılım</li>\n<li>Web Tasarım</li>\n<li>Oyun Geliştirme</li>\n</ul>",
+                instruction: "<strong>Görev:</strong> İlgi alanlarınızı gösteren sırasız bir liste oluşturun. <code>&lt;h2&gt;</code> başlığıyla \"İlgi Alanlarım\" yazın ve altına <code>&lt;ul&gt;</code> ve <code>&lt;li&gt;</code> etiketlerini kullanarak \"Yazılım\", \"Web Tasarım\" ve \"Yapay Zeka\" maddelerini içeren bir liste yapın.",
+                hint: "İpucu: <code>&lt;h2&gt;İlgi Alanlarım&lt;/h2&gt;<br>&lt;ul&gt;<br>&nbsp;&nbsp;&lt;li&gt;Yazılım&lt;/li&gt;<br>&nbsp;&nbsp;&lt;li&gt;Web Tasarım&lt;/li&gt;<br>&nbsp;&nbsp;&lt;li&gt;Yapay Zeka&lt;/li&gt;<br>&lt;/ul&gt;</code>",
+                solution: "<h2>İlgi Alanlarım</h2>\n<ul>\n<li>Yazılım</li>\n<li>Web Tasarım</li>\n<li>Yapay Zeka</li>\n</ul>",
                 check: function(code) {
                     return code.toLowerCase().includes("<h2>i̇lgi alanlarım</h2>") && 
                            code.toLowerCase().includes("<ul>") && 
                            code.toLowerCase().includes("<li>yazılım</li>") && 
                            code.toLowerCase().includes("<li>web tasarım</li>") && 
-                           code.toLowerCase().includes("<li>oyun geliştirme</li>");
+                           code.toLowerCase().includes("<li>yapay zeka</li>");
                 }
             },
             {
