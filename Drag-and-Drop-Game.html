@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sürükle Bırak Kod Oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9fafb;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .game-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .draggables {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .draggable {
+      padding: 0.5rem 1rem;
+      background: #4f46e5;
+      color: white;
+      border-radius: 0.5rem;
+      cursor: grab;
+    }
+
+    .code-box {
+      background: #f3f4f6;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-family: monospace;
+      white-space: pre-line;
+      border: 1px dashed #4f46e5;
+      min-height: 200px;
+    }
+
+    .dropzone {
+      display: inline-block;
+      min-width: 60px;
+      padding: 0.2rem;
+      margin: 0 0.2rem;
+      border: 2px dashed #4f46e5;
+      border-radius: 0.3rem;
+      background: white;
+      vertical-align: middle;
+    }
+
+    .preview {
+      padding: 1rem;
+      background-color: #ffffff;
+      border-radius: 0.5rem;
+      border: 1px solid #e5e7eb;
+      min-height: 100px;
+      margin-top: 1rem;
+    }
+
+    .score {
+      text-align: center;
+      margin-top: 1rem;
+      color: #4f46e5;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h2 id="question">1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.</h2>
+
+    <div class="draggables" id="draggables"></div>
+
+    <div class="code-box" id="codeBox"></div>
+
+    <div class="preview" id="preview">Önizleme: Burada doğru cevabı görebilirsiniz.</div>
+
+    <div class="score" id="score">Puan: 0</div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        id: 1,
+        text: '1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.',
+        draggables: ["<h1>", "</h1>"],
+        ids: ["h1", "/h1"],
+        html: '<span class="dropzone" data-accept="h1"></span>Merhaba Dünya<span class="dropzone" data-accept="/h1"></span>',
+        render: () => {
+          const preview = document.getElementById('preview');
+          const h1Start = document.querySelector('.dropzone[data-accept="h1"]');
+          const h1End = document.querySelector('.dropzone[data-accept="/h1"]');
+          if (h1Start.textContent === '<h1>' && h1End.textContent === '</h1>') {
+            preview.innerHTML = '<h1>Merhaba Dünya</h1>';
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        id: 2,
+        text: '2. Paragraf etiketi ile bir paragraf oluştur.',
+        draggables: ["<p>", "</p>"],
+        ids: ["p", "/p"],
+        html: '<span class="dropzone" data-accept="p"></span>Bu bir paragraftır.<span class="dropzone" data-accept="/p"></span>',
+        render: () => {
+          const preview = document.getElementById('preview');
+          const pStart = document.querySelector('.dropzone[data-accept="p"]');
+          const pEnd = document.querySelector('.dropzone[data-accept="/p"]');
+          if (pStart.textContent === '<p>' && pEnd.textContent === '</p>') {
+            preview.innerHTML = '<p>Bu bir paragraftır.</p>';
+            return true;
+          }
+          return false;
+        }
+      }
+    ];
+
+    let currentQuestion = 0;
+    let score = 0;
+
+    function loadQuestion(index) {
+      const question = questions[index];
+      document.getElementById("question").textContent = question.text;
+      document.getElementById("codeBox").innerHTML = question.html;
+      document.getElementById("preview").innerHTML = 'Önizleme: Burada doğru cevabı görebilirsiniz.';
+
+      const draggableContainer = document.getElementById("draggables");
+      draggableContainer.innerHTML = '';
+      question.ids.forEach((id, i) => {
+        const div = document.createElement("div");
+        div.className = "draggable";
+        div.draggable = true;
+        div.id = id;
+        div.textContent = question.draggables[i];
+        draggableContainer.appendChild(div);
+      });
+
+      setupDragAndDrop();
+    }
+
+    function setupDragAndDrop() {
+      const draggables = document.querySelectorAll('.draggable');
+      const dropzones = document.querySelectorAll('.dropzone');
+
+      draggables.forEach(item => {
+        item.addEventListener('dragstart', e => {
+          e.dataTransfer.setData('text/plain', item.id);
+        });
+      });
+
+      dropzones.forEach(zone => {
+        zone.addEventListener('dragover', e => e.preventDefault());
+        zone.addEventListener('drop', e => {
+          e.preventDefault();
+          const id = e.dataTransfer.getData('text');
+          const dragged = document.getElementById(id);
+          const correct = zone.dataset.accept;
+
+          if (id === correct) {
+            zone.textContent = dragged.textContent;
+            dragged.remove();
+            score += 10;
+            document.getElementById('score').innerText = 'Puan: ' + score;
+            if (questions[currentQuestion].render()) {
+              setTimeout(() => {
+                currentQuestion++;
+                if (currentQuestion < questions.length) {
+                  loadQuestion(currentQuestion);
+                } else {
+                  document.getElementById('question').textContent = 'Tebrikler! Tüm soruları tamamladınız 🎉';
+                  document.getElementById('draggables').innerHTML = '';
+                  document.getElementById('codeBox').innerHTML = '';
+                  document.getElementById('preview').innerHTML = '';
+                }
+              }, 1000);
+            }
+          } else {
+            alert('❌ Yanlış!');
+          }
+        });
+      });
+    }
+
+    loadQuestion(currentQuestion);
+  </script>
+</body>
+</html>

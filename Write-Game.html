@@ -91,7 +91,7 @@
   </div>
 
   <script>
-    const questions = [
+    const questions = [//questions
       { question: "HTML'de başlık etiketi nedir?", answer: "<h1>" },
       { question: "Paragraf etiketi nedir?", answer: "<p>" },
       { question: "Resim eklemek için hangi etiket kullanılır?", answer: "<img>" },
@@ -109,7 +109,7 @@
       if (input === correct) {
         score += 10;
         document.getElementById("feedback").innerText = "✅ Doğru!";
-        document.getElementById("score").innerText = "Puan: " + score;
+        document.getElementById("score").innerText = "Puan: " + score; 
         current++;
 
         if (current < questions.length) {
