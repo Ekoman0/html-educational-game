@@ -8,36 +8,229 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
+      background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Koyu mor-mavi gradient arka plan */
+      color: #e0e0e0; /* Açık gri-beyaz metin rengi */
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Arka plana hafif bir parlama efekti */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(222, 74, 155, 0.2) 0%, transparent 70%);
+      opacity: 0.3;
+      animation: pulse 5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
     }
 
     .container {
       text-align: center;
-      background: #fff;
+      background: #2a2a40; /* Koyu panel arka planı */
       padding: 2rem;
       border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
-      border: 1px solid #e5e7eb;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 2px solid #de4a9b; /* Mor-pembe kenarlık */
       width: 90%;
       max-width: 600px;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container:hover {
+      transform: scale(1.05); /* Hover'da daha belirgin büyüme */
     }
 
     h1 {
       margin-bottom: 1rem;
-      font-size: 1.5rem;
+      font-size: 2rem;
+      color: #ff6f61; /* Pembe vurgu rengi */
+      text-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
+    }
+
+    #monster {
+      position: relative; /* Animasyonlar için konumlandırma */
     }
 
     #monster img {
-      width: 150px;
+      width: 200px; /* Görseli biraz büyüttüm */
       height: auto;
       border-radius: 1rem;
-      border: 2px solid #d1d5db;
+      border: 3px solid #de4a9b; /* Mor-pembe çerçeve */
       margin: 1rem 0;
+      transition: transform 0.3s ease;
+    }
+
+    /* Mutlu animasyonu için dönme */
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Yıldız patlama efekti */
+    .happy-stars::before,
+    .happy-stars::after {
+      content: '✨';
+      position: absolute;
+      font-size: 2rem;
+      color: #ffeb3b;
+      animation: star-explode 1s ease forwards;
+    }
+
+    .happy-stars::before {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .happy-stars::after {
+      bottom: -20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+
+    @keyframes star-explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(50px, -50px) scale(2);
+      }
+    }
+
+    /* Zemin titreme efekti */
+    .happy-shake {
+      animation: ground-shake 0.5s ease;
+    }
+
+    @keyframes ground-shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+      75% {
+        transform: translateX(-5px);
+      }
+    }
+
+    /* Sinirli animasyonu için agresif sallanma */
+    @keyframes angry-shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-10px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(10px);
+      }
+    }
+
+    /* Alev efekti */
+    .angry-flames::before,
+    .angry-flames::after {
+      content: '🔥';
+      position: absolute;
+      font-size: 2rem;
+      color: #ff0000;
+      animation: flame-rise 1s ease forwards;
+    }
+
+    .angry-flames::before {
+      top: -30px;
+      left: 30%;
+    }
+
+    .angry-flames::after {
+      top: -30px;
+      right: 30%;
+    }
+
+    @keyframes flame-rise {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+    }
+
+    /* Ekran kırmızı parlama efekti */
+    .angry-screen::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 0, 0, 0.3);
+      opacity: 0;
+      animation: screen-flash 0.5s ease;
+      z-index: 0;
+       pointer-events: none;
+    }
+
+    @keyframes screen-flash {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Ekran kırmızı parlama efekti */
+    happy-screen::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(21, 255, 0, 0.3);
+      opacity: 0;
+      animation: happyscreen-flash 0.5s ease;
+      z-index: 0;
+       pointer-events: none;
+    }
+
+    @keyframes happyscreen-flash {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
     }
 
     textarea {
@@ -46,13 +239,22 @@
       padding: 1rem;
       font-family: monospace;
       border-radius: 0.5rem;
-      border: 1px solid #d1d5db;
+      border: 2px solid #444;
       resize: none;
       box-sizing: border-box;
+      background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+      color: #e0e0e0;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    textarea:focus {
+      border-color: #de4a9b;
+      box-shadow: 0 0 10px rgba(222, 74, 155, 0.5);
+      outline: none;
     }
 
     .btn {
-      background-color: #4f46e5;
+      background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%);
       color: white;
       padding: 0.75rem 1.5rem;
       border: none;
@@ -60,16 +262,39 @@
       border-radius: 0.5rem;
       cursor: pointer;
       margin: 1rem 0.5rem 0 0.5rem;
-      transition: background 0.3s;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
     }
 
     .btn:hover {
-      background-color: #3730a3;
+      background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
     }
 
     .message {
       margin-top: 1rem;
       font-weight: bold;
+      font-size: 1.2rem;
+      color: #ff6f61;
+      text-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
     }
   </style>
 </head>
@@ -108,6 +333,190 @@
       {
         code: "<a href='https://ornek.com'>Link",
         correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
+        code: "<div>İçerik",
+        correct: (code) => code.includes("<div>") && code.includes("</div>")
+      },
+      {
+        code: "<h2>Alt Başlık",
+        correct: (code) => code.includes("<h2>") && code.includes("</h2>")
+      },
+      {
+        code: "<p>Bu bir paragraf",
+        correct: (code) => code.includes("<p>") && code.includes("</p>")
+      },
+      {
+        code: "<span>Metin",
+        correct: (code) => code.includes("<span>") && code.includes("</span>")
+      },
+      {
+        code: "<ul><li>Item 1<li>Item 2</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<img src='resim.jpg'>Alt Metin",
+        correct: (code) => code.includes("<img") && code.includes("alt=")
+      },
+      {
+        code: "<h3>Üçüncü Seviye",
+        correct: (code) => code.includes("<h3>") && code.includes("</h3>")
+      },
+      {
+        code: "<p><strong>Bold",
+        correct: (code) => code.includes("<strong>") && code.includes("</strong>")
+      },
+      {
+        code: "<em>İtalik Metin",
+        correct: (code) => code.includes("<em>") && code.includes("</em>")
+      },
+      {
+        code: "<ol><li>Adım 1<li>Adım 2</ol>",
+        correct: (code) => code.includes("<ol>") && code.includes("</ol>") && code.includes("</li>")
+      },
+      {
+        code: "<table><tr><td>Hücre",
+        correct: (code) => code.includes("<table>") && code.includes("</table>") && code.includes("</td>")
+      },
+      {
+        code: "<h4>Dördüncü Seviye",
+        correct: (code) => code.includes("<h4>") && code.includes("</h4>")
+      },
+      {
+        code: "<p><i>İtalik",
+        correct: (code) => code.includes("<i>") && code.includes("</i>")
+      },
+      {
+        code: "<div><p>İç İçerik",
+        correct: (code) => code.includes("<div>") && code.includes("</div>") && code.includes("</p>")
+      },
+      {
+        code: "<a href='mailto:ornek@ornek.com'>E-posta",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
+        code: "<ul><li>Bir<li>İki<li>Üç</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<h5>Beşinci Seviye",
+        correct: (code) => code.includes("<h5>") && code.includes("</h5>")
+      },
+      {
+        code: "<p><b>Kalın Metin",
+        correct: (code) => code.includes("<b>") && code.includes("</b>")
+      },
+      {
+        code: "<blockquote>Alıntı",
+        correct: (code) => code.includes("<blockquote>") && code.includes("</blockquote>")
+      },
+      {
+        code: "<ol><li>İlk<li>İkinci</ol>",
+        correct: (code) => code.includes("<ol>") && code.includes("</ol>") && code.includes("</li>")
+      },
+      {
+        code: "<img src='foto.jpg' Alt Metin",
+        correct: (code) => code.includes("<img") && code.includes("alt=")
+      },
+      {
+        code: "<h6>Altıncı Seviye",
+        correct: (code) => code.includes("<h6>") && code.includes("</h6>")
+      },
+      {
+        code: "<p><u>Altı Çizili",
+        correct: (code) => code.includes("<u>") && code.includes("</u>")
+      },
+      {
+        code: "<div><span>İç Metin",
+        correct: (code) => code.includes("<div>") && code.includes("</div>") && code.includes("</span>")
+      },
+      {
+        code: "<a href='#section'>Bağlantı",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
+        code: "<ul><li>A<li>B<li>C</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<h2>İkinci Başlık",
+        correct: (code) => code.includes("<h2>") && code.includes("</h2>")
+      },
+      {
+        code: "<p><strong>Önemli",
+        correct: (code) => code.includes("<strong>") && code.includes("</strong>")
+      },
+      {
+        code: "<em>Öne Çıkan",
+        correct: (code) => code.includes("<em>") && code.includes("</em>")
+      },
+      {
+        code: "<ol><li>1<li>2<li>3</ol>",
+        correct: (code) => code.includes("<ol>") && code.includes("</ol>") && code.includes("</li>")
+      },
+      {
+        code: "<table><tr><td>Veri",
+        correct: (code) => code.includes("<table>") && code.includes("</table>") && code.includes("</td>")
+      },
+      {
+        code: "<h3>Üçüncü Başlık",
+        correct: (code) => code.includes("<h3>") && code.includes("</h3>")
+      },
+      {
+        code: "<p><i>İtalik Metin",
+        correct: (code) => code.includes("<i>") && code.includes("</i>")
+      },
+      {
+        code: "<div><p>İçerik",
+        correct: (code) => code.includes("<div>") && code.includes("</div>") && code.includes("</p>")
+      },
+      {
+        code: "<a href='tel:+905555555555'>Ara",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
+        code: "<ul><li>X<li>Y<li>Z</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<h4>Dördüncü Başlık",
+        correct: (code) => code.includes("<h4>") && code.includes("</h4>")
+      },
+      {
+        code: "<p><b>Kalın",
+        correct: (code) => code.includes("<b>") && code.includes("</b>")
+      },
+      {
+        code: "<blockquote>Özel Alıntı",
+        correct: (code) => code.includes("<blockquote>") && code.includes("</blockquote>")
+      },
+      {
+        code: "<ol><li>Alpha<li>Beta</ol>",
+        correct: (code) => code.includes("<ol>") && code.includes("</ol>") && code.includes("</li>")
+      },
+      {
+        code: "<img src='resim.png' Alt Metin",
+        correct: (code) => code.includes("<img") && code.includes("alt=")
+      },
+      {
+        code: "<h5>Beşinci Başlık",
+        correct: (code) => code.includes("<h5>") && code.includes("</h5>")
+      },
+      {
+        code: "<p><u>Alt Çizgili",
+        correct: (code) => code.includes("<u>") && code.includes("</u>")
+      },
+      {
+        code: "<div><span>İç Metin",
+        correct: (code) => code.includes("<div>") && code.includes("</div>") && code.includes("</span>")
+      },
+      {
+        code: "<a href='https://ornek2.com'>Link 2",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
+        code: "<ul><li>Son<li>Öğe</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
       }
     ];
 
@@ -116,6 +525,8 @@
     function loadQuestion() {
       document.getElementById("codeInput").value = questions[currentIndex].code;
       document.getElementById("monsterImage").src = "kizgin.png";
+      const monsterDiv = document.getElementById("monster");
+      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
       document.getElementById("message").textContent = "";
     }
 
@@ -123,11 +534,19 @@
       const input = document.getElementById("codeInput").value;
       const isCorrect = questions[currentIndex].correct(input);
       const monsterImage = document.getElementById("monsterImage");
+      const monsterDiv = document.getElementById("monster");
       const message = document.getElementById("message");
+
+      // Önceki animasyon sınıflarını kaldır
+      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
+      monsterImage.style.animation = "none";
 
       if (isCorrect) {
         monsterImage.src = "mutlu.png";
-        message.textContent = "Harika! Canavar mutlu oldu.";
+        message.textContent = "Harika! Canavar mutlu oldu!";
+        // Mutlu animasyonu: dönme, yıldız patlama ve zemin titreme
+        monsterImage.style.animation = "spin 1s ease";
+        monsterDiv.classList.add("happy-stars", "happy-shake");
 
         setTimeout(() => {
           currentIndex++;
@@ -137,19 +556,31 @@
             message.textContent = "Tüm canavarlar mutlu! 🎉";
             document.getElementById("codeInput").style.display = "none";
             monsterImage.src = "mutlu.png";
+            monsterImage.style.animation = "spin 1s ease";
+            monsterDiv.classList.add("happy-stars", "happy-shake");
           }
         }, 1500);
       } else {
-        monsterImage.src = "kizgin.png";
-        message.textContent = "Hatalı... Etiketleri kontrol et!";
-      }
+  monsterImage.src = "kizgin.png";
+  message.textContent = "Hatalı... Etiketleri kontrol et!";
+
+  // Önce animasyon sınıflarını kaldır
+  monsterImage.style.animation = "none";
+  monsterDiv.classList.remove("angry-flames", "angry-screen");
+
+  // DOM'u zorla yeniden boyat (reflow) — önemli!
+  void monsterImage.offsetWidth;
+
+  // Sonra animasyonları yeniden uygula
+  monsterImage.style.animation = "angry-shake 0.5s ease";
+  monsterDiv.classList.add("angry-flames", "angry-screen");
+}
     }
 
     function goHome() {
-      window.location.href = "MainMenu.html"; // Anasayfanın adı buysa
+      window.location.href = "MainMenu.html";
     }
 
-    // Sayfa yüklendiğinde ilk soruyu göster
     window.onload = loadQuestion;
   </script>
 </body>

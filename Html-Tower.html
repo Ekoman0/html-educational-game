@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Gökdelen Oyunu</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Sol panel - Kod editörü */
+        .left-panel {
+            width: 50%;
+            background: #2b2b2b;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .code-container {
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .code-line {
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .blank {
+            background: #444;
+            padding: 2px 10px;
+            border-radius: 4px;
+            margin: 0 5px;
+            display: inline-block;
+            min-width: 100px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .blank:hover {
+            border-color: #00ff00;
+        }
+
+        .blank.wrong {
+            background: #ff4444;
+            border-color: #ff0000;
+            animation: shake 0.5s;
+        }
+
+        .blank.correct {
+            background: #44ff44;
+            border-color: #00ff00;
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .question {
+            background: #333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .option {
+            background: #4a4a4a;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .option:hover {
+            background: #5a5a5a;
+            border-color: #00ff00;
+        }
+
+        /* Sağ panel - Oyun görünümü */
+        .right-panel {
+            width: 50%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-view {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            transition: transform 1s ease-out;
+        }
+
+        .background {
+            position: absolute;
+            width: 100%;
+            height: 5000%;
+            bottom: 0;
+            background: linear-gradient(to top, 
+                #87CEEB 0%,      /* Açık gök mavisi */
+                #4682B4 1.5%,     /* Orta mavi */
+                #191970 3%,     /* Gece mavisi */
+                #000033 4.5%,     /* Koyu gece */
+                #000000 6%,     /* Uzay */
+                #000000 7.5%     /* Derin uzay */
+            );
+        }
+
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+        }
+
+        .star {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .tower-container {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .floor {
+            width: 100%;
+            height: 60px;
+            background: #8B4513;
+            border: 3px solid #654321;
+            margin-bottom: 5px;
+            position: relative;
+            animation: buildFloor 0.5s ease-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        @keyframes buildFloor {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .floor::before {
+            content: '';
+            position: absolute;
+            width: 20%;
+            height: 40%;
+            background: #87CEEB;
+            top: 30%;
+            left: 10%;
+            border: 2px solid #4682B4;
+        }
+
+        .floor::after {
+            content: '';
+            position: absolute;
+            width: 20%;
+            height: 40%;
+            background: #87CEEB;
+            top: 30%;
+            right: 10%;
+            border: 2px solid #4682B4;
+        }
+
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: #228B22;
+            border-top: 5px solid #006400;
+        }
+
+        /* UI elemanları */
+        .lives {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .heart {
+            color: #ff0000;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            transition: all 0.3s;
+        }
+
+        .heart.lost {
+            opacity: 0.3;
+            transform: scale(0.8);
+        }
+
+        .level {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            font-size: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        .game-over {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+
+        .game-over h2 {
+            margin: 0 0 20px 0;
+            font-size: 36px;
+            color: #ff0000;
+        }
+
+        .restart-btn {
+            background: #00ff00;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            font-size: 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .restart-btn:hover {
+            background: #00cc00;
+            transform: scale(1.05);
+        }
+
+        /* Başarı efekti */
+        .success-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 48px;
+            color: #00ff00;
+            font-weight: bold;
+            animation: successPop 1s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes successPop {
+            0% {
+                transform: translate(-50%, -50%) scale(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.5);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="left-panel">
+        <h2 style="text-align: center; margin-bottom: 30px;">HTML Kod Tamamlama</h2>
+        <div id="question-container"></div>
+    </div>
+
+    <div class="right-panel">
+        <div class="game-view" id="gameView">
+            <div class="background">
+                <div class="stars" id="stars"></div>
+            </div>
+            <div class="ground"></div>
+            <div class="tower-container" id="towerContainer"></div>
+        </div>
+        
+        <div class="level" id="level">Seviye: 1</div>
+        <div class="lives" id="lives">
+            <span class="heart">❤️</span>
+            <span class="heart">❤️</span>
+            <span class="heart">❤️</span>
+        </div>
+        
+        <div class="game-over" id="gameOver">
+            <h2>Oyun Bitti!</h2>
+            <p>Maalesef 3 hata yaptınız.</p>
+            <button class="restart-btn" onclick="restartGame()">Yeniden Başla</button>
+        </div>
+    </div>
+
+    <script>
+        // Oyun değişkenleri
+        let currentLevel = 1;
+        let lives = 3;
+        let currentQuestionIndex = 0;
+        let towerHeight = 0;
+
+        // Sorular
+        const questions = [
+            {
+                code: '&lt;html&gt;\n  &lt;head&gt;\n    <span class="blank" data-answer="title">[?]</span>Sayfa Başlığı&lt;/title&gt;\n  &lt;/head&gt;\n&lt;/html&gt;',
+                options: ['&lt;title&gt;', '&lt;header&gt;', '&lt;h1&gt;', '&lt;name&gt;'],
+                correct: '&lt;title&gt;'
+            },
+            {
+                code: '&lt;body&gt;\n  <span class="blank" data-answer="&lt;h1&gt;">[?]</span>Ana Başlık&lt;/h1&gt;\n&lt;/body&gt;',
+                options: ['&lt;h1&gt;', '&lt;title&gt;', '&lt;header&gt;', '&lt;p&gt;'],
+                correct: '&lt;h1&gt;'
+            },
+            {
+                code: '&lt;div&gt;\n  &lt;p&gt;Paragraf&lt;/p&gt;\n  <span class="blank" data-answer="&lt;/div&gt;">[?]</span>',
+                options: ['&lt;/div&gt;', '&lt;/p&gt;', '&lt;/body&gt;', '&lt;div&gt;'],
+                correct: '&lt;/div&gt;'
+            },
+            {
+                code: '&lt;ul&gt;\n  <span class="blank" data-answer="&lt;li&gt;">[?]</span>Liste Öğesi&lt;/li&gt;\n&lt;/ul&gt;',
+                options: ['&lt;li&gt;', '&lt;ul&gt;', '&lt;ol&gt;', '&lt;list&gt;'],
+                correct: '&lt;li&gt;'
+            },
+            {
+                code: '&lt;a <span class="blank" data-answer="href">[?]</span>="https://example.com"&gt;Link&lt;/a&gt;',
+                options: ['href', 'url', 'link', 'src'],
+                correct: 'href'
+            },
+            {
+                code: '&lt;img <span class="blank" data-answer="src">[?]</span>="image.jpg" alt="Resim"&gt;',
+                options: ['src', 'href', 'url', 'image'],
+                correct: 'src'
+            },
+            {
+                code: '&lt;form&gt;\n  &lt;input <span class="blank" data-answer="type">[?]</span>="text" name="ad"&gt;\n&lt;/form&gt;',
+                options: ['type', 'kind', 'format', 'style'],
+                correct: 'type'
+            },
+            {
+                code: '&lt;table&gt;\n  &lt;tr&gt;\n    <span class="blank" data-answer="&lt;td&gt;">[?]</span>Hücre&lt;/td&gt;\n  &lt;/tr&gt;\n&lt;/table&gt;',
+                options: ['&lt;td&gt;', '&lt;th&gt;', '&lt;tr&gt;', '&lt;cell&gt;'],
+                correct: '&lt;td&gt;'
+            },
+            {
+                code: '&lt;!DOCTYPE <span class="blank" data-answer="html">[?]</span>&gt;\n&lt;html lang="tr"&gt;\n&lt;/html&gt;',
+                options: ['html', 'HTML', 'page', 'document'],
+                correct: 'html'
+            },
+            {
+                code: '&lt;meta <span class="blank" data-answer="charset">[?]</span>="UTF-8"&gt;',
+                options: ['charset', 'encoding', 'type', 'format'],
+                correct: 'charset'
+            },
+            {
+                code: '&lt;div <span class="blank" data-answer="class">[?]</span>="container"&gt;&lt;/div&gt;',
+                options: ['class', 'id', 'name', 'type'],
+                correct: 'class'
+            },
+            {
+                code: '&lt;button <span class="blank" data-answer="onclick">[?]</span>="myFunction()"&gt;Tıkla&lt;/button&gt;',
+                options: ['onclick', 'click', 'onpress', 'action'],
+                correct: 'onclick'
+            },
+            {
+                code: '&lt;link rel="stylesheet" <span class="blank" data-answer="href">[?]</span>="style.css"&gt;',
+                options: ['href', 'src', 'url', 'path'],
+                correct: 'href'
+            },
+            {
+                code: '&lt;script <span class="blank" data-answer="src">[?]</span>="script.js"&gt;&lt;/script&gt;',
+                options: ['src', 'href', 'url', 'path'],
+                correct: 'src'
+            },
+            {
+                code: '&lt;meta name="viewport" <span class="blank" data-answer="content">[?]</span>="width=device-width"&gt;',
+                options: ['content', 'value', 'data', 'property'],
+                correct: 'content'
+            }
+        ];
+
+        // Yıldızları oluştur
+        function createStars() {
+            const starsContainer = document.getElementById('stars');
+            for (let i = 0; i < 100; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.animationDelay = Math.random() * 3 + 's';
+                starsContainer.appendChild(star);
+            }
+        }
+
+        // Soruyu göster
+        function showQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                currentQuestionIndex = 0;
+                currentLevel++;
+                document.getElementById('level').textContent = `Seviye: ${currentLevel}`;
+            }
+
+            const question = questions[currentQuestionIndex];
+            const container = document.getElementById('question-container');
+            
+            container.innerHTML = `
+                <div class="question">
+                    <h3>Kod Tamamlama - Soru ${currentQuestionIndex + 1}</h3>
+                    <div class="code-container">
+                        <div class="code-line">${question.code}</div>
+                    </div>
+                    <div class="options">
+                        ${question.options.map(option => `
+                            <div class="option" onclick="checkAnswer('${option}')">${option}</div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // Cevabı kontrol et
+        function checkAnswer(answer) {
+            const question = questions[currentQuestionIndex];
+            const blank = document.querySelector('.blank');
+            
+            // HTML entity'leri decode et
+            const decodedAnswer = decodeHTMLEntities(answer);
+            const decodedCorrect = decodeHTMLEntities(question.correct);
+            
+            if (decodedAnswer === decodedCorrect) {
+                blank.classList.add('correct');
+                blank.innerHTML = answer;
+                
+                // Başarı efekti
+                const successEffect = document.createElement('div');
+                successEffect.className = 'success-effect';
+                successEffect.textContent = '✓';
+                document.querySelector('.right-panel').appendChild(successEffect);
+                setTimeout(() => successEffect.remove(), 1000);
+                
+                // Yeni kat ekle
+                setTimeout(() => {
+                    addFloor();
+                    currentQuestionIndex++;
+                    showQuestion();
+                }, 1000);
+            } else {
+                blank.classList.add('wrong');
+                setTimeout(() => blank.classList.remove('wrong'), 500);
+                
+                lives--;
+                updateLives();
+                
+                if (lives === 0) {
+                    gameOver();
+                }
+            }
+        }
+
+        // HTML entity'leri decode et
+        function decodeHTMLEntities(text) {
+            const textArea = document.createElement('textarea');
+            textArea.innerHTML = text;
+            return textArea.value;
+        }
+
+        // Yeni kat ekle
+        function addFloor() {
+            const towerContainer = document.getElementById('towerContainer');
+            const floor = document.createElement('div');
+            floor.className = 'floor';
+            towerContainer.insertBefore(floor, towerContainer.firstChild);
+            
+            towerHeight++;
+            
+            // Kamerayı hareket ettir - daha büyük artışlarla
+            const gameView = document.getElementById('gameView');
+            const cameraHeight = towerHeight * 65; // Her kat yüksekliği kadar
+            gameView.style.transform = `translateY(${cameraHeight}px)`;
+        }
+
+        // Can durumunu güncelle
+        function updateLives() {
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach((heart, index) => {
+                if (index >= lives) {
+                    heart.classList.add('lost');
+                } else {
+                    heart.classList.remove('lost');
+                }
+            });
+        }
+
+        // Oyun bitti
+        function gameOver() {
+            document.getElementById('gameOver').style.display = 'block';
+            
+            // Kuleyi yık
+            const floors = document.querySelectorAll('.floor');
+            floors.forEach((floor, index) => {
+                setTimeout(() => {
+                    floor.style.transform = 'rotate(' + (Math.random() * 90 - 45) + 'deg) translateY(500px)';
+                    floor.style.opacity = '0';
+                    floor.style.transition = 'all 1s ease-out';
+                }, index * 100);
+            });
+        }
+
+        // Oyunu yeniden başlat
+        function restartGame() {
+            lives = 3;
+            currentLevel = 1;
+            currentQuestionIndex = 0;
+            towerHeight = 0;
+            
+            document.getElementById('gameOver').style.display = 'none';
+            document.getElementById('towerContainer').innerHTML = '';
+            document.getElementById('gameView').style.transform = 'translateY(0)';
+            document.getElementById('level').textContent = 'Seviye: 1';
+            
+            const hearts = document.querySelectorAll('.heart');
+            hearts.forEach(heart => heart.classList.remove('lost'));
+            
+            showQuestion();
+        }
+
+        // Oyunu başlat
+        createStars();
+        showQuestion();
+    </script>
+</body>
+</html>
