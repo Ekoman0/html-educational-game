@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kodlama Oyunları Merkezi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    :root {
+      --primary-blue: #3b82f6;
+      --primary-purple: #8b5cf6;
+      --primary-green: #10b981;
+      --primary-orange: #f59e0b;
+      --dark-bg: #0f172a;
+      --light-bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    
+    /* Animated background particles */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+    
+    .particle {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+    
+    .particle:nth-child(1) { width: 80px; height: 80px; left: 10%; animation-delay: 0s; }
+    .particle:nth-child(2) { width: 60px; height: 60px; left: 20%; animation-delay: 1s; }
+    .particle:nth-child(3) { width: 40px; height: 40px; left: 70%; animation-delay: 2s; }
+    .particle:nth-child(4) { width: 100px; height: 100px; left: 80%; animation-delay: 0.5s; }
+    .particle:nth-child(5) { width: 30px; height: 30px; left: 50%; animation-delay: 1.5s; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      50% { transform: translateY(-100px) rotate(180deg); opacity: 1; }
+    }
+    
+    /* Code rain effect */
+    .code-rain {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    
+    .code-drop {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.1);
+      animation: codeRain 8s linear infinite;
+      white-space: nowrap;
+    }
+    
+    @keyframes codeRain {
+      0% { transform: translateY(-100px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+    
+    /* Main container */
+    .main-container {
+      position: relative;
+      z-index: 10;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+    
+    /* Header section */
+    .header {
+      text-align: center;
+      margin-bottom: 4rem;
+      opacity: 0;
+      animation: fadeInUp 1s ease 0.5s forwards;
+    }
+    
+    .main-title {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #dbeafe 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      position: relative;
+    }
+    
+    .main-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 200px;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6, #10b981);
+      border-radius: 2px;
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    
+    @keyframes glow {
+      from { box-shadow: 0 0 20px rgba(59, 130, 246, 0.5); }
+      to { box-shadow: 0 0 30px rgba(139, 92, 246, 0.8); }
+    }
+    
+    .subtitle {
+      font-size: 1.3rem;
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 300;
+      margin-bottom: 0.5rem;
+    }
+    
+    .description {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 600px;
+      line-height: 1.6;
+    }
+    
+    /* Game selection cards */
+    .games-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+      max-width: 1000px;
+      width: 100%;
+    }
+    
+    .game-card {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 2rem;
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(50px);
+    }
+    
+    .game-card.animate-in {
+      animation: slideInUp 0.8s ease forwards;
+    }
+    
+    .game-card:nth-child(1) { animation-delay: 0.2s; }
+    .game-card:nth-child(2) { animation-delay: 0.4s; }
+    
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.8s;
+    }
+    
+    .game-card:hover::before {
+      left: 100%;
+    }
+    
+    .game-card:hover {
+      transform: translateY(-20px) scale(1.05);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .html-card {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(147, 197, 253, 0.1) 100%);
+    }
+    
+    .html-card:hover {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(147, 197, 253, 0.2) 100%);
+    }
+    
+    .c-card {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.1) 100%);
+    }
+    
+    .c-card:hover {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2) 0%, rgba(52, 211, 153, 0.2) 100%);
+    }
+    
+    .card-icon {
+      font-size: 4rem;
+      margin-bottom: 1.5rem;
+      display: block;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
+      transition: transform 0.3s ease;
+    }
+    
+    .game-card:hover .card-icon {
+      transform: scale(1.2) rotate(5deg);
+    }
+    
+    .card-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+    
+    .html-card .card-title {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .c-card .card-title {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .card-description {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    
+    .card-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+    
+    .feature-tag {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+      padding: 0.4rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+    }
+    
+    .c-card .feature-tag {
+      background: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+      border-color: rgba(16, 185, 129, 0.2);
+    }
+    
+    .play-button {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .c-card .play-button {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+    }
+    
+    .play-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(59, 130, 246, 0.4);
+    }
+    
+    .c-card .play-button:hover {
+      box-shadow: 0 15px 35px rgba(16, 185, 129, 0.4);
+    }
+    
+    .play-button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s, height 0.3s;
+    }
+    
+    .play-button:active::after {
+      width: 300px;
+      height: 300px;
+    }
+    
+    /* Stats section */
+    .stats-section {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 2rem;
+      z-index: 20;
+    }
+    
+    .stat-item {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 1rem 1.5rem;
+      border-radius: 1rem;
+      text-align: center;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .stat-number {
+      font-size: 1.5rem;
+      font-weight: 700;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+    
+    /* Responsive design */
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 1rem;
+      }
+      
+      .games-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      .game-card {
+        padding: 2rem 1.5rem;
+      }
+      
+      .stats-section {
+        flex-direction: column;
+        gap: 1rem;
+        bottom: 1rem;
+      }
+      
+      .stat-item {
+        padding: 0.75rem 1rem;
+      }
+    }
+    
+    /* Fade in animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Loading screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      transition: opacity 0.5s ease;
+    }
+    
+    .loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .loader {
+      width: 50px;
+      height: 50px;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading screen -->
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loader"></div>
+  </div>
+  
+  <!-- Animated background -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+  
+  <!-- Code rain effect -->
+  <div class="code-rain" id="codeRain"></div>
+  
+  <!-- Main content -->
+  <div class="main-container">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="main-title">Kodlama Oyunları Merkezi</h1>
+      <p class="subtitle">Eğlenceli Oyunlarla Programlama Öğren</p>
+      <p class="description">
+        HTML ve C programlama dillerini interaktif oyunlarla öğrenin. 
+        Seviyenize uygun zorlukta oyunlar oynayarak kodlama becerilerinizi geliştirin!
+      </p>
+    </div>
+    
+    <!-- Game selection cards -->
+    <div class="games-container">
+      <!-- HTML Games Card -->
+      <div class="game-card html-card" onclick="navigateToHtmlGames()">
+        <span class="card-icon">🌐</span>
+        <h2 class="card-title">HTML Oyunları</h2>
+        <p class="card-description">
+          Web geliştirmenin temellerini öğrenin. HTML etiketleri, CSS stilleri ve temel web yapısını 
+          eğlenceli oyunlarla keşfedin.
+        </p>
+        <div class="card-features">
+          <span class="feature-tag">Etiket Oyunları</span>
+          <span class="feature-tag">Sürükle Bırak</span>
+          <span class="feature-tag">Site Yapma</span>
+          <span class="feature-tag">Hazine Avı</span>
+        </div>
+        <button class="play-button">
+          <span>Oyuna Başla</span>
+          <span>▶️</span>
+        </button>
+      </div>
+      
+      <!-- C Games Card -->
+      <div class="game-card c-card" onclick="navigateToCGames()">
+        <span class="card-icon">💻</span>
+        <h2 class="card-title">C Oyunları</h2>
+        <p class="card-description">
+          Programlamanın temel taşlarını C dili ile öğrenin. Değişkenler, fonksiyonlar, 
+          diziler ve pointer kavramlarını oyunlarla kavrayın.
+        </p>
+        <div class="card-features">
+          <span class="feature-tag">Syntax Oyunları</span>
+          <span class="feature-tag">Fonksiyonlar</span>
+          <span class="feature-tag">Pointer Mantığı</span>
+          <span class="feature-tag">Kod Yazma</span>
+        </div>
+        <button class="play-button">
+          <span>Oyuna Başla</span>
+          <span>⚡</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Stats section -->
+  <div class="stats-section">
+    <div class="stat-item">
+      <span class="stat-number" id="totalGames">12</span>
+      <span class="stat-label">Toplam Oyun</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="activePlayers">500+</span>
+      <span class="stat-label">Aktif Oyuncu</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-number" id="completedLessons">1000+</span>
+      <span class="stat-label">Tamamlanan Ders</span>
+    </div>
+  </div>
+  
+  <script>
+    // Page loading animation
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('fade-out');
+        setTimeout(() => {
+          document.getElementById('loadingScreen').style.display = 'none';
+        }, 500);
+      }, 1000);
+      
+      // Animate cards
+      setTimeout(() => {
+        document.querySelectorAll('.game-card').forEach(card => {
+          card.classList.add('animate-in');
+        });
+      }, 1500);
+    });
+    
+    // Code rain effect
+    function createCodeRain() {
+      const codeSnippets = [
+        '<html>',
+        '</div>',
+        'printf("Hello");',
+        'int main()',
+        '<head>',
+        'scanf("%d", &x);',
+        '</body>',
+        'for(i=0; i<10; i++)',
+        '<style>',
+        'malloc(sizeof(int));',
+        '</html>',
+        'struct data {',
+        '<script>',
+        'return 0;',
+        '<p>',
+        'char str[100];'
+      ];
+      
+      const codeRainContainer = document.getElementById('codeRain');
+      
+      setInterval(() => {
+        const drop = document.createElement('div');
+        drop.className = 'code-drop';
+        drop.textContent = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+        drop.style.left = Math.random() * 100 + '%';
+        drop.style.animationDuration = (Math.random() * 3 + 5) + 's';
+        drop.style.animationDelay = Math.random() * 2 + 's';
+        
+        codeRainContainer.appendChild(drop);
+        
+        setTimeout(() => {
+          drop.remove();
+        }, 8000);
+      }, 300);
+    }
+    
+    // Start code rain effect
+    setTimeout(createCodeRain, 2000);
+    
+    // Navigation functions
+    function navigateToHtmlGames() {
+      // Add click animation
+      event.target.closest('.game-card').style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        window.location.href = 'MainMenu.html';
+      }, 200);
+    }
+    
+    function navigateToCGames() {
+      // Add click animation
+      event.target.closest('.game-card').style.transform = 'scale(0.95)';
+      setTimeout(() => {
+        window.location.href = 'CGameMenu.html';
+      }, 200);
+    }
+    
+    // Animated counters
+    function animateCounter(elementId, target, duration = 2000) {
+      const element = document.getElementById(elementId);
+      const start = 0;
+      const increment = target / (duration / 16);
+      let current = start;
+      
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+          element.textContent = target + (elementId === 'activePlayers' || elementId === 'completedLessons' ? '+' : '');
+          clearInterval(timer);
+        } else {
+          element.textContent = Math.floor(current) + (elementId === 'activePlayers' || elementId === 'completedLessons' ? '+' : '');
+        }
+      }, 16);
+    }
+    
+    // Start counter animations after page load
+    setTimeout(() => {
+      animateCounter('totalGames', 12);
+      animateCounter('activePlayers', 500);
+      animateCounter('completedLessons', 1000);
+    }, 2500);
+    
+    // Add hover sound effects (optional - requires audio files)
+    document.querySelectorAll('.game-card').forEach(card => {
+      card.addEventListener('mouseenter', () => {
+        // You can add hover sound here if desired
+        card.style.transition = 'all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+      });
+    });
+    
+    // Parallax effect for particles
+    document.addEventListener('mousemove', (e) => {
+      const particles = document.querySelectorAll('.particle');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+      
+      particles.forEach((particle, index) => {
+        const speed = (index + 1) * 0.5;
+        const xOffset = (x - 0.5) * speed * 50;
+        const yOffset = (y - 0.5) * speed * 50;
+        
+        particle.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    });
+  </script>
+</body>
+</html>

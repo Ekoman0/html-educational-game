@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <title>C Kod Canavarı Eğitimi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Koyu mor-mavi gradient arka plan */
+      color: #e0e0e0; /* Açık gri-beyaz metin rengi */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Arka plana hafif bir parlama efekti */
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(222, 74, 155, 0.2) 0%, transparent 70%);
+      opacity: 0.3;
+      animation: pulse 5s infinite ease-in-out;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 0.3;
+      }
+      50% {
+        opacity: 0.6;
+      }
+    }
+
+    .container {
+      text-align: center;
+      background: #2a2a40; /* Koyu panel arka planı */
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 2px solid #de4a9b; /* Mor-pembe kenarlık */
+      width: 90%;
+      max-width: 600px;
+      transition: transform 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container:hover {
+      transform: scale(1.05); /* Hover'da daha belirgin büyüme */
+    }
+
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      color: #ff6f61; /* Pembe vurgu rengi */
+      text-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
+    }
+
+    #monster {
+      position: relative; /* Animasyonlar için konumlandırma */
+    }
+
+    #monster img {
+      width: 200px; /* Görseli biraz büyüttüm */
+      height: auto;
+      border-radius: 1rem;
+      border: 3px solid #de4a9b; /* Mor-pembe çerçeve */
+      margin: 1rem 0;
+      transition: transform 0.3s ease;
+    }
+
+    /* Mutlu animasyonu için dönme */
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Yıldız patlama efekti */
+    .happy-stars::before,
+    .happy-stars::after {
+      content: '✨';
+      position: absolute;
+      font-size: 2rem;
+      color: #ffeb3b;
+      animation: star-explode 1s ease forwards;
+    }
+
+    .happy-stars::before {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .happy-stars::after {
+      bottom: -20px;
+      right: 50%;
+      transform: translateX(50%);
+    }
+
+    @keyframes star-explode {
+      0% {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(50px, -50px) scale(2);
+      }
+    }
+
+    /* Zemin titreme efekti */
+    .happy-shake {
+      animation: ground-shake 0.5s ease;
+    }
+
+    @keyframes ground-shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      25% {
+        transform: translateX(-5px);
+      }
+      50% {
+        transform: translateX(5px);
+      }
+      75% {
+        transform: translateX(-5px);
+      }
+    }
+
+    /* Sinirli animasyonu için agresif sallanma */
+    @keyframes angry-shake {
+      0%, 100% {
+        transform: translateX(0);
+      }
+      10%, 30%, 50%, 70%, 90% {
+        transform: translateX(-10px);
+      }
+      20%, 40%, 60%, 80% {
+        transform: translateX(10px);
+      }
+    }
+
+    /* Alev efekti */
+    .angry-flames::before,
+    .angry-flames::after {
+      content: '🔥';
+      position: absolute;
+      font-size: 2rem;
+      color: #ff0000;
+      animation: flame-rise 1s ease forwards;
+    }
+
+    .angry-flames::before {
+      top: -30px;
+      left: 30%;
+    }
+
+    .angry-flames::after {
+      top: -30px;
+      right: 30%;
+    }
+
+    @keyframes flame-rise {
+      0% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-50px);
+      }
+    }
+
+    /* Ekran kırmızı parlama efekti */
+    .angry-screen::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 0, 0, 0.3);
+      opacity: 0;
+      animation: screen-flash 0.5s ease;
+      z-index: 0;
+       pointer-events: none;
+    }
+
+    @keyframes screen-flash {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    /* Ekran yeşil parlama efekti */
+    .happy-screen::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(21, 255, 0, 0.3);
+      opacity: 0;
+      animation: happyscreen-flash 0.5s ease;
+      z-index: 0;
+       pointer-events: none;
+    }
+
+    @keyframes happyscreen-flash {
+      0%, 100% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 1rem;
+      font-family: monospace;
+      border-radius: 0.5rem;
+      border: 2px solid #444;
+      resize: none;
+      box-sizing: border-box;
+      background: linear-gradient(135deg, #1e1e2f, #2a2a40);
+      color: #e0e0e0;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    textarea:focus {
+      border-color: #de4a9b;
+      box-shadow: 0 0 10px rgba(222, 74, 155, 0.5);
+      outline: none;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      margin: 1rem 0.5rem 0 0.5rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn:hover {
+      background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.5s;
+    }
+
+    .btn:hover::before {
+      left: 100%;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #ff6f61;
+      text-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>👾 C Kod Canavarı Eğitimi</h1>
+
+    <div id="monster">
+      <img id="monsterImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%23FF4444' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😠%3C/text%3E%3C/svg%3E" alt="Kod Canavarı">
+    </div>
+
+    <p id="questionText">Canavar sinirli çünkü C kodu hatalı. Hadi düzelt!</p>
+
+    <textarea id="codeInput"></textarea>
+
+    <br>
+    <button class="btn" onclick="checkCode()">Kodu Kontrol Et</button>
+    <button class="btn" onclick="goHome()">Anasayfaya Dön</button>
+    <div class="message" id="message"></div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        code: "#include <stdio.h>\nint main() {\n    printf(\"Merhaba Dünya\");\n    return 0;\n",
+        correct: (code) => code.includes("#include <stdio.h>") && code.includes("printf") && code.includes("return 0;") && code.includes("}")
+      },
+      {
+        code: "int sayi = 10\nprintf(\"%d\", sayi);",
+        correct: (code) => code.includes("int sayi = 10;") && code.includes("printf")
+      },
+      {
+        code: "for(int i = 0; i < 5; i++)\n    printf(\"%d \", i);",
+        correct: (code) => code.includes("for") && code.includes("{") && code.includes("}")
+      },
+      {
+        code: "if(x > 0)\n    printf(\"Pozitif\");",
+        correct: (code) => code.includes("if") && code.includes("{") && code.includes("}")
+      },
+      {
+        code: "int dizi[5] = {1,2,3,4,5}\nprintf(\"%d\", dizi[0]);",
+        correct: (code) => code.includes("int dizi[5] = {1,2,3,4,5};") && code.includes("printf")
+      },
+      {
+        code: "while(i < 10)\n    i++;",
+        correct: (code) => code.includes("while") && code.includes("{") && code.includes("}")
+      },
+      {
+        code: "char str[20] = \"Hello\"\nprintf(\"%s\", str);",
+        correct: (code) => code.includes("char str[20] = \"Hello\";") && code.includes("printf")
+      },
+      {
+        code: "float pi = 3.14\nprintf(\"%.2f\", pi);",
+        correct: (code) => code.includes("float pi = 3.14;") && code.includes("printf")
+      },
+      {
+        code: "switch(secim) {\n    case 1:\n        break;\n    default:\n        break;\n",
+        correct: (code) => code.includes("switch") && code.includes("case") && code.includes("break;") && code.includes("}")
+      },
+      {
+        code: "do {\n    printf(\"Merhaba\");\n} while(0)",
+        correct: (code) => code.includes("do") && code.includes("while") && code.includes(";")
+      },
+      {
+        code: "int toplam(int a, int b) {\n    return a + b;\n",
+        correct: (code) => code.includes("int toplam") && code.includes("return") && code.includes("}")
+      },
+      {
+        code: "int *ptr = &sayi\nprintf(\"%d\", *ptr);",
+        correct: (code) => code.includes("int *ptr = &sayi;") && code.includes("printf")
+      },
+      {
+        code: "struct Ogrenci {\n    char isim[50];\n    int yas;\n",
+        correct: (code) => code.includes("struct") && code.includes("};")
+      },
+      {
+        code: "FILE *dosya = fopen(\"test.txt\", \"r\")\nfclose(dosya);",
+        correct: (code) => code.includes("FILE *dosya") && code.includes(";") && code.includes("fclose")
+      },
+      {
+        code: "int arr[] = {1,2,3,4,5}\nfor(int i=0; i<5; i++) printf(\"%d \", arr[i]);",
+        correct: (code) => code.includes("int arr[] = {1,2,3,4,5};") && code.includes("for")
+      },
+      {
+        code: "#define MAX 100\nint dizi[MAX];",
+        correct: (code) => code.includes("#define MAX 100") && code.includes("int dizi[MAX];")
+      },
+      {
+        code: "else if(x == 0)\n    printf(\"Sıfır\");",
+        correct: (code) => code.includes("else if") && code.includes("{") && code.includes("}")
+      },
+      {
+        code: "char c = getchar()\nputchar(c);",
+        correct: (code) => code.includes("char c = getchar();") && code.includes("putchar")
+      },
+      {
+        code: "int *malloc_ptr = malloc(sizeof(int) * 10)\nfree(malloc_ptr);",
+        correct: (code) => code.includes("malloc") && code.includes("free") && code.includes(";")
+      },
+      {
+        code: "enum Renkler {KIRMIZI, YESIL, MAVI}\nenum Renkler renk = KIRMIZI;",
+        correct: (code) => code.includes("enum") && code.includes("};")
+      },
+      {
+        code: "typedef struct {\n    int x, y;\n} Nokta\nNokta p1;",
+        correct: (code) => code.includes("typedef") && code.includes("};") && code.includes("Nokta")
+      },
+      {
+        code: "unsigned int sayi = 42\nprintf(\"%u\", sayi);",
+        correct: (code) => code.includes("unsigned int sayi = 42;") && code.includes("printf")
+      },
+      {
+        code: "const int SABIT = 100\nprintf(\"%d\", SABIT);",
+        correct: (code) => code.includes("const int SABIT = 100;") && code.includes("printf")
+      },
+      {
+        code: "static int fonksiyon() {\n    return 1;\n",
+        correct: (code) => code.includes("static") && code.includes("return") && code.includes("}")
+      },
+      {
+        code: "goto etiket;\netiket:\n    printf(\"Buraya geldi\");",
+        correct: (code) => code.includes("goto") && code.includes("etiket:") && code.includes("printf")
+      },
+      {
+        code: "double d = 3.14159\nprintf(\"%.2lf\", d);",
+        correct: (code) => code.includes("double d = 3.14159;") && code.includes("printf")
+      },
+      {
+        code: "long long buyuk_sayi = 1234567890LL\nprintf(\"%lld\", buyuk_sayi);",
+        correct: (code) => code.includes("long long") && code.includes(";") && code.includes("printf")
+      },
+      {
+        code: "union Veri {\n    int i;\n    float f;\n",
+        correct: (code) => code.includes("union") && code.includes("};")
+      },
+      {
+        code: "volatile int bayrak = 0\nwhile(bayrak == 0);",
+        correct: (code) => code.includes("volatile int bayrak = 0;") && code.includes("while")
+      },
+      {
+        code: "register int hizli_degisken = 10\nprintf(\"%d\", hizli_degisken);",
+        correct: (code) => code.includes("register") && code.includes(";") && code.includes("printf")
+      },
+      {
+        code: "extern int global_degisken\nprintf(\"%d\", global_degisken);",
+        correct: (code) => code.includes("extern") && code.includes(";") && code.includes("printf")
+      },
+      {
+        code: "sizeof(int)",
+        correct: (code) => code.includes("sizeof(int);")
+      },
+      {
+        code: "int a = 5, b = 10\nint sonuc = (a > b) ? a : b;",
+        correct: (code) => code.includes("int a = 5, b = 10;") && code.includes("?") && code.includes(":")
+      },
+      {
+        code: "char *str = \"Merhaba\"\nprintf(\"%s\", str);",
+        correct: (code) => code.includes("char *str = \"Merhaba\";") && code.includes("printf")
+      },
+      {
+        code: "int matrix[3][3] = {{1,2,3},{4,5,6},{7,8,9}}\nprintf(\"%d\", matrix[1][1]);",
+        correct: (code) => code.includes("int matrix[3][3]") && code.includes(";") && code.includes("printf")
+      },
+      {
+        code: "void fonksiyon(void) {\n    printf(\"Fonksiyon çağrıldı\");\n",
+        correct: (code) => code.includes("void fonksiyon(void)") && code.includes("printf") && code.includes("}")
+      },
+      {
+        code: "break",
+        correct: (code) => code.includes("break;")
+      },
+      {
+        code: "continue",
+        correct: (code) => code.includes("continue;")
+      },
+      {
+        code: "return 0",
+        correct: (code) => code.includes("return 0;")
+      },
+      {
+        code: "#include <stdlib.h>\nexit(0)",
+        correct: (code) => code.includes("#include <stdlib.h>") && code.includes("exit(0);")
+      },
+      {
+        code: "assert(x > 0)",
+        correct: (code) => code.includes("assert(x > 0);")
+      },
+      {
+        code: "int dizi[10]\nmemset(dizi, 0, sizeof(dizi));",
+        correct: (code) => code.includes("int dizi[10];") && code.includes("memset")
+      },
+      {
+        code: "strcpy(hedef, kaynak)",
+        correct: (code) => code.includes("strcpy(hedef, kaynak);")
+      },
+      {
+        code: "strlen(str)",
+        correct: (code) => code.includes("strlen(str);")
+      },
+      {
+        code: "scanf(\"%d\", &sayi)",
+        correct: (code) => code.includes("scanf") && code.includes("&sayi") && code.includes(";")
+      },
+      {
+        code: "printf(\"Değer: %d\\n\", 42)",
+        correct: (code) => code.includes("printf") && code.includes("\\n") && code.includes(";")
+      },
+      {
+        code: "fgets(buffer, sizeof(buffer), stdin)",
+        correct: (code) => code.includes("fgets") && code.includes("stdin") && code.includes(";")
+      },
+      {
+        code: "fprintf(stderr, \"Hata: %s\\n\", hata_mesaji)",
+        correct: (code) => code.includes("fprintf") && code.includes("stderr") && code.includes(";")
+      },
+      {
+        code: "int sonuc = atoi(\"123\")",
+        correct: (code) => code.includes("atoi") && code.includes(";")
+      },
+      {
+        code: "rand() % 10",
+        correct: (code) => code.includes("rand() % 10;")
+      }
+    ];
+
+    let currentIndex = 0;
+
+    const happyMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%2344FF44' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😊%3C/text%3E%3C/svg%3E";
+    const angryMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%23FF4444' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😠%3C/text%3E%3C/svg%3E";
+
+    function loadQuestion() {
+      document.getElementById("codeInput").value = questions[currentIndex].code;
+      document.getElementById("monsterImage").src = angryMonsterSVG;
+      const monsterDiv = document.getElementById("monster");
+      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
+      document.getElementById("message").textContent = "";
+    }
+
+    function checkCode() {
+      const input = document.getElementById("codeInput").value;
+      const isCorrect = questions[currentIndex].correct(input);
+      const monsterImage = document.getElementById("monsterImage");
+      const monsterDiv = document.getElementById("monster");
+      const message = document.getElementById("message");
+
+      // Önceki animasyon sınıflarını kaldır
+      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
+      monsterImage.style.animation = "none";
+
+      if (isCorrect) {
+        monsterImage.src = happyMonsterSVG;
+        message.textContent = "Harika! Canavar mutlu oldu!";
+        // Mutlu animasyonu: dönme, yıldız patlama ve zemin titreme
+        monsterImage.style.animation = "spin 1s ease";
+        monsterDiv.classList.add("happy-stars", "happy-shake");
+
+        setTimeout(() => {
+          currentIndex++;
+          if (currentIndex < questions.length) {
+            loadQuestion();
+          } else {
+            message.textContent = "Tüm canavarlar mutlu! C kodlarını mükemmel yazdın! 🎉";
+            document.getElementById("codeInput").style.display = "none";
+            monsterImage.src = happyMonsterSVG;
+            monsterImage.style.animation = "spin 1s ease";
+            monsterDiv.classList.add("happy-stars", "happy-shake");
+          }
+        }, 1500);
+      } else {
+        monsterImage.src = angryMonsterSVG;
+        message.textContent = "Hatalı... Syntax'ı kontrol et!";
+
+        // Önce animasyon sınıflarını kaldır
+        monsterImage.style.animation = "none";
+        monsterDiv.classList.remove("angry-flames", "angry-screen");
+
+        // DOM'u zorla yeniden boyat (reflow) — önemli!
+        void monsterImage.offsetWidth;
+
+        // Sonra animasyonları yeniden uygula
+        monsterImage.style.animation = "angry-shake 0.5s ease";
+        monsterDiv.classList.add("angry-flames", "angry-screen");
+      }
+    }
+
+    function goHome() {
+      alert("Ana sayfaya yönlendiriliyor...");
+    }
+
+    window.onload = loadQuestion;
+  </script>
+</body>
+</html>
