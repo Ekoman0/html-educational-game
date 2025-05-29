@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Kodlama Oyunları Merkezi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style8.css">
+</head>
+<body>
+  <!-- Animated background -->
+  <div class="particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+  
+  <!-- Code rain effect -->
+  <div class="code-rain" id="codeRain"></div>
+  
+  <!-- Main content -->
+  <div class="main-container">
+    <!-- Header -->
+    <div class="header">
+      <h1 class="main-title">Kodlama Oyunları Merkezi</h1>
+      <p class="subtitle">Eğlenceli Oyunlarla Programlama Öğren</p>
+      <p class="description">
+        HTML ve C programlama dillerini interaktif oyunlarla öğrenin. 
+        Seviyenize uygun zorlukta oyunlar oynayarak kodlama becerilerinizi geliştirin!
+      </p>
+    </div>
+    
+    <!-- Game selection cards -->
+    <div class="games-container">
+      <!-- HTML Games Card -->
+      <div class="game-card html-card" onclick="navigateToHtmlGames(event)">
+        <span class="card-icon">🌐</span>
+        <h2 class="card-title">HTML Oyunları</h2>
+        <p class="card-description">
+          Web geliştirmenin temellerini öğrenin. HTML etiketleri, CSS stilleri ve temel web yapısını 
+          eğlenceli oyunlarla keşfedin.
+        </p>
+        <div class="card-features">
+          <span class="feature-tag">Etiket Oyunları</span>
+          <span class="feature-tag">Sürükle Bırak</span>
+          <span class="feature-tag">Site Yapma</span>
+          <span class="feature-tag">Hazine Avı</span>
+        </div>
+        <button class="play-button">
+          <span>Oyuna Başla</span>
+          <span>▶️</span>
+        </button>
+      </div>
+      
+      <!-- C Games Card -->
+      <div class="game-card c-card" onclick="navigateToCGames(event)">
+        <span class="card-icon">💻</span>
+        <h2 class="card-title">C Oyunları</h2>
+        <p class="card-description">
+          Programlamanın temel taşlarını C dili ile öğrenin. Değişkenler, fonksiyonlar, 
+          diziler ve pointer kavramlarını oyunlarla kavrayın.
+        </p>
+        <div class="card-features">
+          <span class="feature-tag">Syntax Oyunları</span>
+          <span class="feature-tag">Fonksiyonlar</span>
+          <span class="feature-tag">Pointer Mantığı</span>
+          <span class="feature-tag">Kod Yazma</span>
+        </div>
+        <button class="play-button">
+          <span>Oyuna Başla</span>
+          <span>⚡</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Stats section - now part of scrollable content -->
+    <div class="stats-section">
+      <div class="stat-item">
+        <span class="stat-number" id="totalGames">12</span>
+        <span class="stat-label">Toplam Oyun</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="activePlayers">500+</span>
+        <span class="stat-label">Aktif Oyuncu</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" id="completedLessons">1000+</span>
+        <span class="stat-label">Tamamlanan Ders</span>
+      </div>
+    </div>
+  </div>
+  
+   <script src="script8.js"></script>
+</body>
+</html>
