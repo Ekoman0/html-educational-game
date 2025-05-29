@@ -1,11 +1,4 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-  <meta charset="UTF-8">
-  <title>HTML Oyun Anasayfa</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    :root {
+  :root {
       --primary: #6366f1;
       --primary-hover: #4f46e5;
       --secondary: #ec4899;
@@ -268,6 +261,41 @@
     .leaderboard-container tbody tr:nth-child(3) td:last-child {
       color: #cd7f32; /* bronze */
     }
+
+    /* Audio Controls */
+    .audio-controls {
+      position: fixed;
+      top: 1.5rem;
+      left: 1.5rem;
+      display: flex;
+      gap: 0.5rem;
+      z-index: 101;
+    }
+
+    .audio-btn {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border: none;
+      transition: all 0.3s ease;
+    }
+
+    .audio-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .audio-btn.muted {
+      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+      opacity: 0.7;
+    }
     
     /* Animations */
     @keyframes float {
@@ -333,6 +361,17 @@
         min-height: 100px;
         padding: 0.75rem;
       }
+
+      .audio-controls {
+        top: 1rem;
+        left: 1rem;
+      }
+
+      .audio-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+      }
     }
     
     /* Dark mode support */
@@ -362,141 +401,3 @@
         background-color: rgba(99, 102, 241, 0.1);
       }
     }
-  </style>
-</head>
-<body>
-  <!-- Main container -->
-  <div class="container">
-    <h1 class="pulse">HTML Öğretici Oyunlar 🎮</h1>
-    
-    <div class="game-buttons">
-      <button class="btn floating" onclick="window.location.href='Write-Game.html'">
-        <div class="btn-icon">✏️</div>
-        <span>Yazılı Etiket Oyunu</span>
-      </button>
-      
-      <button class="btn floating" style="animation-delay: 0.5s" onclick="window.location.href='Drag-and-Drop-Game.html'">
-        <div class="btn-icon">🔄</div>
-        <span>Sürükle Bırak Etiket Oyunu</span>
-      </button>
-      
-      <button class="btn floating" style="animation-delay: 1s" onclick="window.location.href='HappyMonster-Game.html'">
-        <div class="btn-icon">👾</div>
-        <span>Kod Canavarı Oyunu</span>
-      </button>
-      
-      <button class="btn floating" style="animation-delay: 1.5s" onclick="window.location.href='Make-Site-Game.html'">
-        <div class="btn-icon">🌐</div>
-        <span>Blog Oluşturma Oyunu</span>
-      </button>
-
-      <button class="btn floating" style="animation-delay: 1.5s" onclick="window.location.href='Html-Tower.html'">
-        <div class="btn-icon">🏢</div>
-        <span>Gökdelen Oyunu</span>
-      </button>
-
-      <button class="btn floating" onclick="window.location.href='TreasureHunt-Game.html'">
-        <div class="btn-icon">💰</div>
-        <span>Hazine Avı Oyunu</span>
-      </button>
-    </div>
-    
-    <!-- Confetti elements -->
-    <div class="confetti-piece" style="left: 10%; animation-delay: 0s; background: #6366f1;"></div>
-    <div class="confetti-piece" style="left: 20%; animation-delay: 0.2s; background: #ec4899;"></div>
-    <div class="confetti-piece" style="left: 30%; animation-delay: 0.4s; background: #10b981;"></div>
-    <div class="confetti-piece" style="left: 40%; animation-delay: 0.6s; background: #eab308;"></div>
-    <div class="confetti-piece" style="left: 50%; animation-delay: 0.8s; background: #6366f1;"></div>
-    <div class="confetti-piece" style="left: 60%; animation-delay: 1.0s; background: #ec4899;"></div>
-    <div class="confetti-piece" style="left: 70%; animation-delay: 1.2s; background: #10b981;"></div>
-    <div class="confetti-piece" style="left: 80%; animation-delay: 1.4s; background: #eab308;"></div>
-    <div class="confetti-piece" style="left: 90%; animation-delay: 1.6s; background: #6366f1;"></div>
-  </div>
-  
-  <!-- Leaderboard toggle button -->
-  <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
-  
-  <!-- Leaderboard panel -->
-  <div class="leaderboard-container" id="leaderboardContainer">
-    <h3><span>Skor Tablosu</span> <span class="trophy">🏆</span></h3>
-    <table>
-      <thead>
-        <tr><th>İsim</th><th>Skor</th></tr>
-      </thead>
-      <tbody id="leaderboard"></tbody>
-    </table>
-  </div>
-  
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-  
-  <script>
-    // Firebase yapılandırması
-    const firebaseConfig = {
-      apiKey: "AIzaSyAIfrsCikknBrkiocDdY_8vGtth2c20Hao",
-      authDomain: "learnhtmlgame.firebaseapp.com",
-      databaseURL: "https://learnhtmlgame-default-rtdb.firebaseio.com",
-      projectId: "learnhtmlgame",
-      storageBucket: "learnhtmlgame.appspot.com",
-      messagingSenderId: "58028478626",
-      appId: "1:58028478626:web:a9897fa9c57b36afa987fb",
-      measurementId: "G-77PDPX66EH"
-    };
-    
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    
-    // Skorları oku ve göster
-    db.ref("scores").orderByChild("score").limitToLast(10).on("value", snapshot => {
-      const leaderboard = document.getElementById("leaderboard");
-      leaderboard.innerHTML = "";
-      
-      const entries = [];
-      snapshot.forEach(child => {
-        entries.push(child.val());
-      });
-      
-      entries.sort((a, b) => b.score - a.score);
-      
-      entries.forEach((entry, index) => {
-        // Emoji ekleyelim ilk 3 sıra için
-        let prefix = "";
-        if (index === 0) prefix = "🥇 ";
-        else if (index === 1) prefix = "🥈 ";
-        else if (index === 2) prefix = "🥉 ";
-        
-        const row = `<tr><td>${prefix}${entry.name}</td><td>${entry.score}</td></tr>`;
-        leaderboard.innerHTML += row;
-      });
-    });
-    
-    // Leaderboard toggle functionality
-    const leaderboardToggle = document.getElementById('leaderboardToggle');
-    const leaderboardContainer = document.getElementById('leaderboardContainer');
-    
-    leaderboardToggle.addEventListener('click', () => {
-      leaderboardContainer.classList.toggle('open');
-      
-      // Buton efekti
-      leaderboardToggle.style.transform = 'scale(0.9)';
-      setTimeout(() => {
-        leaderboardToggle.style.transform = '';
-      }, 150);
-    });
-    
-    // Sayfa yüklendiğinde animasyon efekti
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.querySelector('.container');
-      container.style.opacity = '0';
-      container.style.transform = 'translateY(20px)';
-      
-      setTimeout(() => {
-        container.style.transition = 'opacity 1s ease, transform 1s ease';
-        container.style.opacity = '1';
-        container.style.transform = 'translateY(0)';
-      }, 100);
-    });
-  </script>
-</body>
-</html>

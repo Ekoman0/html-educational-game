@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Öğrenme Oyunu - Blog Oluşturucu</title>
+    <link rel="stylesheet" href="style4.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>HTML Öğrenme Oyunu - Blog Oluşturucu</h1>
+            <p>Adım adım HTML öğrenerek kendi kişisel blogunuzu oluşturun!</p>
+        </header>
+
+        <div class="game-container">
+            <div class="editor-section">
+                <div class="level-indicator">Seviye: <span id="level-number">1</span> - <span id="level-title">Paragraf Ekleme</span></div>
+                <div class="instruction" id="instruction">
+                    <p><strong>Görev:</strong> Bir paragraf etiketi (<code>&lt;p&gt;</code>) ekleyin ve içinde "Merhaba, bu benim ilk blog yazım!" yazısını yazın.</p>
+                    <p>Paragraf etiketi <code>&lt;p&gt;</code> ile başlar ve <code>&lt;/p&gt;</code> ile biter.</p>
+                </div>
+                <textarea id="code-editor" placeholder="HTML kodunuzu buraya yazın..."></textarea>
+                <div class="button-container">
+                    <button id="hint-button">İpucu</button>
+                    <button id="check-button">Kontrol Et</button>
+                    <button id="next-button" disabled>Sonraki Seviye</button>
+                </div>
+                <div class="hint" id="hint">
+                    <p>İpucu: <code>&lt;p&gt;Merhaba, bu benim ilk blog yazım!&lt;/p&gt;</code> şeklinde yazmalısınız.</p>
+                </div>
+                <div class="success-message" id="success-message">
+                    <p>Harika! Doğru cevap. Sonraki seviyeye geçebilirsiniz.</p>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h2>Blog Önizleme</h2>
+                <div class="preview-container" id="preview-container">
+                    <!-- Önizleme burada gösterilecek -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script src="script4.js"></script>
+</body>
+</html>

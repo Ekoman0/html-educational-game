@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Hazine Avı</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style5.css">
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <h1>HTML Hazine Avı 🏆</h1>
+    <p>Hoş geldin, maceraperest! Bu sayfada gizlenmiş HTML hazinelerini bulmak için ipuçlarını takip et ve HTML'in sırlarını keşfet.</p>
+    
+    <div id="progress-container">
+      <div id="progress-bar">0%</div>
+    </div>
+
+    <div id="game-area">
+      <!-- İlk seviye -->
+      <div id="level1" class="level">
+        <div class="level-title">Seviye 1: İlk HTML Etiketimiz</div>
+        <p>HTML web sayfalarının yapı taşlarıdır. Her HTML etiketi "<" ve ">" işaretleri arasına yazılır.</p>
+        <div class="clue">
+          <p>İlk hazinenizi bulmak için sayfanın kaynak kodunu incelemelisiniz.</p>
+          <p>Tarayıcınızda <strong>Sağ Tık > Sayfanın Kaynağını Görüntüle</strong> veya <strong>F12</strong> tuşuna basarak başlayın.</p>
+          <p>İpucu: İlk hazine bir başlık etiketinin içinde gizli!</p>
+        </div>
+        <div class="hint-box" id="hint1">
+          HTML'de başlık etiketleri h1, h2, h3... şeklinde gider. En büyük başlık h1'dir.
+        </div>
+        <button onclick="showHint('hint1')">İpucu Göster</button>
+        <button onclick="checkAnswer('seviye1', 'html-yapisi')">Cevabı Kontrol Et</button>
+        <input type="text" id="seviye1" placeholder="Bulduğun şifreyi buraya yaz">
+        
+        <!-- Gizli hazine: İlk sayfanın başlığında gizli -->
+        <!--
+            İlk hazineyi buldun! 
+            Şifre: "html-yapisi"
+            Bunu cevap kutusuna gir ve devam et!
+        -->
+      </div>
+
+      <!-- İkinci seviye -->
+      <div id="level2" class="level hidden">
+        <div class="level-title">Seviye 2: Element İnceleme</div>
+        <p>Tebrikler! Şimdi biraz daha derine inelim. HTML elementleri genellikle bir açılış ve kapanış etiketinden oluşur.</p>
+        <div class="clue">
+          <p>Bu sayfada bir yerde <span style="font-weight:bold;">gizli</span> bir metin var. Onu bulmak için fare imlecini sayfada gezdirmelisin.</p>
+          <p>İpucu: Bazen görmediğimiz şeyler tam önümüzdedir!</p>
+        </div>
+        <p>HTML'de elementler birbirleri içinde yuvalanabilir. <span class="secret">Örneğin bu metin gizliydi! İkinci hazinenin şifresi: "inline-element"</span> Bu hiyerarşiye DOM (Document Object Model) denir.</p>
+        <div class="hint-box" id="hint2">
+          Sayfadaki bazı metinler şeffaf olabilir, üzerlerine gelince görünür olurlar.
+        </div>
+        <button onclick="showHint('hint2')">İpucu Göster</button>
+        <button onclick="checkAnswer('seviye2', 'inline-element')">Cevabı Kontrol Et</button>
+        <input type="text" id="seviye2" placeholder="Bulduğun şifreyi buraya yaz">
+      </div>
+
+      <!-- Üçüncü seviye -->
+      <div id="level3" class="level hidden">
+        <div class="level-title">Seviye 3: CSS ve Stillendirme</div>
+        <p>Harika ilerliyorsun! HTML sayfaları CSS ile stillendirilebilir. CSS, HTML elementlerinin nasıl görüneceğini belirler.</p>
+        <div class="clue">
+          <p>Üçüncü hazine CSS kodlarının içinde bir yorum olarak saklanmış.</p>
+          <p>İpucu: CSS yorumları <code>/* yorum */</code> şeklinde yazılır.</p>
+        </div>
+        <p>CSS özellikleri şunları içerir:</p>
+        <ul>
+          <li>color: Metin rengini belirler</li>
+          <li>background-color: Arka plan rengini belirler</li>
+          <li>font-size: Yazı boyutunu belirler</li>
+          <li>margin: Dış kenar boşluğunu belirler</li>
+          <li>padding: İç kenar boşluğunu belirler</li>
+        </ul>
+        <div class="hint-box" id="hint3">
+          Sayfanın başında, style etiketlerinin içinde yorum satırları arayın. F12 tuşuna basıp CSS kodlarını inceleyin.
+        </div>
+        <button onclick="showHint('hint3')">İpucu Göster</button>
+        <button onclick="checkAnswer('seviye3', 'margin-padding')">Cevabı Kontrol Et</button>
+        <input type="text" id="seviye3" placeholder="Bulduğun şifreyi buraya yaz">
+      </div>
+
+      <!-- Dördüncü seviye -->
+      <div id="level4" class="level hidden">
+        <div class="level-title">Seviye 4: HTML Formları</div>
+        <p>Çok iyisin! Şimdi HTML formlarına bakalım. Formlar kullanıcılardan veri toplamak için kullanılır.</p>
+        <div class="clue">
+          <p>Dördüncü hazine çok ama çok küçük bir metin olarak sayfanın bir yerinde saklanmış.</p>
+          <p>İpucu: Bazen küçük şeylerin üzerine geldiğinde büyürler!</p>
+        </div>
+        <form>
+          <label for="username">Kullanıcı Adı:</label>
+          <input type="text" id="username" name="username">
+          <label for="email">E-posta:</label>
+          <input type="email" id="email" name="email">
+        </form>
+        <div class="treasure" style="top: 50%; right: 10%;">Dördüncü hazinenin şifresi: "form-input"</div>
+        <div class="hint-box" id="hint4">
+          Sayfada fare imlecini her yere götür ve değişiklik olan yerlere dikkat et. Bazen çok küçük şeyler büyüyebilir!
+        </div>
+        <button onclick="showHint('hint4')">İpucu Göster</button>
+        <button onclick="checkAnswer('seviye4', 'form-input')">Cevabı Kontrol Et</button>
+        <input type="text" id="seviye4" placeholder="Bulduğun şifreyi buraya yaz">
+      </div>
+
+      <!-- Beşinci seviye -->
+      <div id="level5" class="level hidden">
+        <div class="level-title">Seviye 5: JavaScript Etkileşimi</div>
+        <p>Mükemmel! Son seviyeye ulaştın. HTML, CSS ve JavaScript birlikte çalışarak interaktif web sayfaları oluştururlar.</p>
+        <div class="clue">
+          <p>Son hazine bir JavaScript fonksiyonunun içinde gizli. Konsolu açmalısın!</p>
+          <p>İpucu: F12 tuşuna bas ve "Console" sekmesine tıkla, sonra aşağıdaki butona tıkla.</p>
+        </div>
+        <button onclick="revealLastTreasure()">Son İpucunu Göster</button>
+        <div class="hint-box" id="hint5">
+          Console sekmesinde görünen mesajları oku, son hazine orada yazıyor!
+        </div>
+        <button onclick="showHint('hint5')">İpucu Göster</button>
+        <button onclick="checkAnswer('seviye5', 'js-interaktif')">Cevabı Kontrol Et</button>
+        <input type="text" id="seviye5" placeholder="Bulduğun şifreyi buraya yaz">
+      </div>
+
+      <div id="final" class="level hidden">
+        <div class="congratulations">
+          <div class="completion-emoji">🎉</div>
+          <h2>TEBRİKLER! TÜM HAZİNELERİ BULDUN!</h2>
+          <p>Artık HTML'in temel kavramlarını öğrendin:</p>
+          <ul>
+            <li>HTML etiketleri ve yapısı</li>
+            <li>Elementler ve inline özellikler</li>
+            <li>CSS stillendirme</li>
+            <li>HTML formları</li>
+            <li>JavaScript ile etkileşim</li>
+          </ul>
+          <p>Web geliştirme yolculuğunda başarılar!</p>
+          <button onclick="location.reload()" class="restart-btn" style="background: linear-gradient(135deg, var(--success) 0%, #0d9488 100%);">Tekrar Oyna</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script src="script5.js"></script>
+</body>
+</html>

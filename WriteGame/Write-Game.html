@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Öğretici Oyun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="style6.css">
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+  
+  <div class="card" id="gameCard">
+    <div class="streak" id="streak">
+      <span class="streak-flame">🔥</span>
+      <span id="streakCount">0</span>
+    </div>
+    
+    <div class="card-header">
+      <h2>HTML Öğretici 🎓</h2>
+    </div>
+    
+    <div class="question" id="question">HTML'de başlık etiketi nedir?</div>
+    
+    <div class="input-container">
+      <input type="text" id="answer" placeholder="Cevabını yaz (örnek: &lt;h1&gt;)" autocomplete="off">
+      <div class="input-icon">💻</div>
+    </div>
+    
+    <button id="submitBtn" onclick="checkAnswer()">Cevapla</button>
+    
+    <div class="feedback" id="feedback"></div>
+    
+    <div class="score">
+      Puan: <div class="score-number" id="score">0</div>
+    </div>
+    
+    <div class="progress">
+      <div class="progress-number" id="questionNumber">1</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-number total-progress">50</div>
+    </div>
+  </div>
+  
+   <script src="script6.js"></script>
+</body>
+</html>

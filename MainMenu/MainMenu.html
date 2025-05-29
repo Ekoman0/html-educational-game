@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>HTML Oyun Anasayfa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style7.css">
+</head>
+<body>
+  <!-- Audio Controls -->
+  <div class="audio-controls">
+    <button class="audio-btn" id="musicToggle" title="Müziği Aç/Kapat">🎵</button>
+    <button class="audio-btn" id="soundToggle" title="Ses Efektlerini Aç/Kapat">🔊</button>
+  </div>
+
+  <!-- Main container -->
+  <div class="container">
+    <h1 class="pulse">HTML Öğretici Oyunlar 🎮</h1>
+    
+    <div class="game-buttons">
+      <button class="btn floating" onclick="navigateToGame('../WriteGame/Write-Game.html')">
+        <div class="btn-icon">✏️</div>
+        <span>Yazılı Etiket Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 0.5s" onclick="navigateToGame('../DragandDropGame/Drag-and-Drop-Game.html')">
+        <div class="btn-icon">🔄</div>
+        <span>Sürükle Bırak Etiket Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 1s" onclick="navigateToGame('../HappyMonsterGame/HappyMonster-Game.html')">
+        <div class="btn-icon">👾</div>
+        <span>Kod Canavarı Oyunu</span>
+      </button>
+      
+      <button class="btn floating" style="animation-delay: 1.5s" onclick="navigateToGame('../MakeSiteGame/Make-Site-Game.html')">
+        <div class="btn-icon">🌐</div>
+        <span>Blog Oluşturma Oyunu</span>
+      </button>
+
+      <button class="btn floating" style="animation-delay: 2s" onclick="navigateToGame('../HtmlTower/Html-Tower.html')">
+        <div class="btn-icon">🏢</div>
+        <span>Gökdelen Oyunu</span>
+      </button>
+
+      <button class="btn floating" style="animation-delay: 2.5s" onclick="navigateToGame('../TreasureHuntGame/TreasureHunt-Game.html')">
+        <div class="btn-icon">💰</div>
+        <span>Hazine Avı Oyunu</span>
+      </button>
+    </div>
+    
+    <!-- Confetti elements -->
+    <div class="confetti-piece" style="left: 10%; animation-delay: 0s; background: #6366f1;"></div>
+    <div class="confetti-piece" style="left: 20%; animation-delay: 0.2s; background: #ec4899;"></div>
+    <div class="confetti-piece" style="left: 30%; animation-delay: 0.4s; background: #10b981;"></div>
+    <div class="confetti-piece" style="left: 40%; animation-delay: 0.6s; background: #eab308;"></div>
+    <div class="confetti-piece" style="left: 50%; animation-delay: 0.8s; background: #6366f1;"></div>
+    <div class="confetti-piece" style="left: 60%; animation-delay: 1.0s; background: #ec4899;"></div>
+    <div class="confetti-piece" style="left: 70%; animation-delay: 1.2s; background: #10b981;"></div>
+    <div class="confetti-piece" style="left: 80%; animation-delay: 1.4s; background: #eab308;"></div>
+    <div class="confetti-piece" style="left: 90%; animation-delay: 1.6s; background: #6366f1;"></div>
+  </div>
+  
+  <!-- Leaderboard toggle button -->
+  <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
+  
+  <!-- Leaderboard panel -->
+  <div class="leaderboard-container" id="leaderboardContainer">
+    <h3><span>Skor Tablosu</span> <span class="trophy">🏆</span></h3>
+    <table>
+      <thead>
+        <tr><th>İsim</th><th>Skor</th></tr>
+      </thead>
+      <tbody id="leaderboard"></tbody>
+    </table>
+  </div>
+
+  <audio id="backgroundMusic" autoplay loop preload="auto">
+    <source src="/background-music.mp3" type="audio/mpeg">
+    Tarayıcınız ses dosyasını desteklemiyor.
+  </audio>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  
+  <script src="script7.js"></script>
+</body>
+</html>

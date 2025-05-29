@@ -1,0 +1,230 @@
+body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Koyu mor-mavi gradient arka plan */
+            color: #e0e0e0; /* Açık gri-beyaz metin rengi */
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #2a2a40 0%, #1e1e2f 100%); /* Pembe-mor gradient */
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+        .game-container {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-direction: column;
+            min-height: 600px;
+        }
+        @media (min-width: 992px) {
+            .game-container {
+                flex-direction: row;
+            }
+        }
+        .editor-section {
+            flex: 1;
+            background-color: #2a2a40; /* Koyu panel arka planı */
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            transition: transform 0.3s ease; /* Hafif bir büyüme animasyonu */
+        }
+        .editor-section:hover {
+            transform: scale(1.02); /* Hover'da hafif büyüme */
+        }
+        .preview-section {
+            flex: 1;
+            background-color: #2a2a40;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            min-height: 500px;
+            overflow: auto;
+            transition: transform 0.3s ease;
+        }
+        .preview-section:hover {
+            transform: scale(1.02);
+        }
+       h1, h2, h3 {
+    background: linear-gradient(90deg, #6366f1 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text; /* Firefox için */
+    color: transparent; /* Yedek olarak */
+}
+
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #444; /* Koyu kenarlık */
+            border-radius: 4px;
+            font-family: monospace;
+            resize: vertical;
+            background-color: #1e1e2f; /* Koyu arka plan */
+            color: #e0e0e0; /* Açık metin rengi */
+            transition: border-color 0.3s ease;
+        }
+        textarea:focus {
+            border-color: #de4a9b; /* Mor-pembe kenarlık */
+            outline: none;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        button {
+            background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%); /* Pembe-mor gradient */
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        button:hover {
+            background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%); /* Ters gradient efekti */
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+        button:disabled {
+            background: #555;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .level-indicator {
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+            color: #de4a9b; /* Mor-pembe vurgu */
+        }
+        .instruction {
+            background-color: #3a3a50; /* Koyu mavi arka plan */
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            border-left: 4px solid #ff6f61; /* Pembe sol kenar */
+            transition: opacity 0.5s ease; /* Fade-in animasyonu */
+        }
+        .preview-container {
+            border: 1px solid #444;
+            border-radius: 4px;
+            padding: 15px;
+            min-height: 300px;
+            background-color: #1e1e2f;
+            color: #e0e0e0;
+            overflow: auto;
+        }
+        .hint {
+            background-color: #ffeb3b33; /* Hafif sarı şeffaf arka plan */
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            border-left: 4px solid #ffeb3b; /* Sarı sol kenar */
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease; /* Fade-in animasyonu */
+        }
+        .hint.show {
+            display: block;
+            opacity: 1;
+        }
+        .success-message {
+            background-color: #4caf5033; /* Hafif yeşil şeffaf arka plan */
+            color: #4caf50; /* Yeşil metin */
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 10px;
+            border-left: 4px solid #4caf50; /* Yeşil sol kenar */
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease; /* Fade-in animasyonu */
+        }
+        .success-message.show {
+            display: block;
+            opacity: 1;
+        }
+        /* Blog önizleme için stil */
+        .preview-container h1 {
+            color: #ff6f61;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .preview-container img {
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            border: 2px solid #de4a9b; /* Mor-pembe çerçeve */
+        }
+        .preview-container h2 {
+            color: #de4a9b;
+            border-bottom: 2px solid #3a3a50;
+            padding-bottom: 5px;
+            margin-top: 25px;
+        }
+        .preview-container ul {
+            padding-left: 20px;
+        }
+        .preview-container li {
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+        .preview-container a {
+            color: #ff6f61;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .preview-container a:hover {
+            color: #de4a9b;
+            text-decoration: underline;
+        }
+        .preview-container article {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #3a3a50;
+            border-radius: 5px;
+        }
+        .preview-container footer {
+            margin-top: 30px;
+            text-align: center;
+            padding: 10px;
+            border-top: 1px solid #444;
+            color: #777;
+        }
+        .preview-container input, 
+        .preview-container textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            background-color: #1e1e2f;
+            color: #e0e0e0;
+        }
+        .preview-container button {
+            background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .preview-container button:hover {
+            background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%);
+        }

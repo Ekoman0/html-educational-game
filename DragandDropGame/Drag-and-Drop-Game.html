@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sürükle Bırak Kod Oyunu</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style1.css">
+</head>
+<body>
+  <div class="particles" id="particles"></div>
+
+  <div class="game-container" id="gameCard">
+    <div class="streak" id="streak">
+      <span class="streak-flame">🔥</span>
+      <span id="streakCount">0</span>
+    </div>
+
+    <div class="card-header">
+      <h2 id="question">1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.</h2>
+    </div>
+
+    <div class="draggables" id="draggables"></div>
+
+    <div class="code-box" id="codeBox"></div>
+
+    <div class="preview" id="preview">Önizleme: Burada doğru cevabı görebilirsiniz.</div>
+
+    <div class="feedback" id="feedback"></div>
+
+    <div class="score">
+      Puan: <div class="score-number" id="scoreNumber">0</div>
+    </div>
+
+    <div class="progress">
+      <div class="progress-number" id="questionNumber">1</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+      <div class="progress-number total-progress">50</div>
+    </div>
+
+    <div class="home-button">
+      <a href="MainMenu.html">Ana Sayfaya Dön</a>
+    </div>
+  </div>
+<script src="script1.js"></script>
+</body>
+</html>

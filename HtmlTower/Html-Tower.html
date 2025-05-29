@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Gökdelen Oyunu</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <div class="left-panel">
+        <h2 style="text-align: center; margin-bottom: 30px;">HTML Kod Tamamlama</h2>
+        <div id="question-container"></div>
+    </div>
+
+    <div class="right-panel">
+        <div class="game-view" id="gameView">
+            <div class="background">
+                <div class="stars" id="stars"></div>
+            </div>
+            <div class="ground"></div>
+            <div class="tower-container" id="towerContainer"></div>
+        </div>
+        
+        <div class="level" id="level">Seviye: 1</div>
+        <div class="lives" id="lives">
+            <span class="heart">❤️</span>
+            <span class="heart">❤️</span>
+            <span class="heart">❤️</span>
+        </div>
+        
+        <div class="game-over" id="gameOver">
+            <h2>Oyun Bitti!</h2>
+            <p>Maalesef 3 hata yaptınız.</p>
+            <button class="restart-btn" onclick="restartGame()">Yeniden Başla</button>
+        </div>
+    </div>
+
+    <script src="script3.js"></script>
+</body>
+</html>
