@@ -4,7 +4,26 @@ let currentLevel = 1;
     
     // Particles için renkler
     const colors = ['#6366f1', '#ec4899', '#10b981', '#eab308', '#3b82f6'];
-    
+    function playButtonSound() {
+      const audio = new Audio();
+      // Web Audio API kullanarak basit bir 'click' sesi oluştur
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+
     function createParticles() {
       const particles = document.getElementById('particles');
       particles.innerHTML = '';
@@ -51,11 +70,13 @@ let currentLevel = 1;
     }
 
     function showHint(hintId) {
+      playButtonSound();
       const hintBox = document.getElementById(hintId);
       hintBox.classList.add('show');
     }
 
     function checkAnswer(inputId, correctAnswer) {
+        playButtonSound();
       const userAnswer = document.getElementById(inputId).value.trim().toLowerCase();
       
       if (userAnswer === correctAnswer) {

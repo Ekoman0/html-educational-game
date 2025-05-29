@@ -1,4 +1,4 @@
- const questions = [
+const questions = [
       {
         code: "<p>Merhaba Canavar",
         correct: (code) => code.includes("<p>") && code.includes("</p>")
@@ -211,7 +211,31 @@
       document.getElementById("message").textContent = "";
     }
 
+    // Butona basma sesi çalma fonksiyonu
+    function playButtonSound() {
+      const audio = new Audio();
+      // Web Audio API kullanarak basit bir 'click' sesi oluştur
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
+
     function checkCode() {
+      // Butona basma sesi çal
+      playButtonSound();
+      
       const input = document.getElementById("codeInput").value;
       const isCorrect = questions[currentIndex].correct(input);
       const monsterImage = document.getElementById("monsterImage");
@@ -242,24 +266,25 @@
           }
         }, 1500);
       } else {
-  monsterImage.src = "kizgin.png";
-  message.textContent = "Hatalı... Etiketleri kontrol et!";
+        monsterImage.src = "kizgin.png";
+        message.textContent = "Hatalı... Etiketleri kontrol et!";
 
-  // Önce animasyon sınıflarını kaldır
-  monsterImage.style.animation = "none";
-  monsterDiv.classList.remove("angry-flames", "angry-screen");
+        // Önce animasyon sınıflarını kaldır
+        monsterImage.style.animation = "none";
+        monsterDiv.classList.remove("angry-flames", "angry-screen");
 
-  // DOM'u zorla yeniden boyat (reflow) — önemli!
-  void monsterImage.offsetWidth;
+        // DOM'u zorla yeniden boyat (reflow) — önemli!
+        void monsterImage.offsetWidth;
 
-  // Sonra animasyonları yeniden uygula
-  monsterImage.style.animation = "angry-shake 0.5s ease";
-  monsterDiv.classList.add("angry-flames", "angry-screen");
+        // Sonra animasyonları yeniden uygula
+        monsterImage.style.animation = "angry-shake 0.5s ease";
+        monsterDiv.classList.add("angry-flames", "angry-screen");
+      }
+    }
+
+  function goHome() {
+  window.location.href = "../MainMenu/MainMenu.html"; 
 }
-    }
 
-    function goHome() {
-      window.location.href = "MainMenu.html";
-    }
 
     window.onload = loadQuestion;

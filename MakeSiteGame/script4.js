@@ -1,5 +1,23 @@
  // Oyun verileri - her seviye için görevler
-        const levels = [
+    function playButtonSound() {
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+
+    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+    oscillator.start(audioContext.currentTime);
+    oscillator.stop(audioContext.currentTime + 0.1);
+     }
+    
+      const levels = [
             {
                 title: "Başlık Ekleme",
                 instruction: "<strong>Görev:</strong> Blogunuz için bir ana başlık ekleyin. <code>&lt;h1&gt;</code> etiketini kullanarak \"Benim Kişisel Blogum\" başlığını ekleyin.",
@@ -158,12 +176,14 @@
 
         // İpucu gösterme
         hintButton.addEventListener('click', function() {
+            playButtonSound();
             hintDiv.style.display = "block";
             hintDiv.classList.add("show");
         });
 
         // Kontrol etme
         checkButton.addEventListener('click', function() {
+            playButtonSound();
             const level = levels[currentLevel];
             const userCode = codeEditor.value;
             
@@ -184,6 +204,7 @@
 
         // Sonraki seviye
         nextButton.addEventListener('click', function() {
+            playButtonSound();
             if (currentLevel < levels.length - 1) {
                 currentLevel++;
                 loadLevel(currentLevel);
