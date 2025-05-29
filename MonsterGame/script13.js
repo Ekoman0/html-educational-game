@@ -213,8 +213,27 @@ const questions = [
       monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
       document.getElementById("message").textContent = "";
     }
-
+     function playButtonSound() {
+      const audio = new Audio();
+      // Web Audio API kullanarak basit bir 'click' sesi oluştur
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    }
     function checkCode() {
+      playButtonSound();
       const input = document.getElementById("codeInput").value;
       const isCorrect = questions[currentIndex].correct(input);
       const monsterImage = document.getElementById("monsterImage");
@@ -262,7 +281,7 @@ const questions = [
     }
 
     function goHome() {
-      alert("Ana sayfaya yönlendiriliyor...");
+       window.location.href = "../CGameMenu/CGameMenu.html"; 
     }
 
     window.onload = loadQuestion;

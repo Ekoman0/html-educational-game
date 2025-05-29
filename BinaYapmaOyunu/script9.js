@@ -1,3 +1,95 @@
+
+// Audio System
+class AudioManager {
+  constructor() {
+    this.soundEnabled = true;
+    this.init();
+  }
+
+  init() {
+    // Load preferences from localStorage (eğer varsa)
+    this.soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+  }
+
+  // Web Audio API ile click sesi oluştur
+  createClickSound() {
+    if (!this.soundEnabled) return;
+    
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (e) {
+      console.log('Web Audio API desteklenmiyor');
+    }
+  }
+
+  // Başarı sesi
+  createSuccessSound() {
+    if (!this.soundEnabled) return;
+    
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(523, audioContext.currentTime); // C note
+      oscillator.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E note
+      oscillator.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G note
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.3);
+    } catch (e) {
+      console.log('Web Audio API desteklenmiyor');
+    }
+  }
+
+  // Hata sesi
+  createErrorSound() {
+    if (!this.soundEnabled) return;
+    
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.setValueAtTime(200, audioContext.currentTime);
+      oscillator.frequency.exponentialRampToValueAtTime(100, audioContext.currentTime + 0.2);
+      
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (e) {
+      console.log('Web Audio API desteklenmiyor');
+    }
+  }
+}
+
+// Initialize audio manager
+const audioManager = new AudioManager();
 // Oyun değişkenleri
         let currentLevel = 1;
         let lives = 3;
@@ -124,13 +216,16 @@
 
         // Cevabı kontrol et
         function checkAnswer(answer) {
+             audioManager.createClickSound();
             const question = questions[currentQuestionIndex];
             const blank = document.querySelector('.blank');
             
             if (answer === question.correct) {
                 blank.classList.add('correct');
                 blank.innerHTML = answer;
-                
+
+                  audioManager.createSuccessSound();
+        
                 // Başarı efekti
                 const successEffect = document.createElement('div');
                 successEffect.className = 'success-effect';
@@ -186,6 +281,7 @@
 
         // Oyun bitti
         function gameOver() {
+              audioManager.createErrorSound();
             document.getElementById('gameOver').style.display = 'block';
             
             // Kuleyi yık
@@ -201,6 +297,7 @@
 
         // Oyunu yeniden başlat
         function restartGame() {
+             audioManager.createClickSound();
             lives = 3;
             currentLevel = 1;
             currentQuestionIndex = 0;

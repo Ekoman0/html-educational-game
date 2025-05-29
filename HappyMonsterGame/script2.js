@@ -1,5 +1,13 @@
 const questions = [
       {
+        code: "<ul><li>Item 1<li>Item 2</ul>",
+        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
+      },
+      {
+        code: "<a href='tel:+905555555555'>Ara",
+        correct: (code) => code.includes("<a") && code.includes("</a>")
+      },
+      {
         code: "<p>Merhaba Canavar",
         correct: (code) => code.includes("<p>") && code.includes("</p>")
       },
@@ -31,10 +39,7 @@ const questions = [
         code: "<span>Metin",
         correct: (code) => code.includes("<span>") && code.includes("</span>")
       },
-      {
-        code: "<ul><li>Item 1<li>Item 2</ul>",
-        correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
-      },
+      
       {
         code: "<img src='resim.jpg'>Alt Metin",
         correct: (code) => code.includes("<img") && code.includes("alt=")
@@ -151,10 +156,7 @@ const questions = [
         code: "<div><p>İçerik",
         correct: (code) => code.includes("<div>") && code.includes("</div>") && code.includes("</p>")
       },
-      {
-        code: "<a href='tel:+905555555555'>Ara",
-        correct: (code) => code.includes("<a") && code.includes("</a>")
-      },
+      
       {
         code: "<ul><li>X<li>Y<li>Z</ul>",
         correct: (code) => code.includes("<ul>") && code.includes("</ul>") && code.includes("</li>")
