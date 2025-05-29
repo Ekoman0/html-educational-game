@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</title>
+   <link rel="stylesheet" href="style15.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</h1>
+            <p>Adım adım C programlama öğrenerek kendi hesap makinenizi oluşturun!</p>
+        </header>
+
+        <div class="game-container">
+            <div class="editor-section">
+                <div class="level-indicator">Seviye: <span id="level-number">1</span> - <span id="level-title">Temel Program Yapısı</span></div>
+                <div class="instruction" id="instruction">
+                    <p><strong>Görev:</strong> C programının temel yapısını oluşturun. <code>#include &lt;stdio.h&gt;</code> kütüphanesini dahil edin ve <code>main()</code> fonksiyonunu yazın.</p>
+                    <p>Her C programı <code>main()</code> fonksiyonu ile başlar ve <code>stdio.h</code> kütüphanesi giriş/çıkış işlemleri için gereklidir.</p>
+                </div>
+                <textarea id="code-editor" placeholder="C kodunuzu buraya yazın..."></textarea>
+                <div class="button-container">
+                    <button id="hint-button">İpucu</button>
+                    <button id="check-button">Kontrol Et</button>
+                    <button id="next-button" disabled>Sonraki Seviye</button>
+                </div>
+                <div class="hint" id="hint">
+                    <p>İpucu: İlk satırda <code>#include &lt;stdio.h&gt;</code> yazın, sonra <code>int main() { return 0; }</code> yapısını kullanın.</p>
+                </div>
+                <div class="success-message" id="success-message">
+                    <p>Harika! Doğru cevap. Sonraki seviyeye geçebilirsiniz.</p>
+                </div>
+            </div>
+
+            <div class="preview-section">
+                <h2>Kod Önizleme</h2>
+                <div class="preview-container" id="preview-container">
+                    <!-- C kodu burada gösterilecek -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <script src="script15.js"></script>
+</body>
+</html>

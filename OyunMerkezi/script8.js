@@ -59,7 +59,7 @@
         card.style.transform = 'scale(0.95)';
       }
       setTimeout(() => {
-        window.location.href = 'CGameMenu.html';
+       window.location.href = "../CGameMenu/CGameMenu.html"; 
       }, 200);
     }
     

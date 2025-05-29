@@ -1,0 +1,402 @@
+:root {
+      --primary: #6366f1;
+      --primary-hover: #4f46e5;
+      --secondary: #ec4899;
+      --bg: #f8fafc;
+      --text: #1e293b;
+      --card-bg: #ffffff;
+      --border: rgba(231, 231, 240, 0.8);
+      --success: #10b981;
+      --error: #ef4444;
+      --yellow: #eab308;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
+      overflow-x: hidden;
+    }
+    
+    .container {
+      background-color: var(--card-bg);
+      padding: 2.5rem 2rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+      width: 100%;
+      max-width: 800px;
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+      transform: translateY(0);
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      animation: fade-in-up 0.8s ease forwards;
+    }
+    
+    .container:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+    }
+    
+    h1 {
+      font-size: 2rem;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 25%;
+      width: 50%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+    
+    h2 {
+      color: var(--primary);
+      margin-top: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.6;
+    }
+    
+    .level {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      background-color: var(--card-bg);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border);
+      position: relative;
+      transition: all 0.3s ease;
+      animation: fade-in-up 0.5s ease forwards;
+    }
+    
+    .level:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+    
+    .level-title {
+      font-weight: bold;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-size: 1.3em;
+      margin-bottom: 1rem;
+    }
+    
+    .clue {
+      margin: 1rem 0;
+      padding: 1rem;
+      background-color: rgba(99, 102, 241, 0.05);
+      border-left: 4px solid var(--primary);
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .clue:hover {
+      background-color: rgba(99, 102, 241, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .secret {
+      color: transparent;
+      user-select: none;
+      transition: color 0.3s ease;
+    }
+    
+    .secret:hover {
+      color: var(--secondary);
+      cursor: pointer;
+    }
+    
+    .treasure {
+      position: absolute;
+      font-size: 0.1px;
+      color: transparent;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .treasure:hover {
+      color: var(--yellow);
+      font-size: 24px;
+      text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+    }
+    
+    button {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
+      margin-right: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+    }
+    
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.7s;
+    }
+    
+    button:hover::before {
+      left: 100%;
+    }
+    
+    .hint-box {
+      background-color: rgba(16, 185, 129, 0.05);
+      border: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 1rem;
+      margin-top: 1rem;
+      border-radius: 0.75rem;
+      display: none;
+      transform: translateY(-10px);
+      opacity: 0;
+      transition: all 0.5s ease-out;
+    }
+    
+    .hint-box.show {
+      display: block;
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    #progress-container {
+      width: 100%;
+      background-color: rgba(231, 231, 240, 0.5);
+      margin: 1.5rem 0;
+      border-radius: 1rem;
+      height: 0.75rem;
+      overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    #progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 1rem;
+      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+      text-align: center;
+      color: white;
+      font-size: 0.7rem;
+      line-height: 0.75rem;
+      font-weight: bold;
+    }
+    
+    input[type="text"] {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 0.75rem;
+      outline: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-top: 1rem;
+    }
+    
+    input[type="text"]:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+    }
+    
+    .congratulations {
+      text-align: center;
+      animation: fade-in-up 0.8s ease forwards;
+      padding: 2rem;
+      border: 2px dashed var(--yellow);
+      border-radius: 1rem;
+      background-color: rgba(234, 179, 8, 0.05);
+      margin: 2rem 0;
+    }
+    
+    .congratulations h2 {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1.5rem;
+    }
+    
+    .congratulations ul {
+      text-align: left;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+    
+    .congratulations ul li {
+      position: relative;
+      padding-left: 1.5rem;
+    }
+    
+    .congratulations ul li::before {
+      content: '✓';
+      position: absolute;
+      left: 0;
+      color: var(--success);
+      font-weight: bold;
+    }
+    
+    /* Particles for celebration */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: var(--primary);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    /* Animations */
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.05); opacity: 0.9; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    
+    @keyframes celebrate {
+      0% { transform: translateY(0) rotate(0); opacity: 1; }
+      100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+    }
+    
+    @keyframes fade-in-up {
+      0% { transform: translateY(20px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    
+    .bounce {
+      animation: bounce 2s infinite;
+    }
+    
+    /* Kod bloğu stili */
+    .code-block {
+      background-color: #1e293b;
+      color: #f1f5f9;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      font-family: 'Courier New', monospace;
+      margin: 1rem 0;
+      overflow-x: auto;
+    }
+    
+    .code-block .comment {
+      color: #64748b;
+    }
+    
+    .code-block .keyword {
+      color: #3b82f6;
+    }
+    
+    .code-block .string {
+      color: #10b981;
+    }
+    
+    ul {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    .completion-emoji {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      animation: bounce 2s infinite;
+    }
+    
+    /* Dark mode */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f172a;
+        --card-bg: #1e293b;
+        --text: #f1f5f9;
+        --border: rgba(71, 85, 105, 0.3);
+      }
+      
+      input {
+        background-color: #1e293b;
+        color: #f1f5f9;
+      }
+      
+      input::placeholder {
+        color: #64748b;
+      }
+    }
+    
+    /* İpucu: C dilinde main fonksiyonu her programın başlangıç noktasıdır. Şifre: "main-function" */

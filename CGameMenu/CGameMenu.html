@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>C Öğrenme Oyunları</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="style10.css">
+</head>
+<body>
+  <!-- Navigation link -->
+  <a href="index.html" class="nav-link">🌐 HTML Oyunları</a>
+  
+  <!-- Code particles -->
+  <div class="code-particle" style="left: 10%; animation-delay: 0s;">printf("Hello");</div>
+  <div class="code-particle" style="left: 20%; animation-delay: 2s;">int main() {</div>
+  <div class="code-particle" style="left: 30%; animation-delay: 4s;">scanf("%d", &x);</div>
+  <div class="code-particle" style="left: 40%; animation-delay: 6s;">for(i=0; i<10; i++)</div>
+  <div class="code-particle" style="left: 50%; animation-delay: 8s;">malloc(sizeof(int));</div>
+  <div class="code-particle" style="left: 60%; animation-delay: 1s;">struct data {</div>
+  <div class="code-particle" style="left: 70%; animation-delay: 3s;">FILE *fp;</div>
+  <div class="code-particle" style="left: 80%; animation-delay: 5s;">char str[100];</div>
+  <div class="code-particle" style="left: 90%; animation-delay: 7s;">return 0;</div>
+
+  <!-- Main container -->
+  <div class="container">
+    <h1 class="pulse">C Programlama Oyunları 💻</h1>
+    <p class="subtitle">C dilini eğlenceli oyunlarla öğren ve ustalaş!</p>
+    
+    <div class="game-buttons">
+      <button class="btn c-syntax floating" onclick="window.location.href=('../WriteGameC/WriteGameC.html')">
+        <div class="btn-icon">📝</div>
+        <span>C Yazılı Etiket</span>
+      </button>
+      
+      <button class="btn c-functions floating" style="animation-delay: 0.5s" onclick="window.location.href=('../CDragandDrop/C Drag and Drop.html')">
+        <div class="btn-icon">⚙️</div>
+        <span>Sürükle Bırak Oyunu</span>
+      </button>
+      
+      <button class="btn c-pointers floating" style="animation-delay: 1s" onclick="window.location.href=('../MonsterGame/MonsterGame.html')">
+        <div class="btn-icon">🎯</div>
+        <span>Kod Doğrulama Oyunu</span>
+      </button>
+      
+      <button class="btn c-arrays floating" style="animation-delay: 1.5s" onclick="window.location.href=('../MakeSiteGameC/makeSiteGameC.html')">
+        <div class="btn-icon">🔢</div>
+        <span>Kod Yazma Oyunu</span>
+      </button>
+
+      <button class="btn c-structs floating" style="animation-delay: 2s" onclick="window.location.href=('../BinaYapmaOyunu/BinaYapmaOyunu.html')">
+        <div class="btn-icon">🏗️</div>
+        <span>Gökdelen Yapma Oyunu</span>
+      </button>
+
+      <button class="btn c-files floating" style="animation-delay: 2.5s" onclick="window.location.href=('../HazineAvi/hazineavi.html')">
+        <div class="btn-icon">📁</div>
+        <span>Hazine Avı</span>
+      </button>
+    </div>
+  </div>
+  
+  <!-- Leaderboard toggle button -->
+  <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
+  
+  <!-- Leaderboard panel -->
+  <div class="leaderboard-container" id="leaderboardContainer">
+    <h3><span>C Skor Tablosu</span> <span class="trophy">🏆</span></h3>
+    <table>
+      <thead>
+        <tr><th>İsim</th><th>Toplam Skor</th></tr>
+      </thead>
+      <tbody id="leaderboard"></tbody>
+    </table>
+  </div>
+  
+  <script src="script10.js"></script>
+</body>
+</html>
