@@ -201,87 +201,101 @@ const questions = [
       }
     ];
 
-    let currentIndex = 0;
+let currentIndex = 0; // Şu anki soru indeksini tutar
 
-    const happyMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%2344FF44' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😊%3C/text%3E%3C/svg%3E";
-    const angryMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%23FF4444' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😠%3C/text%3E%3C/svg%3E";
+// Mutlu canavarın SVG görseli (yeşil arka plan, gülümseyen yüz)
+const happyMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%2344FF44' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😊%3C/text%3E%3C/svg%3E";
 
-    function loadQuestion() {
-      document.getElementById("codeInput").value = questions[currentIndex].code;
-      document.getElementById("monsterImage").src = angryMonsterSVG;
-      const monsterDiv = document.getElementById("monster");
-      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
-      document.getElementById("message").textContent = "";
-    }
-     function playButtonSound() {
-      const audio = new Audio();
-      // Web Audio API kullanarak basit bir 'click' sesi oluştur
-      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-      oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.1);
-    }
-    function checkCode() {
-      playButtonSound();
-      const input = document.getElementById("codeInput").value;
-      const isCorrect = questions[currentIndex].correct(input);
-      const monsterImage = document.getElementById("monsterImage");
-      const monsterDiv = document.getElementById("monster");
-      const message = document.getElementById("message");
+// Kızgın canavarın SVG görseli (kırmızı arka plan, sinirli yüz)
+const angryMonsterSVG = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%23FF4444' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😠%3C/text%3E%3C/svg%3E";
 
-      // Önceki animasyon sınıflarını kaldır
-      monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen","happy-screen");
-      monsterImage.style.animation = "none";
+// Soruyu yükleyen fonksiyon
+function loadQuestion() {
+  document.getElementById("codeInput").value = questions[currentIndex].code; // Kod alanına sorunun başlangıç kodunu yaz
+  document.getElementById("monsterImage").src = angryMonsterSVG; // Canavar görselini kızgın olarak ayarla
+  const monsterDiv = document.getElementById("monster");
+  // Tüm animasyon sınıflarını kaldır (mutlu ya da kızgın olanlar)
+  monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen", "happy-screen");
+  document.getElementById("message").textContent = ""; // Mesaj alanını temizle
+}
 
-      if (isCorrect) {
+// Butona tıklandığında çalacak basit ses efektini oynatan fonksiyon
+function playButtonSound() {
+  const audio = new Audio();
+  // Web Audio API kullanarak basit bir 'click' sesi oluştur
+  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(600, audioContext.currentTime + 0.1);
+  
+  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+  
+  oscillator.start(audioContext.currentTime);
+  oscillator.stop(audioContext.currentTime + 0.1);
+}
+
+// Kullanıcının yazdığı kodu kontrol eden fonksiyon
+function checkCode() {
+  playButtonSound(); // Buton sesi çal
+  const input = document.getElementById("codeInput").value; // Kullanıcının girdiği kod
+  const isCorrect = questions[currentIndex].correct(input); // Doğruluk kontrolü (questions dizisinden)
+  const monsterImage = document.getElementById("monsterImage");
+  const monsterDiv = document.getElementById("monster");
+  const message = document.getElementById("message");
+
+  // Önceki animasyon sınıflarını kaldır
+  monsterDiv.classList.remove("happy-stars", "happy-shake", "angry-flames", "angry-screen", "happy-screen");
+  monsterImage.style.animation = "none";
+
+  if (isCorrect) {
+    // Kod doğruysa mutlu canavar göster
+    monsterImage.src = happyMonsterSVG;
+    message.textContent = "Harika! Canavar mutlu oldu!";
+    // Mutlu animasyon: dönme, yıldız patlama ve zemin titreme efektleri
+    monsterImage.style.animation = "spin 1s ease";
+    monsterDiv.classList.add("happy-stars", "happy-shake");
+
+    setTimeout(() => {
+      currentIndex++; // Sonraki soruya geç
+      if (currentIndex < questions.length) {
+        loadQuestion(); // Yeni soruyu yükle
+      } else {
+        // Tüm sorular tamamlandıysa mesaj göster, kod alanını gizle
+        message.textContent = "Tüm canavarlar mutlu! C kodlarını mükemmel yazdın! 🎉";
+        document.getElementById("codeInput").style.display = "none";
         monsterImage.src = happyMonsterSVG;
-        message.textContent = "Harika! Canavar mutlu oldu!";
-        // Mutlu animasyonu: dönme, yıldız patlama ve zemin titreme
         monsterImage.style.animation = "spin 1s ease";
         monsterDiv.classList.add("happy-stars", "happy-shake");
-
-        setTimeout(() => {
-          currentIndex++;
-          if (currentIndex < questions.length) {
-            loadQuestion();
-          } else {
-            message.textContent = "Tüm canavarlar mutlu! C kodlarını mükemmel yazdın! 🎉";
-            document.getElementById("codeInput").style.display = "none";
-            monsterImage.src = happyMonsterSVG;
-            monsterImage.style.animation = "spin 1s ease";
-            monsterDiv.classList.add("happy-stars", "happy-shake");
-          }
-        }, 1500);
-      } else {
-        monsterImage.src = angryMonsterSVG;
-        message.textContent = "Hatalı... Syntax'ı kontrol et!";
-
-        // Önce animasyon sınıflarını kaldır
-        monsterImage.style.animation = "none";
-        monsterDiv.classList.remove("angry-flames", "angry-screen");
-
-        // DOM'u zorla yeniden boyat (reflow) — önemli!
-        void monsterImage.offsetWidth;
-
-        // Sonra animasyonları yeniden uygula
-        monsterImage.style.animation = "angry-shake 0.5s ease";
-        monsterDiv.classList.add("angry-flames", "angry-screen");
       }
-    }
+    }, 1500);
+  } else {
+    // Kod yanlışsa kızgın canavar göster
+    monsterImage.src = angryMonsterSVG;
+    message.textContent = "Hatalı... Syntax'ı kontrol et!";
 
-    function goHome() {
-       window.location.href = "../CGameMenu/CGameMenu.html"; 
-    }
+    // Önce animasyon sınıflarını kaldır
+    monsterImage.style.animation = "none";
+    monsterDiv.classList.remove("angry-flames", "angry-screen");
 
-    window.onload = loadQuestion;
+    // DOM'u zorla yeniden boyat (reflow) — animasyonların tekrar tetiklenmesi için önemli!
+    void monsterImage.offsetWidth;
+
+    // Sonra animasyonları yeniden uygula
+    monsterImage.style.animation = "angry-shake 0.5s ease";
+    monsterDiv.classList.add("angry-flames", "angry-screen");
+  }
+}
+
+// Ana menüye dönmek için sayfayı değiştirir
+function goHome() {
+  window.location.href = "../CGameMenu/CGameMenu.html";
+}
+
+// Sayfa yüklendiğinde ilk soruyu yükle
+window.onload = loadQuestion;

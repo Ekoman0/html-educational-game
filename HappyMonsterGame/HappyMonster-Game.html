@@ -4,26 +4,38 @@
   <meta charset="UTF-8" />
   <title>Kod Canavarı Eğitimi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
- <link rel="stylesheet" href="style2.css">
+  <!-- CSS dosyasını sayfaya bağlar -->
+  <link rel="stylesheet" href="style2.css">
 </head>
 <body>
   <div class="container">
+    <!-- Sayfa başlığı -->
     <h1>👾 Kod Canavarı Eğitimi</h1>
 
+    <!-- Canavar görselinin bulunduğu alan -->
     <div id="monster">
       <img id="monsterImage" src="kizgin.png" alt="Kod Canavarı">
     </div>
 
+    <!-- Kullanıcıya verilen açıklama -->
     <p id="questionText">Canavar sinirli çünkü HTML kodu hatalı. Hadi düzelt!</p>
 
+    <!-- Kullanıcının kod girmesi için metin alanı -->
     <textarea id="codeInput"></textarea>
 
     <br>
+
+    <!-- Kod kontrol butonu -->
     <button class="btn" onclick="checkCode()">Kodu Kontrol Et</button>
+
+    <!-- Anasayfaya dönüş butonu -->
     <button class="btn" onclick="goHome()">Anasayfaya Dön</button>
+
+    <!-- Geri bildirim mesajlarının gösterileceği alan -->
     <div class="message" id="message"></div>
   </div>
 
-<script src="script2.js"></script>
+  <!-- JavaScript dosyasını sayfaya bağlar -->
+  <script src="script2.js"></script>
 </body>
 </html>

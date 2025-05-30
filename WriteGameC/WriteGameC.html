@@ -4,45 +4,45 @@
   <meta charset="UTF-8">
   <title>C Dili Öğretici Oyun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style14.css">
+  <link rel="stylesheet" href="style14.css"> <!-- Stil dosyasını dahil et -->
 </head>
 <body>
-  <div class="particles" id="particles"></div>
-  
-  <div class="card" id="gameCard">
-    <div class="streak" id="streak">
-      <span class="streak-flame">🔥</span>
-      <span id="streakCount">0</span>
+  <div class="particles" id="particles"></div> <!-- Kutlama için parçacık animasyonu -->
+
+  <div class="card" id="gameCard"> <!-- Ana oyun kartı -->
+    <div class="streak" id="streak"> <!-- Ardışık doğru cevap sayısını gösteren alan -->
+      <span class="streak-flame">🔥</span> <!-- Alev ikonu -->
+      <span id="streakCount">0</span> <!-- Ardışık doğru sayısı -->
     </div>
     
-    <div class="card-header">
+    <div class="card-header"> <!-- Kart başlığı -->
       <h2>C Dili Öğretici 💻</h2>
     </div>
     
-    <div class="question" id="question">C dilinde değişken tanımlamak için hangi anahtar kelime kullanılır?</div>
+    <div class="question" id="question">C dilinde değişken tanımlamak için hangi anahtar kelime kullanılır?</div> <!-- Soru metni -->
     
-    <div class="input-container">
-      <input type="text" id="answer" placeholder="Cevabını yaz (örnek: int)" autocomplete="off">
-      <div class="input-icon">⚡</div>
+    <div class="input-container"> <!-- Cevap giriş alanı -->
+      <input type="text" id="answer" placeholder="Cevabını yaz (örnek: int)" autocomplete="off"> <!-- Kullanıcının cevabı -->
+      <div class="input-icon">⚡</div> <!-- Giriş alanı simgesi -->
     </div>
     
-    <button id="submitBtn" onclick="checkAnswer()">Cevapla</button>
+    <button id="submitBtn" onclick="checkAnswer()">Cevapla</button> <!-- Cevapla butonu -->
     
-    <div class="feedback" id="feedback"></div>
+    <div class="feedback" id="feedback"></div> <!-- Geri bildirim mesajı (doğru/yanlış) -->
     
     <div class="score">
-      Puan: <div class="score-number" id="score">0</div>
+      Puan: <div class="score-number" id="score">0</div> <!-- Kullanıcının puanı -->
     </div>
     
-    <div class="progress">
-      <div class="progress-number" id="questionNumber">1</div>
-      <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
+    <div class="progress"> <!-- İlerleme göstergesi -->
+      <div class="progress-number" id="questionNumber">1</div> <!-- Mevcut soru numarası -->
+      <div class="progress-bar"> <!-- İlerleme çubuğu arka planı -->
+        <div class="progress-fill" id="progressFill"></div> <!-- İlerleme çubuğu doluluk kısmı -->
       </div>
-      <div class="progress-number total-progress">50</div>
+      <div class="progress-number total-progress">50</div> <!-- Toplam soru sayısı -->
     </div>
   </div>
   
-  <script src="script14.js"></script>
+  <script src="script14.js"></script> <!-- JavaScript dosyasını dahil et -->
 </body>
 </html>

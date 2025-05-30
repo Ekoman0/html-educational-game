@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Öğrenme Oyunu - Blog Oluşturucu</title>
-    <link rel="stylesheet" href="style4.css">
+    <meta charset="UTF-8"> <!-- Türkçe karakter desteği -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyumlu tasarım için -->
+    <title>HTML Öğrenme Oyunu - Blog Oluşturucu</title> <!-- Sayfa başlığı -->
+    <link rel="stylesheet" href="style4.css"> <!-- Harici CSS dosyasını ekliyoruz -->
 </head>
 <body>
-    <div class="container">
-        <header>
+    <div class="container"> <!-- Sayfanın genel kapsayıcı alanı -->
+        <header> <!-- Sayfa başlığı ve açıklama alanı -->
             <h1>HTML Öğrenme Oyunu - Blog Oluşturucu</h1>
             <p>Adım adım HTML öğrenerek kendi kişisel blogunuzu oluşturun!</p>
         </header>
 
-        <div class="game-container">
-            <div class="editor-section">
-                <div class="level-indicator">Seviye: <span id="level-number">1</span> - <span id="level-title">Paragraf Ekleme</span></div>
-                <div class="instruction" id="instruction">
+        <div class="game-container"> <!-- Oyun alanı: kod editörü ve önizleme bölgesi -->
+            <div class="editor-section"> <!-- Kod editörü bölümü -->
+                <div class="level-indicator"> <!-- Seviye göstergesi -->
+                    Seviye: <span id="level-number">1</span> - <span id="level-title">Paragraf Ekleme</span>
+                </div>
+
+                <div class="instruction" id="instruction"> <!-- Görev açıklaması -->
                     <p><strong>Görev:</strong> Bir paragraf etiketi (<code>&lt;p&gt;</code>) ekleyin ve içinde "Merhaba, bu benim ilk blog yazım!" yazısını yazın.</p>
                     <p>Paragraf etiketi <code>&lt;p&gt;</code> ile başlar ve <code>&lt;/p&gt;</code> ile biter.</p>
                 </div>
-                <textarea id="code-editor" placeholder="HTML kodunuzu buraya yazın..."></textarea>
-                <div class="button-container">
-                    <button id="hint-button">İpucu</button>
-                    <button id="check-button">Kontrol Et</button>
-                    <button id="next-button" disabled>Sonraki Seviye</button>
+
+                <textarea id="code-editor" placeholder="HTML kodunuzu buraya yazın..."></textarea> <!-- Kullanıcının HTML yazacağı alan -->
+
+                <div class="button-container"> <!-- Butonlar -->
+                    <button id="hint-button">İpucu</button> <!-- İpucu gösterme butonu -->
+                    <button id="check-button">Kontrol Et</button> <!-- Kullanıcının yazdığı kodu kontrol etme -->
+                    <button id="next-button" disabled>Sonraki Seviye</button> <!-- Bir sonraki seviyeye geçme (başta pasif) -->
                 </div>
-                <div class="hint" id="hint">
+
+                <div class="hint" id="hint"> <!-- İpucu kutusu (başta gizli) -->
                     <p>İpucu: <code>&lt;p&gt;Merhaba, bu benim ilk blog yazım!&lt;/p&gt;</code> şeklinde yazmalısınız.</p>
                 </div>
-                <div class="success-message" id="success-message">
+
+                <div class="success-message" id="success-message"> <!-- Başarılı cevap mesajı (başta gizli) -->
                     <p>Harika! Doğru cevap. Sonraki seviyeye geçebilirsiniz.</p>
                 </div>
             </div>
 
-            <div class="preview-section">
+            <div class="preview-section"> <!-- Blog önizleme bölümü -->
                 <h2>Blog Önizleme</h2>
                 <div class="preview-container" id="preview-container">
                     <!-- Önizleme burada gösterilecek -->
@@ -43,6 +50,6 @@
         </div>
     </div>
 
-   <script src="script4.js"></script>
+    <script src="script4.js"></script> <!-- JavaScript dosyasını sayfaya dahil ediyoruz -->
 </body>
 </html>

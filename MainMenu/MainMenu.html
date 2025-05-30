@@ -4,52 +4,63 @@
   <meta charset="UTF-8">
   <title>HTML Oyun Anasayfa</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Stil dosyası bağlanıyor -->
   <link rel="stylesheet" href="style7.css">
 </head>
 <body>
-  <!-- Audio Controls -->
+  <!-- Ses kontrol butonları -->
   <div class="audio-controls">
+    <!-- Arka plan müziğini aç/kapat butonu -->
     <button class="audio-btn" id="musicToggle" title="Müziği Aç/Kapat">🎵</button>
+    <!-- Ses efektlerini aç/kapat butonu -->
     <button class="audio-btn" id="soundToggle" title="Ses Efektlerini Aç/Kapat">🔊</button>
   </div>
 
-  <!-- Main container -->
+  <!-- Ana kapsayıcı -->
   <div class="container">
+    <!-- Sayfa başlığı -->
     <h1 class="pulse">HTML Öğretici Oyunlar 🎮</h1>
     
+    <!-- Oyun butonları -->
     <div class="game-buttons">
+      <!-- Yazılı Etiket Oyunu butonu -->
       <button class="btn floating" onclick="navigateToGame('../WriteGame/Write-Game.html')">
         <div class="btn-icon">✏️</div>
         <span>Yazılı Etiket Oyunu</span>
       </button>
       
+      <!-- Sürükle Bırak Etiket Oyunu butonu -->
       <button class="btn floating" style="animation-delay: 0.5s" onclick="navigateToGame('../DragandDropGame/Drag-and-Drop-Game.html')">
         <div class="btn-icon">🔄</div>
         <span>Sürükle Bırak Etiket Oyunu</span>
       </button>
       
+      <!-- Kod Canavarı Oyunu butonu -->
       <button class="btn floating" style="animation-delay: 1s" onclick="navigateToGame('../HappyMonsterGame/HappyMonster-Game.html')">
         <div class="btn-icon">👾</div>
         <span>Kod Canavarı Oyunu</span>
       </button>
       
+      <!-- Blog Oluşturma Oyunu butonu -->
       <button class="btn floating" style="animation-delay: 1.5s" onclick="navigateToGame('../MakeSiteGame/Make-Site-Game.html')">
         <div class="btn-icon">🌐</div>
         <span>Blog Oluşturma Oyunu</span>
       </button>
 
+      <!-- Gökdelen Oyunu butonu -->
       <button class="btn floating" style="animation-delay: 2s" onclick="navigateToGame('../HtmlTower/Html-Tower.html')">
         <div class="btn-icon">🏢</div>
         <span>Gökdelen Oyunu</span>
       </button>
 
+      <!-- Hazine Avı Oyunu butonu -->
       <button class="btn floating" style="animation-delay: 2.5s" onclick="navigateToGame('../TreasureHuntGame/TreasureHunt-Game.html')">
         <div class="btn-icon">💰</div>
         <span>Hazine Avı Oyunu</span>
       </button>
     </div>
     
-    <!-- Confetti elements -->
+    <!-- Konfeti efektleri (renkli kutucuklar) -->
     <div class="confetti-piece" style="left: 10%; animation-delay: 0s; background: #6366f1;"></div>
     <div class="confetti-piece" style="left: 20%; animation-delay: 0.2s; background: #ec4899;"></div>
     <div class="confetti-piece" style="left: 30%; animation-delay: 0.4s; background: #10b981;"></div>
@@ -61,29 +72,32 @@
     <div class="confetti-piece" style="left: 90%; animation-delay: 1.6s; background: #6366f1;"></div>
   </div>
   
-  <!-- Leaderboard toggle button -->
+  <!-- Skor tablosunu aç/kapat butonu -->
   <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
   
-  <!-- Leaderboard panel -->
+  <!-- Skor tablosu paneli -->
   <div class="leaderboard-container" id="leaderboardContainer">
     <h3><span>Skor Tablosu</span> <span class="trophy">🏆</span></h3>
     <table>
       <thead>
         <tr><th>İsim</th><th>Skor</th></tr>
       </thead>
+      <!-- Skorlar buraya JavaScript ile eklenecek -->
       <tbody id="leaderboard"></tbody>
     </table>
   </div>
 
+  <!-- Arka plan müziği -->
   <audio id="backgroundMusic" autoplay loop preload="auto">
     <source src="/background-music.mp3" type="audio/mpeg">
     Tarayıcınız ses dosyasını desteklemiyor.
   </audio>
 
-  <!-- Firebase SDK -->
+  <!-- Firebase SDK bağlantıları (veritabanı işlemleri için) -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
   
+  <!-- Sayfaya özel JavaScript dosyası -->
   <script src="script7.js"></script>
 </body>
 </html>

@@ -1,211 +1,295 @@
-// Audio System
-    class AudioManager {
-      constructor() {
-        this.musicEnabled = true;
-        this.soundEnabled = true;
-        this.backgroundMusic = document.getElementById('backgroundMusic');
-        this.init();
-      }
+// Ses Sistemi - Oyun müzikleri ve efektlerini yöneten sınıf
+class AudioManager {
+  constructor() {
+    // Varsayılan ses ayarları
+    this.musicEnabled = true;  // Müzik açık mı?
+    this.soundEnabled = true;  // Ses efektleri açık mı?
+    
+    // HTML'deki arkaplan müziği elementini al
+    this.backgroundMusic = document.getElementById('backgroundMusic');
+    
+    // Ses yöneticisini başlat
+    this.init();
+  }
 
-      init() {
-        // Load preferences from localStorage
-        this.musicEnabled = localStorage.getItem('musicEnabled') !== 'false';
-        this.soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
-        
-        this.updateButtonStates();
-        
-        // Ses seviyesini ayarla
-        this.backgroundMusic.volume = 0.6;
-        
-        // Müzik etkinse çalmaya başla (kullanıcı etkileşimi sonrası)
-        if (this.musicEnabled) {
-          this.startBackgroundMusic();
-        }
-      }
-
-      // Web Audio API ile click sesi oluştur
-      createClickSound() {
-        if (!this.soundEnabled) return;
-        
-        try {
-          const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-          const oscillator = audioContext.createOscillator();
-          const gainNode = audioContext.createGain();
-          
-          oscillator.connect(gainNode);
-          gainNode.connect(audioContext.destination);
-          
-          oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-          oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
-          
-          gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-          
-          oscillator.start(audioContext.currentTime);
-          oscillator.stop(audioContext.currentTime + 0.1);
-        } catch (e) {
-          console.log('Web Audio API desteklenmiyor');
-        }
-      }
-
-      // Arkaplan müziği çalmaya başla
-      startBackgroundMusic() {
-        if (!this.musicEnabled) return;
-        
-        try {
-          // Modern tarayıcılar için autoplay policy gereği kullanıcı etkileşimi gerekiyor
-          const playPromise = this.backgroundMusic.play();
-          
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                console.log('Arkaplan müziği başlatıldı');
-              })
-              .catch(error => {
-                console.log('Müzik otomatik başlatılamadı, kullanıcı etkileşimi gerekiyor:', error);
-              });
-          }
-        } catch (e) {
-          console.log('Müzik çalınamadı:', e);
-        }
-      }
-
-      // Arkaplan müziğini durdur
-      stopBackgroundMusic() {
-        try {
-          this.backgroundMusic.pause();
-          this.backgroundMusic.currentTime = 0;
-        } catch (e) {
-          console.log('Müzik durdurulamadı:', e);
-        }
-      }
-
-      toggleMusic() {
-        this.musicEnabled = !this.musicEnabled;
-        localStorage.setItem('musicEnabled', this.musicEnabled);
-        this.updateButtonStates();
-        
-        if (this.musicEnabled) {
-          this.startBackgroundMusic();
-        } else {
-          this.stopBackgroundMusic();
-        }
-      }
-
-      toggleSound() {
-        this.soundEnabled = !this.soundEnabled;
-        localStorage.setItem('soundEnabled', this.soundEnabled);
-        this.updateButtonStates();
-      }
-
-      updateButtonStates() {
-        const musicBtn = document.getElementById('musicToggle');
-        const soundBtn = document.getElementById('soundToggle');
-        
-        musicBtn.textContent = this.musicEnabled ? '🎵' : '🔇';
-        musicBtn.classList.toggle('muted', !this.musicEnabled);
-        
-        soundBtn.textContent = this.soundEnabled ? '🔊' : '🔇';
-        soundBtn.classList.toggle('muted', !this.soundEnabled);
-      }
+  // Ses yöneticisini başlatan ana fonksiyon
+  init() {
+    // Kullanıcının önceki tercihlerini localStorage'dan yükle
+    this.musicEnabled = localStorage.getItem('musicEnabled') !== 'false';
+    this.soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
+    
+    // Buton durumlarını güncelle (sesli/sessiz göstergeleri)
+    this.updateButtonStates();
+    
+    // Arkaplan müziğinin ses seviyesini ayarla (0-1 arası)
+    this.backgroundMusic.volume = 0.6;
+    
+    // Eğer müzik etkinse çalmaya başla (kullanıcı etkileşimi sonrası)
+    if (this.musicEnabled) {
+      this.startBackgroundMusic();
     }
+  }
 
-    // Initialize audio manager
-    const audioManager = new AudioManager();
-
-    // Firebase yapılandırması
-    const firebaseConfig = {
-      apiKey: "AIzaSyAIfrsCikknBrkiocDdY_8vGtth2c20Hao",
-      authDomain: "learnhtmlgame.firebaseapp.com",
-      databaseURL: "https://learnhtmlgame-default-rtdb.firebaseio.com",
-      projectId: "learnhtmlgame",
-      storageBucket: "learnhtmlgame.appspot.com",
-      messagingSenderId: "58028478626",
-      appId: "1:58028478626:web:a9897fa9c57b36afa987fb",
-      measurementId: "G-77PDPX66EH"
-    };
+  // Web Audio API kullanarak tıklama sesi oluştur
+  createClickSound() {
+    // Ses efektleri kapalıysa hiçbir şey yapma
+    if (!this.soundEnabled) return;
     
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-    
-    // Navigate to game with sound effect
-    function navigateToGame(url) {
-      audioManager.createClickSound();
-      setTimeout(() => {
-        window.location.href = url;
-      }, 100);
+    try {
+      // Ses bağlamı oluştur (farklı tarayıcılar için uyumluluk)
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Osilatör (ses dalgası üretici) oluştur
+      const oscillator = audioContext.createOscillator();
+      
+      // Ses seviyesi kontrolü için gain node oluştur
+      const gainNode = audioContext.createGain();
+      
+      // Ses yolunu bağla: osilatör -> gain -> hoparlör
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Başlangıç frekansı 800Hz olarak ayarla
+      oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+      
+      // 0.1 saniyede frekansı 400Hz'e düşür (tıklama sesi efekti)
+      oscillator.frequency.exponentialRampToValueAtTime(400, audioContext.currentTime + 0.1);
+      
+      // Başlangıç ses seviyesi (0.3 = %30)
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      
+      // Ses seviyesini yavaşça düşür (fade out efekti)
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+      
+      // Sesi başlat ve 0.1 saniye sonra durdur
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (e) {
+      // Web Audio API desteklenmiyorsa hata mesajı yazdır
+      console.log('Web Audio API desteklenmiyor');
     }
+  }
 
-    // Skorları oku ve göster
-    db.ref("scores").orderByChild("score").limitToLast(10).on("value", snapshot => {
-      const leaderboard = document.getElementById("leaderboard");
-      leaderboard.innerHTML = "";
+  // Arkaplan müziğini çalmaya başlatan fonksiyon
+  startBackgroundMusic() {
+    // Müzik kapalıysa hiçbir şey yapma
+    if (!this.musicEnabled) return;
+    
+    try {
+      // Modern tarayıcılar autoplay policy gereği kullanıcı etkileşimi bekler
+      const playPromise = this.backgroundMusic.play();
       
-      const entries = [];
-      snapshot.forEach(child => {
-        entries.push(child.val());
-      });
-      
-      entries.sort((a, b) => b.score - a.score);
-      
-      entries.forEach((entry, index) => {
-        // Emoji ekleyelim ilk 3 sıra için
-        let prefix = "";
-        if (index === 0) prefix = "🥇 ";
-        else if (index === 1) prefix = "🥈 ";
-        else if (index === 2) prefix = "🥉 ";
-        
-        const row = `<tr><td>${prefix}${entry.name}</td><td>${entry.score}</td></tr>`;
-        leaderboard.innerHTML += row;
-      });
+      // play() fonksiyonu Promise döndürüyorsa
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            // Müzik başarıyla başlatıldı
+            console.log('Arkaplan müziği başlatıldı');
+          })
+          .catch(error => {
+            // Autoplay engellenirse bu hata alınır
+            console.log('Müzik otomatik başlatılamadı, kullanıcı etkileşimi gerekiyor:', error);
+          });
+      }
+    } catch (e) {
+      // Genel müzik hatası
+      console.log('Müzik çalınamadı:', e);
+    }
+  }
+
+  // Arkaplan müziğini durduran fonksiyon
+  stopBackgroundMusic() {
+    try {
+      // Müziği duraklat
+      this.backgroundMusic.pause();
+      // Müziği başa sar
+      this.backgroundMusic.currentTime = 0;
+    } catch (e) {
+      // Müzik durdurma hatası
+      console.log('Müzik durdurulamadı:', e);
+    }
+  }
+
+  // Müzik açma/kapama toggle fonksiyonu
+  toggleMusic() {
+    // Müzik durumunu tersine çevir
+    this.musicEnabled = !this.musicEnabled;
+    
+    // Yeni durumu localStorage'a kaydet
+    localStorage.setItem('musicEnabled', this.musicEnabled);
+    
+    // Buton görünümlerini güncelle
+    this.updateButtonStates();
+    
+    // Müzik durumuna göre başlat veya durdur
+    if (this.musicEnabled) {
+      this.startBackgroundMusic();
+    } else {
+      this.stopBackgroundMusic();
+    }
+  }
+
+  // Ses efektleri açma/kapama toggle fonksiyonu
+  toggleSound() {
+    // Ses durumunu tersine çevir
+    this.soundEnabled = !this.soundEnabled;
+    
+    // Yeni durumu localStorage'a kaydet
+    localStorage.setItem('soundEnabled', this.soundEnabled);
+    
+    // Buton görünümlerini güncelle
+    this.updateButtonStates();
+  }
+
+  // Müzik ve ses butonlarının görünümünü güncelleyen fonksiyon
+  updateButtonStates() {
+    // HTML'den butonları al
+    const musicBtn = document.getElementById('musicToggle');
+    const soundBtn = document.getElementById('soundToggle');
+    
+    // Müzik butonunun emoji ve CSS sınıfını ayarla
+    musicBtn.textContent = this.musicEnabled ? '🎵' : '🔇';  // Sesli/sessiz emoji
+    musicBtn.classList.toggle('muted', !this.musicEnabled);  // CSS sınıfı ekle/çıkar
+    
+    // Ses butonu için aynı işlemi yap
+    soundBtn.textContent = this.soundEnabled ? '🔊' : '🔇';
+    soundBtn.classList.toggle('muted', !this.soundEnabled);
+  }
+}
+
+// Ses yöneticisi örneği oluştur (global kullanım için)
+const audioManager = new AudioManager();
+
+// Firebase yapılandırması - Veritabanı bağlantısı için gerekli bilgiler
+const firebaseConfig = {
+  apiKey: "AIzaSyAIfrsCikknBrkiocDdY_8vGtth2c20Hao",              // API anahtarı
+  authDomain: "learnhtmlgame.firebaseapp.com",                    // Kimlik doğrulama domain'i
+  databaseURL: "https://learnhtmlgame-default-rtdb.firebaseio.com", // Veritabanı URL'si
+  projectId: "learnhtmlgame",                                     // Proje ID'si
+  storageBucket: "learnhtmlgame.appspot.com",                    // Depolama bucket'ı
+  messagingSenderId: "58028478626",                               // Mesajlaşma servis ID'si
+  appId: "1:58028478626:web:a9897fa9c57b36afa987fb",             // Uygulama ID'si
+  measurementId: "G-77PDPX66EH"                                  // Analytics ölçüm ID'si
+};
+
+// Firebase'i yapılandırma ile başlat
+firebase.initializeApp(firebaseConfig);
+
+// Veritabanı referansını al
+const db = firebase.database();
+
+// Oyuna ses efekti ile yönlendiren fonksiyon
+function navigateToGame(url) {
+  // Tıklama sesi çal
+  audioManager.createClickSound();
+  
+  // 100ms bekleyip sayfayı değiştir (ses efektinin duyulması için)
+  setTimeout(() => {
+    window.location.href = url;
+  }, 100);
+}
+
+// Skorları veritabanından oku ve liderlik tablosunu güncelle
+db.ref("scores")                    // "scores" node'una git
+  .orderByChild("score")            // "score" alanına göre sırala
+  .limitToLast(10)                  // Son 10 kaydı al (en yüksek skorlar)
+  .on("value", snapshot => {        // Veri değişikliklerini dinle
+    
+    // HTML'deki liderlik tablosu elementini al
+    const leaderboard = document.getElementById("leaderboard");
+    
+    // Tabloyu temizle
+    leaderboard.innerHTML = "";
+    
+    // Verileri geçici diziye aktar
+    const entries = [];
+    snapshot.forEach(child => {
+      entries.push(child.val());    // Her veri kaydını diziye ekle
     });
     
-    // Event Listeners
-    document.getElementById('musicToggle').addEventListener('click', () => {
-      audioManager.createClickSound();
-      audioManager.toggleMusic();
-    });
-
-    document.getElementById('soundToggle').addEventListener('click', () => {
-      audioManager.toggleSound();
-    });
-
-    // Leaderboard toggle functionality
-    const leaderboardToggle = document.getElementById('leaderboardToggle');
-    const leaderboardContainer = document.getElementById('leaderboardContainer');
+    // Skorlara göre büyükten küçüğe sırala
+    entries.sort((a, b) => b.score - a.score);
     
-    leaderboardToggle.addEventListener('click', () => {
-      audioManager.createClickSound();
-      leaderboardContainer.classList.toggle('open');
+    // Her skor kaydı için tablo satırı oluştur
+    entries.forEach((entry, index) => {
+      // İlk 3 sıra için özel emoji ekle
+      let prefix = "";
+      if (index === 0) prefix = "🥇 ";        // Altın madalya
+      else if (index === 1) prefix = "🥈 ";   // Gümüş madalya
+      else if (index === 2) prefix = "🥉 ";   // Bronz madalya
       
-      // Buton efekti
-      leaderboardToggle.style.transform = 'scale(0.9)';
-      setTimeout(() => {
-        leaderboardToggle.style.transform = '';
-      }, 150);
+      // Tablo satırını HTML olarak oluştur
+      const row = `<tr><td>${prefix}${entry.name}</td><td>${entry.score}</td></tr>`;
+      
+      // Satırı tabloya ekle
+      leaderboard.innerHTML += row;
     });
-    
-    // Sayfa yüklendiğinde animasyon efekti
-    document.addEventListener('DOMContentLoaded', () => {
-      const container = document.querySelector('.container');
-      container.style.opacity = '0';
-      container.style.transform = 'translateY(20px)';
-      
-      setTimeout(() => {
-        container.style.transition = 'opacity 1s ease, transform 1s ease';
-        container.style.opacity = '1';
-        container.style.transform = 'translateY(0)';
-      }, 100);
+  });
 
-      // İlk kullanıcı etkileşiminde arkaplan müziğini başlat
-      const startAudio = () => {
-        if (audioManager.musicEnabled) {
-          audioManager.startBackgroundMusic();
-        }
-        document.removeEventListener('click', startAudio);
-        document.removeEventListener('keydown', startAudio);
-      };
-      
-      document.addEventListener('click', startAudio);
-      document.addEventListener('keydown', startAudio);
-    });
+// Olay Dinleyicileri (Event Listeners)
+
+// Müzik toggle butonu için tıklama dinleyicisi
+document.getElementById('musicToggle').addEventListener('click', () => {
+  audioManager.createClickSound();  // Tıklama sesi çal
+  audioManager.toggleMusic();       // Müziği aç/kapat
+});
+
+// Ses toggle butonu için tıklama dinleyicisi
+document.getElementById('soundToggle').addEventListener('click', () => {
+  audioManager.toggleSound();       // Sesi aç/kapat (tıklama sesi çalmıyor çünkü ses kapatılıyor olabilir)
+});
+
+// Liderlik tablosu toggle işlevselliği
+const leaderboardToggle = document.getElementById('leaderboardToggle');      // Toggle butonu
+const leaderboardContainer = document.getElementById('leaderboardContainer'); // Tablo konteyneri
+
+// Liderlik tablosu toggle butonu için tıklama dinleyicisi
+leaderboardToggle.addEventListener('click', () => {
+  audioManager.createClickSound();  // Tıklama sesi çal
+  
+  // Tabloyu aç/kapat (CSS sınıfı ile)
+  leaderboardContainer.classList.toggle('open');
+  
+  // Buton tıklama efekti - butonu küçült ve geri büyüt
+  leaderboardToggle.style.transform = 'scale(0.9)';  // %90 boyutuna küçült
+  setTimeout(() => {
+    leaderboardToggle.style.transform = '';          // Normal boyutuna dön
+  }, 150);  // 150ms sonra
+});
+
+// Sayfa yüklendiğinde çalışacak animasyon ve ses sistemi
+document.addEventListener('DOMContentLoaded', () => {
+  
+  // Ana konteyneri al
+  const container = document.querySelector('.container');
+  
+  // Başlangıçta görünmez ve aşağıda konumlandır
+  container.style.opacity = '0';              // Şeffaf yap
+  container.style.transform = 'translateY(20px)';  // 20px aşağı kaydır
+  
+  // 100ms sonra görünür animasyonu başlat
+  setTimeout(() => {
+    // Geçiş efektlerini ayarla
+    container.style.transition = 'opacity 1s ease, transform 1s ease';
+    
+    // Görünür yap ve yukarı kaydır
+    container.style.opacity = '1';            // Tamamen görünür
+    container.style.transform = 'translateY(0)';  // Normal konuma getir
+  }, 100);
+
+  // İlk kullanıcı etkileşiminde arkaplan müziğini başlatan fonksiyon
+  const startAudio = () => {
+    // Müzik etkinse başlat
+    if (audioManager.musicEnabled) {
+      audioManager.startBackgroundMusic();
+    }
+    
+    // Bu dinleyicileri kaldır (sadece bir kez çalışsın)
+    document.removeEventListener('click', startAudio);
+    document.removeEventListener('keydown', startAudio);
+  };
+  
+  // İlk tıklama veya tuş basımında müziği başlat
+  document.addEventListener('click', startAudio);    // Mouse tıklaması
+  document.addEventListener('keydown', startAudio);  // Klavye tuşu
+});

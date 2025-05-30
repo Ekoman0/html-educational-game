@@ -4,31 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>C Dili Gökdelen Oyunu</title>
-   <link rel="stylesheet" href="style9.css">
-    
+
+    <!-- Harici stil dosyasını çağırıyoruz -->
+    <link rel="stylesheet" href="style9.css">
 </head>
 <body>
+
+    <!-- Sol panel: Kod tamamlama sorularının gösterildiği alan -->
     <div class="left-panel">
         <h2 style="text-align: center; margin-bottom: 30px;">C Dili Kod Tamamlama</h2>
+        
+        <!-- Soruların ve seçeneklerin dinamik olarak ekleneceği kapsayıcı -->
         <div id="question-container"></div>
     </div>
 
+    <!-- Sağ panel: Oyun görünümünün yer aldığı alan -->
     <div class="right-panel">
         <div class="game-view" id="gameView">
+            
+            <!-- Arka plan ve yıldızlar -->
             <div class="background">
                 <div class="stars" id="stars"></div>
             </div>
+
+            <!-- Zemin (çim) -->
             <div class="ground"></div>
+
+            <!-- Gökdelenin katlarının ekleneceği alan -->
             <div class="tower-container" id="towerContainer"></div>
         </div>
         
+        <!-- Mevcut seviye gösterimi -->
         <div class="level" id="level">Seviye: 1</div>
+
+        <!-- Canları (kalpleri) gösteren alan -->
         <div class="lives" id="lives">
             <span class="heart">❤️</span>
             <span class="heart">❤️</span>
             <span class="heart">❤️</span>
         </div>
         
+        <!-- Oyun bittiğinde gösterilecek ekran -->
         <div class="game-over" id="gameOver">
             <h2>Oyun Bitti!</h2>
             <p>Maalesef 3 hata yaptınız.</p>
@@ -36,8 +52,8 @@
         </div>
     </div>
 
-   <script src="script9.js"></script>
-        
-    
+    <!-- Oyun mantığını ve interaktif işlemleri içeren JavaScript dosyası -->
+    <script src="script9.js"></script>
+
 </body>
 </html>

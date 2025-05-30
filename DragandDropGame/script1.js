@@ -833,194 +833,293 @@
   }
 ];
 
-    let currentQuestion = 0;
-    let score = 0;
-    let streakCount = 0;
-    const colors = ['#6366f1', '#ec4899', '#10b981', '#eab308', '#3b82f6'];
+  // Oyun durumu değişkenleri
+let currentQuestion = 0;  // Şu anki soru indeksi
+let score = 0;           // Toplam puan
+let streakCount = 0;     // Ardışık doğru cevap sayısı
 
-    function createParticles() {
-      const particles = document.getElementById('particles');
-      particles.innerHTML = '';
-      for (let i = 0; i < 50; i++) {
-        const particle = document.createElement('div');
-        particle.className = 'particle';
-        const size = Math.random() * 10 + 5;
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.background = color;
-        particle.style.left = `${Math.random() * 100}%`;
-        particle.style.top = `${Math.random() * 100}%`;
-        particle.style.opacity = '0';
-        particles.appendChild(particle);
-      }
+// Parçacık efektleri için renk paleti
+const colors = ['#6366f1', '#ec4899', '#10b981', '#eab308', '#3b82f6'];
+
+/**
+ * Kutlama animasyonu için parçacık efektleri oluşturur
+ * 50 adet rastgele boyut ve renkte parçacık yaratır
+ */
+function createParticles() {
+  const particles = document.getElementById('particles');
+  particles.innerHTML = ''; // Önceki parçacıkları temizle
+  
+  // 50 parçacık oluştur
+  for (let i = 0; i < 50; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Rastgele boyut ve renk ayarla
+    const size = Math.random() * 10 + 5; // 5-15px arası boyut
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.background = color;
+    particle.style.left = `${Math.random() * 100}%`;  // Rastgele yatay konum
+    particle.style.top = `${Math.random() * 100}%`;   // Rastgele dikey konum
+    particle.style.opacity = '0';
+    
+    particles.appendChild(particle);
+  }
+}
+
+/**
+ * Parçacıkları hareket ettiren animasyon fonksiyonu
+ * Her parçacık farklı gecikme ve süre ile yukarı doğru hareket eder
+ */
+function animateParticles() {
+  const particles = document.querySelectorAll('.particle');
+  
+  particles.forEach((particle, index) => {
+    const delay = Math.random() * 2;        // 0-2 saniye arası gecikme
+    const duration = Math.random() * 3 + 2; // 2-5 saniye arası süre
+    particle.style.animation = `celebrate ${duration}s ease-out ${delay}s forwards`;
+  });
+  
+  // 5 saniye sonra animasyonları temizle
+  setTimeout(() => {
+    particles.forEach(particle => {
+      particle.style.animation = '';
+      particle.style.opacity = '0';
+    });
+  }, 5000);
+}
+
+/**
+ * İlerleme çubuğunu günceller
+ * Şu anki soru numarasına göre yüzdelik ilerleme hesaplar
+ */
+function updateProgress() {
+  const progressPercent = ((currentQuestion + 1) / questions.length) * 100;
+  document.getElementById("progressFill").style.width = progressPercent + "%";
+  document.getElementById("questionNumber").innerText = currentQuestion + 1;
+}
+
+/**
+ * Kullanıcıya geri bildirim mesajı gösterir
+ * @param {boolean} isCorrect - Cevabın doğru olup olmadığını belirtir
+ */
+function showFeedback(isCorrect) {
+  const feedback = document.getElementById("feedback");
+  
+  // Önceki sınıfları temizle
+  feedback.classList.remove('success', 'error', 'show');
+  
+  // Kısa bir gecikme sonra yeni mesajı göster (DOM güncellemesi için)
+  setTimeout(() => {
+    if (isCorrect) {
+      feedback.textContent = "✅ Doğru!";
+      feedback.classList.add('success', 'show');
+    } else {
+      feedback.textContent = "❌ Yanlış! Tekrar dene.";
+      feedback.classList.add('error', 'show');
     }
+  }, 10);
+}
 
-    function animateParticles() {
-      const particles = document.querySelectorAll('.particle');
-      particles.forEach((particle, index) => {
-        const delay = Math.random() * 2;
-        const duration = Math.random() * 3 + 2;
-        particle.style.animation = `celebrate ${duration}s ease-out ${delay}s forwards`;
-      });
-      setTimeout(() => {
-        particles.forEach(particle => {
-          particle.style.animation = '';
-          particle.style.opacity = '0';
-        });
-      }, 5000);
+/**
+ * Ardışık doğru cevap sayacını günceller
+ * @param {boolean} correct - Cevabın doğru olup olmadığını belirtir
+ */
+function updateStreak(correct) {
+  const streakElement = document.getElementById("streak");
+  
+  if (correct) {
+    streakCount++;
+    document.getElementById("streakCount").textContent = streakCount;
+    
+    // 2 veya daha fazla ardışık doğru cevap varsa streak göstergesi görünür
+    if (streakCount >= 2) {
+      streakElement.classList.add('show');
     }
+  } else {
+    // Yanlış cevap durumunda streak sıfırlanır
+    streakCount = 0;
+    document.getElementById("streakCount").textContent = streakCount;
+    streakElement.classList.remove('show');
+  }
+}
 
-    function updateProgress() {
-      const progressPercent = ((currentQuestion + 1) / questions.length) * 100;
-      document.getElementById("progressFill").style.width = progressPercent + "%";
-      document.getElementById("questionNumber").innerText = currentQuestion + 1;
-    }
+/**
+ * Puan değişiminde görsel animasyon efekti
+ * Skor elementine nabız animasyonu uygular
+ */
+function animateScoreChange() {
+  const scoreElement = document.getElementById("scoreNumber");
+  scoreElement.classList.add('pulse'); // Nabız animasyonu ekle
+  
+  setTimeout(() => {
+    scoreElement.classList.remove('pulse'); // Animasyonu kaldır
+  }, 500);
+}
 
-    function showFeedback(isCorrect) {
-      const feedback = document.getElementById("feedback");
-      feedback.classList.remove('success', 'error', 'show');
-      setTimeout(() => {
-        if (isCorrect) {
-          feedback.textContent = "✅ Doğru!";
-          feedback.classList.add('success', 'show');
-        } else {
-          feedback.textContent = "❌ Yanlış! Tekrar dene.";
-          feedback.classList.add('error', 'show');
+/**
+ * Yeni soru yüklendiğinde soru elementine animasyon uygular
+ */
+function animateQuestion() {
+  const questionElement = document.getElementById("question");
+  questionElement.classList.add('animate');
+  
+  setTimeout(() => {
+    questionElement.classList.remove('animate');
+  }, 1500);
+}
+
+/**
+ * Belirtilen indeksteki soruyu yükler ve gösterir
+ * @param {number} index - Yüklenecek sorunun indeksi
+ */
+function loadQuestion(index) {
+  const question = questions[index];
+  
+  // Soru metnini ve HTML içeriğini güncelle
+  document.getElementById("question").textContent = question.text;
+  document.getElementById("codeBox").innerHTML = question.html;
+  document.getElementById("preview").innerHTML = 'Önizleme: Burada doğru cevabı görebilirsiniz.';
+  
+  // Önceki geri bildirim mesajını gizle
+  document.getElementById("feedback").classList.remove('show');
+
+  // Sürüklenebilir öğeleri oluştur
+  const draggableContainer = document.getElementById("draggables");
+  draggableContainer.innerHTML = ''; // Önceki öğeleri temizle
+  
+  question.ids.forEach((id, i) => {
+    const div = document.createElement("div");
+    div.className = "draggable";
+    div.draggable = true;
+    div.id = id;
+    div.textContent = question.draggables[i];
+    draggableContainer.appendChild(div);
+  });
+
+  // Sürükle-bırak işlevselliğini ayarla
+  setupDragAndDrop();
+  updateProgress();
+  animateQuestion();
+}
+
+/**
+ * Sürükle ve bırak işlevselliğini kurar
+ * Tüm sürüklenebilir öğeler ve bırakma alanları için event listener'lar ekler
+ */
+function setupDragAndDrop() {
+  const draggables = document.querySelectorAll('.draggable');
+  const dropzones = document.querySelectorAll('.dropzone');
+
+  // Her sürüklenebilir öğe için drag başlatma olayı
+  draggables.forEach(item => {
+    item.addEventListener('dragstart', e => {
+      // Sürüklenen öğenin ID'sini veri transferine ekle
+      e.dataTransfer.setData('text/plain', item.id);
+    });
+  });
+
+  // Her bırakma alanı için olay dinleyicileri
+  dropzones.forEach(zone => {
+    // Bırakma işlemine izin ver
+    zone.addEventListener('dragover', e => e.preventDefault());
+    
+    // Bırakma olayını işle
+    zone.addEventListener('drop', e => {
+      e.preventDefault();
+      
+      // Sürüklenen öğenin ID'sini al
+      const id = e.dataTransfer.getData('text');
+      const dragged = document.getElementById(id);
+      const correct = zone.dataset.accept; // Doğru cevap
+
+      // Cevap kontrolü
+      if (id === correct) {
+        // Doğru cevap durumu
+        zone.textContent = dragged.textContent;
+        dragged.remove(); // Sürüklenen öğeyi kaldır
+        
+        // Puan güncellemesi
+        score += 10;
+        document.getElementById('scoreNumber').innerText = score;
+        animateScoreChange();
+        
+        // Pozitif geri bildirim
+        showFeedback(true);
+        updateStreak(true);
+        
+        // Streak bonus: Her 2 ardışık doğru cevaptta parçacık efekti
+        if (streakCount >= 2 && streakCount % 2 === 0) {
+          createParticles();
+          animateParticles();
         }
-      }, 10);
-    }
-
-    function updateStreak(correct) {
-      const streakElement = document.getElementById("streak");
-      if (correct) {
-        streakCount++;
-        document.getElementById("streakCount").textContent = streakCount;
-        if (streakCount >= 2) {
-          streakElement.classList.add('show');
-        }
-      } else {
-        streakCount = 0;
-        document.getElementById("streakCount").textContent = streakCount;
-        streakElement.classList.remove('show');
-      }
-    }
-
-    function animateScoreChange() {
-      const scoreElement = document.getElementById("scoreNumber");
-      scoreElement.classList.add('pulse');
-      setTimeout(() => {
-        scoreElement.classList.remove('pulse');
-      }, 500);
-    }
-
-    function animateQuestion() {
-      const questionElement = document.getElementById("question");
-      questionElement.classList.add('animate');
-      setTimeout(() => {
-        questionElement.classList.remove('animate');
-      }, 1500);
-    }
-
-    function loadQuestion(index) {
-      const question = questions[index];
-      document.getElementById("question").textContent = question.text;
-      document.getElementById("codeBox").innerHTML = question.html;
-      document.getElementById("preview").innerHTML = 'Önizleme: Burada doğru cevabı görebilirsiniz.';
-      document.getElementById("feedback").classList.remove('show');
-
-      const draggableContainer = document.getElementById("draggables");
-      draggableContainer.innerHTML = '';
-      question.ids.forEach((id, i) => {
-        const div = document.createElement("div");
-        div.className = "draggable";
-        div.draggable = true;
-        div.id = id;
-        div.textContent = question.draggables[i];
-        draggableContainer.appendChild(div);
-      });
-
-      setupDragAndDrop();
-      updateProgress();
-      animateQuestion();
-    }
-
-    function setupDragAndDrop() {
-      const draggables = document.querySelectorAll('.draggable');
-      const dropzones = document.querySelectorAll('.dropzone');
-
-      draggables.forEach(item => {
-        item.addEventListener('dragstart', e => {
-          e.dataTransfer.setData('text/plain', item.id);
-        });
-      });
-
-      dropzones.forEach(zone => {
-        zone.addEventListener('dragover', e => e.preventDefault());
-        zone.addEventListener('drop', e => {
-          e.preventDefault();
-          const id = e.dataTransfer.getData('text');
-          const dragged = document.getElementById(id);
-          const correct = zone.dataset.accept;
-
-          if (id === correct) {
-            zone.textContent = dragged.textContent;
-            dragged.remove();
-            score += 10;
-            document.getElementById('scoreNumber').innerText = score;
-            animateScoreChange();
-            showFeedback(true);
-            updateStreak(true);
-            if (streakCount >= 2 && streakCount % 2 === 0) {
+        
+        // Sorunun tamamlanıp tamamlanmadığını kontrol et
+        if (questions[currentQuestion].render()) {
+          setTimeout(() => {
+            currentQuestion++;
+            
+            // Sonraki soruya geç veya oyunu bitir
+            if (currentQuestion < questions.length) {
+              loadQuestion(currentQuestion);
+            } else {
+              // Tüm sorular tamamlandı - bitiş ekranını göster
+              const gameCard = document.getElementById('gameCard');
+              gameCard.innerHTML = `
+                <div class="completion">
+                  <div class="completion-emoji">🎉</div>
+                  <div class="completion-message">Tebrikler! Tüm soruları tamamladınız!</div>
+                  <div class="completion-score">Toplam Puan: ${score} / ${questions.length * 10}</div>
+                  <div class="home-button">
+                    <a href="MainMenu.html">Ana Sayfaya Dön</a>
+                  </div>
+                </div>
+              `;
+              // Bitiş kutlaması
               createParticles();
               animateParticles();
             }
-            if (questions[currentQuestion].render()) {
-              setTimeout(() => {
-                currentQuestion++;
-                if (currentQuestion < questions.length) {
-                  loadQuestion(currentQuestion);
-                } else {
-                  const gameCard = document.getElementById('gameCard');
-                  gameCard.innerHTML = `
-                    <div class="completion">
-                      <div class="completion-emoji">🎉</div>
-                      <div class="completion-message">Tebrikler! Tüm soruları tamamladınız!</div>
-                      <div class="completion-score">Toplam Puan: ${score} / ${questions.length * 10}</div>
-                      <div class="home-button">
-                        <a href="MainMenu.html">Ana Sayfaya Dön</a>
-                      </div>
-                    </div>
-                  `;
-                  createParticles();
-                  animateParticles();
-                }
-              }, 1200);
-            }
-          } else {
-            showFeedback(false);
-            updateStreak(false);
-          }
-        });
-      });
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      loadQuestion(currentQuestion);
-      const elements = [
-        document.getElementById('draggables'),
-        document.getElementById('codeBox'),
-        document.getElementById('preview'),
-        document.querySelector('.progress'),
-        document.querySelector('.home-button')
-      ];
-      elements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        setTimeout(() => {
-          el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-          el.style.opacity = '1';
-          el.style.transform = 'translateY(0)';
-        }, 300 + (index * 150));
-      });
+          }, 1200); // 1.2 saniye bekleme süresi
+        }
+      } else {
+        // Yanlış cevap durumu
+        showFeedback(false);
+        updateStreak(false);
+      }
     });
+  });
+}
+
+/**
+ * Sayfa yüklendiğinde çalışacak ana başlatma fonksiyonu
+ * DOM hazır olduğunda oyunu başlatır ve giriş animasyonlarını uygular
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  // İlk soruyu yükle
+  loadQuestion(currentQuestion);
+  
+  // Sayfa öğelerinin giriş animasyonu için element listesi
+  const elements = [
+    document.getElementById('draggables'),      // Sürüklenebilir öğeler
+    document.getElementById('codeBox'),         // Kod kutusu
+    document.getElementById('preview'),         // Önizleme alanı
+    document.querySelector('.progress'),        // İlerleme çubuğu
+    document.querySelector('.home-button')      // Ana sayfa butonu
+  ];
+  
+  // Her öğeye sıralı giriş animasyonu uygula
+  elements.forEach((el, index) => {
+    // Başlangıçta görünmez ve aşağıda konumlandır
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(20px)';
+    
+    // Kademeli olarak görünür hale getir
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 300 + (index * 150)); // Her öğe için 150ms artan gecikme
+  });
+});

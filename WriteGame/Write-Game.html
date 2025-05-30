@@ -4,36 +4,47 @@
   <meta charset="UTF-8">
   <title>HTML Öğretici Oyun</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-   <link rel="stylesheet" href="style6.css">
+  <!-- CSS stil dosyasını dahil ediyoruz -->
+  <link rel="stylesheet" href="style6.css">
 </head>
 <body>
+  <!-- Kutucukların arka planında hareket eden partiküller için alan -->
   <div class="particles" id="particles"></div>
   
+  <!-- Oyun kartı container'ı -->
   <div class="card" id="gameCard">
+    <!-- Art arda doğru cevap sayısını gösteren sayaç -->
     <div class="streak" id="streak">
       <span class="streak-flame">🔥</span>
       <span id="streakCount">0</span>
     </div>
     
+    <!-- Kart başlığı -->
     <div class="card-header">
       <h2>HTML Öğretici 🎓</h2>
     </div>
     
+    <!-- Sorunun gösterildiği alan -->
     <div class="question" id="question">HTML'de başlık etiketi nedir?</div>
     
+    <!-- Cevap girişi ve ikon -->
     <div class="input-container">
       <input type="text" id="answer" placeholder="Cevabını yaz (örnek: &lt;h1&gt;)" autocomplete="off">
       <div class="input-icon">💻</div>
     </div>
     
+    <!-- Cevabı kontrol eden buton -->
     <button id="submitBtn" onclick="checkAnswer()">Cevapla</button>
     
+    <!-- Doğru/yanlış geri bildirimi için alan -->
     <div class="feedback" id="feedback"></div>
     
+    <!-- Kullanıcının puanını gösteren alan -->
     <div class="score">
       Puan: <div class="score-number" id="score">0</div>
     </div>
     
+    <!-- Soru ilerleme göstergesi -->
     <div class="progress">
       <div class="progress-number" id="questionNumber">1</div>
       <div class="progress-bar">
@@ -43,6 +54,7 @@
     </div>
   </div>
   
-   <script src="script6.js"></script>
+  <!-- JavaScript dosyasını dahil ediyoruz -->
+  <script src="script6.js"></script>
 </body>
 </html>

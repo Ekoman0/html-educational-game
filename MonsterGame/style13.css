@@ -1,291 +1,302 @@
- body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Koyu mor-mavi gradient arka plan */
-      color: #e0e0e0; /* Açık gri-beyaz metin rengi */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
-    }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #1e1e2f 0%, #2a2a40 100%); /* Koyu mor-mavi gradient arka plan */
+  color: #e0e0e0; /* Açık gri-beyaz metin rengi */
+  display: flex;
+  justify-content: center; /* İçeriği yatayda ortala */
+  align-items: center;     /* İçeriği dikeyde ortala */
+  height: 100vh;           /* Tam ekran yüksekliği */
+  position: relative;
+  overflow: hidden;        /* Taşan içerik görünmesin */
+}
 
-    /* Arka plana hafif bir parlama efekti */
-    body::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle, rgba(222, 74, 155, 0.2) 0%, transparent 70%);
-      opacity: 0.3;
-      animation: pulse 5s infinite ease-in-out;
-    }
+/* Arka plana hafif bir parlama efekti */
+body::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, rgba(222, 74, 155, 0.2) 0%, transparent 70%); /* Mor-pembe hafif ışık */
+  opacity: 0.3;
+  animation: pulse 5s infinite ease-in-out; /* Sürekli solup-parlama animasyonu */
+}
 
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.3;
-      }
-      50% {
-        opacity: 0.6;
-      }
-    }
+/* Pulsing animasyonu (opaklık artıp azalır) */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
 
-    .container {
-      text-align: center;
-      background: #2a2a40; /* Koyu panel arka planı */
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      border: 2px solid #de4a9b; /* Mor-pembe kenarlık */
-      width: 90%;
-      max-width: 600px;
-      transition: transform 0.3s ease;
-      position: relative;
-      z-index: 1;
-    }
+.container {
+  text-align: center;
+  background: #2a2a40; /* Koyu panel arka planı */
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); /* Hafif gölge */
+  border: 2px solid #de4a9b; /* Mor-pembe kenarlık */
+  width: 90%;
+  max-width: 600px; /* Maksimum genişlik */
+  transition: transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
 
-    .container:hover {
-      transform: scale(1.05); /* Hover'da daha belirgin büyüme */
-    }
+/* Hover yapıldığında konteyner biraz büyür */
+.container:hover {
+  transform: scale(1.05);
+}
 
-    h1 {
-      margin-bottom: 1rem;
-      font-size: 2rem;
-      color: #ff6f61; /* Pembe vurgu rengi */
-      text-shadow: 0 0 10px rgba(255, 111, 97, 0.7);
-    }
+h1 {
+  margin-bottom: 1rem;
+  font-size: 2rem;
+  color: #ff6f61; /* Pembe vurgu rengi */
+  text-shadow: 0 0 10px rgba(255, 111, 97, 0.7); /* Hafif gölge */
+}
 
-    #monster {
-      position: relative; /* Animasyonlar için konumlandırma */
-    }
+#monster {
+  position: relative; /* Animasyonlar için konumlandırma */
+}
 
-    #monster img {
-      width: 200px; /* Görseli biraz büyüttüm */
-      height: auto;
-      border-radius: 1rem;
-      border: 3px solid #de4a9b; /* Mor-pembe çerçeve */
-      margin: 1rem 0;
-      transition: transform 0.3s ease;
-    }
+#monster img {
+  width: 200px; /* Görsel genişliği */
+  height: auto;
+  border-radius: 1rem; /* Köşeleri yuvarla */
+  border: 3px solid #de4a9b; /* Mor-pembe çerçeve */
+  margin: 1rem 0;
+  transition: transform 0.3s ease;
+}
 
-    /* Mutlu animasyonu için dönme */
-    @keyframes spin {
-      0% {
-        transform: rotate(0deg);
-      }
-      100% {
-        transform: rotate(360deg);
-      }
-    }
+/* Mutlu canavar için dönme animasyonu */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
-    /* Yıldız patlama efekti */
-    .happy-stars::before,
-    .happy-stars::after {
-      content: '✨';
-      position: absolute;
-      font-size: 2rem;
-      color: #ffeb3b;
-      animation: star-explode 1s ease forwards;
-    }
+/* Yıldız patlama efekti için ::before ve ::after kullanılır */
+.happy-stars::before,
+.happy-stars::after {
+  content: '✨';
+  position: absolute;
+  font-size: 2rem;
+  color: #ffeb3b; /* Sarı parlak renk */
+  animation: star-explode 1s ease forwards; /* Patlama animasyonu */
+}
 
-    .happy-stars::before {
-      top: -20px;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+.happy-stars::before {
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+}
 
-    .happy-stars::after {
-      bottom: -20px;
-      right: 50%;
-      transform: translateX(50%);
-    }
+.happy-stars::after {
+  bottom: -20px;
+  right: 50%;
+  transform: translateX(50%);
+}
 
-    @keyframes star-explode {
-      0% {
-        opacity: 1;
-        transform: translate(0, 0) scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(50px, -50px) scale(2);
-      }
-    }
+/* Yıldız patlama animasyonu: büyüyüp, şeffaflaşır ve yukarı-harekete geçer */
+@keyframes star-explode {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(50px, -50px) scale(2);
+  }
+}
 
-    /* Zemin titreme efekti */
-    .happy-shake {
-      animation: ground-shake 0.5s ease;
-    }
+/* Zemin titreme efekti */
+.happy-shake {
+  animation: ground-shake 0.5s ease;
+}
 
-    @keyframes ground-shake {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      25% {
-        transform: translateX(-5px);
-      }
-      50% {
-        transform: translateX(5px);
-      }
-      75% {
-        transform: translateX(-5px);
-      }
-    }
+/* Zemin sallanma animasyonu */
+@keyframes ground-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  75% {
+    transform: translateX(-5px);
+  }
+}
 
-    /* Sinirli animasyonu için agresif sallanma */
-    @keyframes angry-shake {
-      0%, 100% {
-        transform: translateX(0);
-      }
-      10%, 30%, 50%, 70%, 90% {
-        transform: translateX(-10px);
-      }
-      20%, 40%, 60%, 80% {
-        transform: translateX(10px);
-      }
-    }
+/* Kızgın canavar için agresif sallanma */
+@keyframes angry-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-10px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(10px);
+  }
+}
 
-    /* Alev efekti */
-    .angry-flames::before,
-    .angry-flames::after {
-      content: '🔥';
-      position: absolute;
-      font-size: 2rem;
-      color: #ff0000;
-      animation: flame-rise 1s ease forwards;
-    }
+/* Kızgın canavar için alev efekti */
+.angry-flames::before,
+.angry-flames::after {
+  content: '🔥';
+  position: absolute;
+  font-size: 2rem;
+  color: #ff0000; /* Kırmızı alev rengi */
+  animation: flame-rise 1s ease forwards; /* Yukarı doğru hareket animasyonu */
+}
 
-    .angry-flames::before {
-      top: -30px;
-      left: 30%;
-    }
+.angry-flames::before {
+  top: -30px;
+  left: 30%;
+}
 
-    .angry-flames::after {
-      top: -30px;
-      right: 30%;
-    }
+.angry-flames::after {
+  top: -30px;
+  right: 30%;
+}
 
-    @keyframes flame-rise {
-      0% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(-50px);
-      }
-    }
+/* Alevlerin yukarı yükselip kaybolma animasyonu */
+@keyframes flame-rise {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+}
 
-    /* Ekran kırmızı parlama efekti */
-    .angry-screen::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(255, 0, 0, 0.3);
-      opacity: 0;
-      animation: screen-flash 0.5s ease;
-      z-index: 0;
-       pointer-events: none;
-    }
+/* Kızgınken ekranın kırmızı parlaması */
+.angry-screen::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 0, 0, 0.3); /* Yarı şeffaf kırmızı kaplama */
+  opacity: 0;
+  animation: screen-flash 0.5s ease;
+  z-index: 0;
+  pointer-events: none; /* Altındaki öğeler tıklanabilir kalır */
+}
 
-    @keyframes screen-flash {
-      0%, 100% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
+/* Kırmızı ekran yanıp sönme animasyonu */
+@keyframes screen-flash {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 
-    /* Ekran yeşil parlama efekti */
-    .happy-screen::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(21, 255, 0, 0.3);
-      opacity: 0;
-      animation: happyscreen-flash 0.5s ease;
-      z-index: 0;
-       pointer-events: none;
-    }
+/* Mutluken ekranın yeşil parlaması */
+.happy-screen::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(21, 255, 0, 0.3); /* Yarı şeffaf yeşil kaplama */
+  opacity: 0;
+  animation: happyscreen-flash 0.5s ease;
+  z-index: 0;
+  pointer-events: none;
+}
 
-    @keyframes happyscreen-flash {
-      0%, 100% {
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
+/* Yeşil ekran yanıp sönme animasyonu */
+@keyframes happyscreen-flash {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 
-    textarea {
-      width: 100%;
-      height: 120px;
-      padding: 1rem;
-      font-family: monospace;
-      border-radius: 0.5rem;
-      border: 2px solid #444;
-      resize: none;
-      box-sizing: border-box;
-      background: linear-gradient(135deg, #1e1e2f, #2a2a40);
-      color: #e0e0e0;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
+textarea {
+  width: 100%;
+  height: 120px;
+  padding: 1rem;
+  font-family: monospace; /* Kod yazımı için monospace font */
+  border-radius: 0.5rem;
+  border: 2px solid #444;
+  resize: none; /* Boyutlandırma kapalı */
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #1e1e2f, #2a2a40); /* Koyu degrade arka plan */
+  color: #e0e0e0;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
 
-    textarea:focus {
-      border-color: #de4a9b;
-      box-shadow: 0 0 10px rgba(222, 74, 155, 0.5);
-      outline: none;
-    }
+/* Textarea seçildiğinde kenarlık ve gölge renk değiştirir */
+textarea:focus {
+  border-color: #de4a9b; /* Mor-pembe vurgu */
+  box-shadow: 0 0 10px rgba(222, 74, 155, 0.5);
+  outline: none; /* Varsayılan mavi outline kaldırıldı */
+}
 
-    .btn {
-      background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%);
-      color: white;
-      padding: 0.75rem 1.5rem;
-      border: none;
-      font-size: 1rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      margin: 1rem 0.5rem 0 0.5rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-      position: relative;
-      overflow: hidden;
-    }
+.btn {
+  background: linear-gradient(90deg, #ff6f61 0%, #de4a9b 100%); /* Pembe degrade arka plan */
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin: 1rem 0.5rem 0 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Hafif gölge */
+  position: relative;
+  overflow: hidden;
+}
 
-    .btn:hover {
-      background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%);
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
-    }
+/* Buton hover yapıldığında renk değişir, hafif yukarı kayar */
+.btn:hover {
+  background: linear-gradient(90deg, #de4a9b 0%, #ff6f61 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7);
+}
 
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      transition: 0.5s;
-    }
+/* Buton üzerine kaydırma efekti için yarı saydam hareketli katman */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: 0.5s;
+}
 
-    .btn:hover::before {
-      left: 100%;
-    }
+/* Hoverda kaydırma katmanı sağdan sola geçer */
+.btn:hover::before {
+  left: 100%;
+}
 
-    .message {
-      margin-top: 1rem;
-      font-weight: bold;
-      font-size: 1.2rem;
-      color: #ff6f61;
-      text-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
-    }
+.message {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #ff6f61; 
+  text-shadow: 0 0 5px rgba(255, 111, 97, 0.5);
+}

@@ -1,48 +1,54 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</title>
-   <link rel="stylesheet" href="style15.css">
+    <meta charset="UTF-8"> <!-- Sayfa karakter seti -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobil uyumluluk için görüntü ayarı -->
+    <title>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</title> <!-- Sayfa başlığı -->
+    <link rel="stylesheet" href="style15.css"> <!-- CSS dosyasını bağla -->
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</h1>
-            <p>Adım adım C programlama öğrenerek kendi hesap makinenizi oluşturun!</p>
+    <div class="container"> <!-- Sayfa içeriğinin maksimum genişlikte ortalanmış kapsayıcısı -->
+        <header> <!-- Üst bilgi alanı -->
+            <h1>C Dili Öğrenme Oyunu - Hesap Makinesi Yapımı</h1> <!-- Ana başlık -->
+            <p>Adım adım C programlama öğrenerek kendi hesap makinenizi oluşturun!</p> <!-- Alt başlık veya açıklama -->
         </header>
 
-        <div class="game-container">
-            <div class="editor-section">
-                <div class="level-indicator">Seviye: <span id="level-number">1</span> - <span id="level-title">Temel Program Yapısı</span></div>
+        <div class="game-container"> <!-- Oyun içeriğinin bulunduğu ana bölüm -->
+            <div class="editor-section"> <!-- Kod yazma bölümü -->
+                <div class="level-indicator">
+                    Seviye: <span id="level-number">1</span> - <span id="level-title">Temel Program Yapısı</span>
+                    <!-- Seviye numarası ve başlığı -->
+                </div>
                 <div class="instruction" id="instruction">
+                    <!-- Görev ve açıklama metni -->
                     <p><strong>Görev:</strong> C programının temel yapısını oluşturun. <code>#include &lt;stdio.h&gt;</code> kütüphanesini dahil edin ve <code>main()</code> fonksiyonunu yazın.</p>
                     <p>Her C programı <code>main()</code> fonksiyonu ile başlar ve <code>stdio.h</code> kütüphanesi giriş/çıkış işlemleri için gereklidir.</p>
                 </div>
-                <textarea id="code-editor" placeholder="C kodunuzu buraya yazın..."></textarea>
-                <div class="button-container">
-                    <button id="hint-button">İpucu</button>
-                    <button id="check-button">Kontrol Et</button>
-                    <button id="next-button" disabled>Sonraki Seviye</button>
+                <textarea id="code-editor" placeholder="C kodunuzu buraya yazın..."></textarea> <!-- Kodun yazıldığı alan -->
+                <div class="button-container"> <!-- Butonların kapsayıcısı -->
+                    <button id="hint-button">İpucu</button> <!-- İpucu gösterme butonu -->
+                    <button id="check-button">Kontrol Et</button> <!-- Kod doğrulama butonu -->
+                    <button id="next-button" disabled>Sonraki Seviye</button> <!-- Sonraki seviyeye geçiş butonu (başlangıçta devre dışı) -->
                 </div>
                 <div class="hint" id="hint">
+                    <!-- İpucu mesajı, başlangıçta gizli -->
                     <p>İpucu: İlk satırda <code>#include &lt;stdio.h&gt;</code> yazın, sonra <code>int main() { return 0; }</code> yapısını kullanın.</p>
                 </div>
                 <div class="success-message" id="success-message">
+                    <!-- Başarı mesajı, başlangıçta gizli -->
                     <p>Harika! Doğru cevap. Sonraki seviyeye geçebilirsiniz.</p>
                 </div>
             </div>
 
-            <div class="preview-section">
+            <div class="preview-section"> <!-- Kodun önizleme alanı -->
                 <h2>Kod Önizleme</h2>
                 <div class="preview-container" id="preview-container">
-                    <!-- C kodu burada gösterilecek -->
+                    <!-- Kullanıcının yazdığı C kodu burada gösterilecek -->
                 </div>
             </div>
         </div>
     </div>
 
-     <script src="script15.js"></script>
+    <script src="script15.js"></script> <!-- JavaScript dosyasını sayfaya ekle -->
 </body>
 </html>

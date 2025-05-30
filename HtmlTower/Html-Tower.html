@@ -4,37 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTML Gökdelen Oyunu</title>
+    <!-- Stil dosyasını sayfaya bağlar -->
     <link rel="stylesheet" href="style3.css">
 </head>
 <body>
+    <!-- Sol panel: soru ve kod tamamlama alanı -->
     <div class="left-panel">
+        <!-- Başlık -->
         <h2 style="text-align: center; margin-bottom: 30px;">HTML Kod Tamamlama</h2>
+        <!-- Soruların dinamik olarak ekleneceği konteyner -->
         <div id="question-container"></div>
     </div>
 
+    <!-- Sağ panel: oyun görüntüsü, seviye, can ve oyun bitti ekranı -->
     <div class="right-panel">
+        <!-- Oyun alanı -->
         <div class="game-view" id="gameView">
+            <!-- Arka plan (gökyüzü ve yıldızlar) -->
             <div class="background">
                 <div class="stars" id="stars"></div>
             </div>
+            <!-- Zemin (gökdelenlerin üzerine çıkacak katman) -->
             <div class="ground"></div>
+            <!-- Gökdelen bloklarının ekrana ekleneceği konteyner -->
             <div class="tower-container" id="towerContainer"></div>
         </div>
         
+        <!-- Seviye göstergesi -->
         <div class="level" id="level">Seviye: 1</div>
+        <!-- Can göstergesi (her ❤️ bir hataya izin) -->
         <div class="lives" id="lives">
             <span class="heart">❤️</span>
             <span class="heart">❤️</span>
             <span class="heart">❤️</span>
         </div>
         
+        <!-- Oyun bitti ekranı; başta gizli, canlar bittiğinde gösterilecek -->
         <div class="game-over" id="gameOver">
+            <!-- Bildirim başlığı -->
             <h2>Oyun Bitti!</h2>
+            <!-- Hata sayısı mesajı -->
             <p>Maalesef 3 hata yaptınız.</p>
+            <!-- Yeniden başlatma butonu -->
             <button class="restart-btn" onclick="restartGame()">Yeniden Başla</button>
         </div>
     </div>
 
+    <!-- JavaScript dosyasını sayfaya bağlar -->
     <script src="script3.js"></script>
 </body>
 </html>

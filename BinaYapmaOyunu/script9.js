@@ -1,5 +1,5 @@
 
-// Audio System
+// Ses sistemini yöneten sınıf
 class AudioManager {
   constructor() {
     this.soundEnabled = true;
@@ -7,11 +7,11 @@ class AudioManager {
   }
 
   init() {
-    // Load preferences from localStorage (eğer varsa)
+     // localStorage'dan ses tercihlerini yükle
     this.soundEnabled = localStorage.getItem('soundEnabled') !== 'false';
   }
 
-  // Web Audio API ile click sesi oluştur
+  // Tıklama sesi üret (Web Audio API kullanır)
   createClickSound() {
     if (!this.soundEnabled) return;
     
@@ -36,7 +36,8 @@ class AudioManager {
     }
   }
 
-  // Başarı sesi
+  
+  // Başarı sesi üret
   createSuccessSound() {
     if (!this.soundEnabled) return;
     
@@ -88,7 +89,7 @@ class AudioManager {
   }
 }
 
-// Initialize audio manager
+// AudioManager sınıfını başlat
 const audioManager = new AudioManager();
 // Oyun değişkenleri
         let currentLevel = 1;

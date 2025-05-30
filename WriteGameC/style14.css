@@ -1,392 +1,439 @@
- :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --secondary: #ec4899;
-      --bg: #f8fafc;
-      --text: #1e293b;
-      --card-bg: #ffffff;
-      --border: rgba(231, 231, 240, 0.8);
-      --success: #10b981;
-      --error: #ef4444;
-      --yellow: #eab308;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background-color: var(--bg);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 1rem;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
-      overflow-x: hidden;
-    }
-    
-    .card {
-      background-color: var(--card-bg);
-      padding: 2.5rem 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      border: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-      transform: translateY(0);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-    }
-    
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
-    }
-    
-    .card-header {
-      margin-bottom: 2rem;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h2 {
-      font-size: 2rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      margin-bottom: 0.5rem;
-    }
-    
-    .card-header::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 25%;
-      width: 50%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 2px;
-    }
-    
-    .question {
-      font-size: 1.25rem;
-      margin-bottom: 1.75rem;
-      min-height: 3rem;
-      padding: 0.5rem;
-      border-radius: 0.75rem;
-      position: relative;
-      transition: all 0.3s ease;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .question.animate {
-      animation: pulse 1.5s ease-in-out;
-    }
-    
-    .input-container {
-      position: relative;
-      margin-bottom: 1.5rem;
-    }
-    
-    input {
-      width: 100%;
-      padding: 1rem 1.5rem;
-      font-size: 1rem;
-      border: 2px solid var(--border);
-      border-radius: 0.75rem;
-      outline: none;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    
-    input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
-    }
-    
-    input::placeholder {
-      color: #94a3b8;
-    }
-    
-    .input-icon {
-      position: absolute;
-      top: 50%;
-      right: 1rem;
-      transform: translateY(-50%);
-      color: var(--primary);
-      font-size: 1.25rem;
-      transition: transform 0.3s ease;
-    }
-    
-    input:focus + .input-icon {
-      transform: translateY(-50%) scale(1.2);
-    }
-    
-    button {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
-      color: white;
-      padding: 1rem 2rem;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0.75rem;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      transition: all 0.3s ease;
-      box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
-    }
-    
-    button:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
-    }
-    
-    button:active {
-      transform: translateY(-1px);
-    }
-    
-    button::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.7s;
-    }
-    
-    button:hover::before {
-      left: 100%;
-    }
-    
-    .feedback {
-      margin-top: 1.5rem;
-      min-height: 1.5rem;
-      font-weight: 600;
-      font-size: 1.1rem;
-      display: inline-block;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      transition: all 0.3s ease;
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    
-    .feedback.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .feedback.success {
-      background-color: rgba(16, 185, 129, 0.1);
-      color: var(--success);
-    }
-    
-    .feedback.error {
-      background-color: rgba(239, 68, 68, 0.1);
-      color: var(--error);
-    }
-    
-    .score {
-      margin-top: 1.5rem;
-      font-weight: bold;
-      font-size: 1.1rem;
-      color: var(--primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .score-number {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 1.25rem;
-      font-weight: 700;
-      margin-left: 0.5rem;
-    }
+/* Renk değişkenleri */
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary: #ec4899;
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --card-bg: #ffffff;
+  --border: rgba(231, 231, 240, 0.8);
+  --success: #10b981;
+  --error: #ef4444;
+  --yellow: #eab308;
+}
 
-    .progress {
-      margin-top: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+/* Tüm elementler için varsayılan margin ve padding sıfırlandı, box-sizing border-box yapıldı */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    .progress-bar {
-      flex-grow: 1;
-      height: 0.75rem;
-      background-color: rgba(231, 231, 240, 0.5);
-      border-radius: 1rem;
-      margin: 0 0.75rem;
-      overflow: hidden;
-      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
+/* Body stil ayarları, sayfa ortalama, arka plan ve yazı rengi */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
 
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      width: 0%;
-      border-radius: 1rem;
-      transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
-    }
+  /* Arka planda yumuşak renkli radial gradient desenleri */
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
+  
+  overflow-x: hidden;
+}
 
-    .progress-number {
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--text);
-      min-width: 2rem;
-      text-align: center;
-    }
-    
-    .total-progress {
-      color: var(--primary);
-    }
-    
-    /* Particles for celebration */
-    .particles {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      z-index: -1;
-      pointer-events: none;
-    }
-    
-    .particle {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: var(--primary);
-      border-radius: 50%;
-      opacity: 0;
-      pointer-events: none;
-    }
-    
-    /* Animations */
-    @keyframes pulse {
-      0% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.05); opacity: 0.9; }
-      100% { transform: scale(1); opacity: 1; }
-    }
-    
-    @keyframes celebrate {
-      0% { transform: translateY(0) rotate(0); opacity: 1; }
-      100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
-    }
-    
-    @keyframes fade-in-up {
-      0% { transform: translateY(20px); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-    
-    .card {
-      animation: fade-in-up 0.8s ease forwards;
-    }
-    
-    /* Completion styling */
-    .completion {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .completion-emoji {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      animation: bounce 2s infinite;
-    }
-    
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    .completion-message {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    
-    .completion-score {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-      color: var(--text);
-    }
-    
-    .restart-btn {
-      background: linear-gradient(135deg, var(--success) 0%, #0d9488 100%);
-      margin-top: 1rem;
-    }
-    
-    /* Streak indicator */
-    .streak {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background-color: rgba(234, 179, 8, 0.1);
-      color: var(--yellow);
-      padding: 0.5rem 1rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s ease;
-    }
-    
-    .streak.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .streak-flame {
-      margin-right: 0.5rem;
-    }
-    
-    /* Dark mode */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg: #0f172a;
-        --card-bg: #1e293b;
-        --text: #f1f5f9;
-        --border: rgba(71, 85, 105, 0.3);
-      }
-      
-      input {
-        background-color: #1e293b;
-        color: #f1f5f9;
-      }
-      
-      input::placeholder {
-        color: #64748b;
-      }
-      
-      .progress-bar {
-        background-color: rgba(71, 85, 105, 0.5);
-      }
-    }
+/* Kart (card) bileşeni stili */
+.card {
+  background-color: var(--card-bg);
+  padding: 2.5rem 2rem;
+  border-radius: 1.5rem; /* Köşeler yuvarlatıldı */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08); /* Hafif gölge */
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(0);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Kart üzerine gelince hafif yukarı hareket ve gölge büyümesi */
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+}
+
+/* Kart başlığı stili */
+.card-header {
+  margin-bottom: 2rem;
+  position: relative;
+  display: inline-block;
+}
+
+/* Başlık yazısına degrade renk ve şeffaflık uygulanması */
+h2 {
+  font-size: 2rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+/* Kart başlığının altına degrade çizgi eklenmesi */
+.card-header::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 25%;
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+/* Soru metni stili */
+.question {
+  font-size: 1.25rem;
+  margin-bottom: 1.75rem;
+  min-height: 3rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  position: relative;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Soru animasyon efekti (pulse efekti) */
+.question.animate {
+  animation: pulse 1.5s ease-in-out;
+}
+
+/* Girdi kutusu konteyneri */
+.input-container {
+  position: relative;
+  margin-bottom: 1.5rem;
+}
+
+/* Input alanı stili */
+input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Focus durumunda input border ve gölge renk değişimi */
+input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+}
+
+/* Input placeholder rengi */
+input::placeholder {
+  color: #94a3b8;
+}
+
+/* Input yanındaki ikon stili */
+.input-icon {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  color: var(--primary);
+  font-size: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+/* Input focus durumunda ikon büyümesi */
+input:focus + .input-icon {
+  transform: translateY(-50%) scale(1.2);
+}
+
+/* Buton stili */
+button {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  padding: 1rem 2rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
+}
+
+/* Buton hover efekti: hafif yukarı hareket ve gölge artışı */
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
+}
+
+/* Buton aktif (tıklanırken) hafif hareket */
+button:active {
+  transform: translateY(-1px);
+}
+
+/* Buton üzerinde kayan parlama efekti */
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.7s;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+/* Geri bildirim mesaj alanı */
+.feedback {
+  margin-top: 1.5rem;
+  min-height: 1.5rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+/* Geri bildirim görünür olduğunda animasyon */
+.feedback.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Başarılı mesaj stili */
+.feedback.success {
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success);
+}
+
+/* Hata mesajı stili */
+.feedback.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error);
+}
+
+/* Skor göstergesi */
+.score {
+  margin-top: 1.5rem;
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Skor sayısı degrade renk ile */
+.score-number {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
+}
+
+/* İlerleme çubuğu konteyneri */
+.progress {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* İlerleme çubuğu arka plan */
+.progress-bar {
+  flex-grow: 1;
+  height: 0.75rem;
+  background-color: rgba(231, 231, 240, 0.5);
+  border-radius: 1rem;
+  margin: 0 0.75rem;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* İlerleme dolum kısmı */
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  width: 0%;
+  border-radius: 1rem;
+  transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+}
+
+/* İlerleme yüzdesi sayısı */
+.progress-number {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--text);
+  min-width: 2rem;
+  text-align: center;
+}
+
+/* Toplam ilerleme metni rengi */
+.total-progress {
+  color: var(--primary);
+}
+
+/* Kutlama efektleri için partiküller */
+.particles {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Tek partikül stili */
+.particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Animasyon tanımları */
+
+/* Pulse (nabız) animasyonu */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Kutlama animasyonu (partiküller yukarı doğru döner ve kaybolur) */
+@keyframes celebrate {
+  0% { transform: translateY(0) rotate(0); opacity: 1; }
+  100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; }
+}
+
+/* Fade-in ve yukarı kayma animasyonu */
+@keyframes fade-in-up {
+  0% { transform: translateY(20px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Kart açılırken animasyon */
+.card {
+  animation: fade-in-up 0.8s ease forwards;
+}
+
+/* Tamamlama (oyun bitti) stili */
+.completion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Emoji animasyonu (zıplama) */
+.completion-emoji {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  animation: bounce 2s infinite;
+}
+
+/* Bounce animasyonu */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+/* Tamamlama mesajı */
+.completion-message {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+/* Tamamlama skor metni */
+.completion-score {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  color: var(--text);
+}
+
+/* Yeniden başlat butonu */
+.restart-btn {
+  background: linear-gradient(135deg, var(--success) 0%, #0d9488 100%);
+  margin-top: 1rem;
+}
+
+/* Art arda doğru cevap göstergesi */
+.streak {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: rgba(234, 179, 8, 0.1);
+  color: var(--yellow);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+}
+
+/* Art arda cevap göstergesinin görünür olması */
+.streak.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Alev ikonu için boşluk */
+.streak-flame {
+  margin-right: 0.5rem;
+}
+
+/* Karanlık mod için renk düzenlemeleri */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a;
+    --card-bg: #1e293b;
+    --text: #f1f5f9;
+    --border: rgba(71, 85, 105, 0.3);
+  }
+  
+  input {
+    background-color: #1e293b;
+    color: #f1f5f9;
+  }
+  
+  input::placeholder {
+    color: #64748b;
+  }
+  
+  .progress-bar {
+    background-color: rgba(71, 85, 105, 0.5);
+  }
+}

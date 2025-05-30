@@ -1,50 +1,78 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
+  <!-- Meta bilgileri ve sayfa ayarları -->
   <meta charset="UTF-8">
   <title>Sürükle Bırak Kod Oyunu</title>
+  <!-- Mobil uyumluluk için viewport ayarı -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- CSS stil dosyasını bağla -->
   <link rel="stylesheet" href="style11.css">
 </head>
 <body>
+  <!-- Kutlama animasyonları için arka plan parçacık sistemi -->
   <div class="particles" id="particles"></div>
-
+  
+  <!-- Ana Oyun Kartı Konteyner -->
   <div class="game-container" id="gameCard">
+    
+    <!-- Ardışık başarı göstergesi (sağ üst köşe) -->
     <div class="streak" id="streak">
-      <span class="streak-flame">🔥</span>
-      <span id="streakCount">0</span>
+      <span class="streak-flame">🔥</span> <!-- Alev ikonu -->
+      <span id="streakCount">0</span>      <!-- Ardışık başarı sayısı -->
     </div>
-
+    
+   
+    <!-- Mevcut sorunun gösterileceği başlık alanı -->
     <div class="card-header">
       <h2 id="question">1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.</h2>
     </div>
-
+    
+    
+    <!-- JavaScript tarafından dinamik olarak doldurulacak sürüklenebilir kod parçaları -->
     <div class="draggables" id="draggables"></div>
-
+    
+    
+    <!-- Kullanıcının kod parçalarını bırakacağı drop zone'lar burada gösterilecek -->
     <div class="code-box" id="codeBox"></div>
-
+    
+   
+    <!-- Doğru cevap verildiğinde kodun sonucunun gösterileceği alan -->
     <div class="preview" id="preview">Önizleme: Burada doğru cevabı görebilirsiniz.</div>
-
+    
+   
+    <!-- Doğru/yanlış cevap için dinamik feedback mesajları -->
     <div class="feedback" id="feedback"></div>
-
+    
+    <!-- Puan Gösterge Sistemi -->
     <div class="score">
       Puan: <div class="score-number" id="scoreNumber">0</div>
     </div>
-
+    
+    <!-- 
+         İlerleme Çubuğu ve Soru Sayacı -->
     <div class="progress">
+      <!-- Mevcut soru numarası -->
       <div class="progress-number" id="questionNumber">1</div>
+      
+      <!-- İlerleme çubuğu konteyner -->
       <div class="progress-bar">
+        <!-- Dinamik olarak genişleyecek ilerleme dolgusu -->
         <div class="progress-fill" id="progressFill"></div>
       </div>
+      
+      <!-- Toplam soru sayısı (statik) -->
       <div class="progress-number total-progress">50</div>
     </div>
-
+       
     <div class="home-button">
+      <!-- Ana menüye dönüş linki - onclick ile güvenli navigasyon -->
       <a href="#" onclick="window.location.href = '../CGameMenu/CGameMenu.html'">Ana Sayfaya Dön</a>
     </div>
+    
   </div>
-
-
+  
+  <!-- Oyun mantığını ve etkileşimleri yöneten script dosyası -->
   <script src="script11.js"></script>
 </body>
 </html>

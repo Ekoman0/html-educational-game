@@ -1,78 +1,142 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8">
-  <title>C Öğrenme Oyunları</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="style10.css">
+  <!-- Meta etiketleri ve sayfa ayarları -->
+  <meta charset="UTF-8">  <!-- Türkçe karakter desteği için UTF-8 kodlaması -->
+  <title>C Öğrenme Oyunları</title>  <!-- Tarayıcı sekmesinde görünecek başlık -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- Responsive tasarım için viewport ayarı -->
+  
+  <!-- Harici CSS dosyası bağlantısı -->
+  <link rel="stylesheet" href="style10.css">  <!-- Ana stil dosyası -->
 </head>
 <body>
-  <!-- Navigation link -->
- <a href="#" onclick="window.location.href = '../MainMenu/MainMenu.html'"class="nav-link">🌐 HTML Oyunları</a> 
   
-  <!-- Code particles -->
+  <!-- Ana menüye dönüş linki -->
+  <a href="#" onclick="window.location.href = '../MainMenu/MainMenu.html'" class="nav-link">
+    🌐 HTML Oyunları  <!-- Globe ikonu ile birlikte link metni -->
+  </a>
+  
+  
+  <!-- Ekranda yüzen C kodu parçacıkları - görsel efekt için -->
+  
+  <!-- Printf komutu - sol %10'da, gecikme yok -->
   <div class="code-particle" style="left: 10%; animation-delay: 0s;">printf("Hello");</div>
+  
+  <!-- Main fonksiyonu - sol %20'de, 2 saniye gecikme -->
   <div class="code-particle" style="left: 20%; animation-delay: 2s;">int main() {</div>
+  
+  <!-- Scanf komutu - sol %30'da, 4 saniye gecikme -->
   <div class="code-particle" style="left: 30%; animation-delay: 4s;">scanf("%d", &x);</div>
+  
+  <!-- For döngüsü - sol %40'da, 6 saniye gecikme -->
   <div class="code-particle" style="left: 40%; animation-delay: 6s;">for(i=0; i<10; i++)</div>
+  
+  <!-- Malloc komutu - sol %50'de, 8 saniye gecikme -->
   <div class="code-particle" style="left: 50%; animation-delay: 8s;">malloc(sizeof(int));</div>
+  
+  <!-- Struct tanımı - sol %60'da, 1 saniye gecikme -->
   <div class="code-particle" style="left: 60%; animation-delay: 1s;">struct data {</div>
+  
+  <!-- Dosya işaretçisi - sol %70'de, 3 saniye gecikme -->
   <div class="code-particle" style="left: 70%; animation-delay: 3s;">FILE *fp;</div>
+  
+  <!-- Karakter dizisi - sol %80'de, 5 saniye gecikme -->
   <div class="code-particle" style="left: 80%; animation-delay: 5s;">char str[100];</div>
+  
+  <!-- Return komutu - sol %90'da, 7 saniye gecikme -->
   <div class="code-particle" style="left: 90%; animation-delay: 7s;">return 0;</div>
-
-  <!-- Main container -->
+  
   <div class="container">
+    
+    <!-- Sayfa başlığı - nabız animasyonu ile -->
     <h1 class="pulse">C Programlama Oyunları 💻</h1>
+    
+    <!-- Alt başlık açıklaması -->
     <p class="subtitle">C dilini eğlenceli oyunlarla öğren ve ustalaş!</p>
     
     <div class="game-buttons">
+      
+      <!-- C Yazılı Etiket Oyunu Butonu -->
+      <!-- Yeşil renk teması, yüzen animasyon -->
       <button class="btn c-syntax floating" onclick="playAndGo('../WriteGameC/WriteGameC.html')">
-        <div class="btn-icon">📝</div>
-        <span>C Yazılı Etiket</span>
+        <div class="btn-icon">📝</div>  <!-- Kalem ikonu -->
+        <span>C Yazılı Etiket</span>    <!-- Buton metni -->
       </button>
       
+      <!-- Sürükle Bırak Oyunu Butonu -->
+      <!-- Mor renk teması, 0.5 saniye gecikme ile yüzen animasyon -->
       <button class="btn c-functions floating" style="animation-delay: 0.5s" onclick="playAndGo('../CDragandDrop/C Drag and Drop.html')">
-        <div class="btn-icon">⚙️</div>
+        <div class="btn-icon">⚙️</div>  <!-- Dişli ikonu -->
         <span>Sürükle Bırak Oyunu</span>
       </button>
       
+      <!-- Kod Doğrulama Oyunu Butonu -->
+      <!-- Kırmızı renk teması, 1 saniye gecikme ile yüzen animasyon -->
       <button class="btn c-pointers floating" style="animation-delay: 1s" onclick="playAndGo('../MonsterGame/MonsterGame.html')">
-        <div class="btn-icon">🎯</div>
+        <div class="btn-icon">🎯</div>  <!-- Hedef ikonu -->
         <span>Kod Doğrulama Oyunu</span>
       </button>
       
+      <!-- Kod Yazma Oyunu Butonu -->
+      <!-- Turuncu renk teması, 1.5 saniye gecikme ile yüzen animasyon -->
       <button class="btn c-arrays floating" style="animation-delay: 1.5s" onclick="playAndGo('../MakeSiteGameC/makeSiteGameC.html')">
-        <div class="btn-icon">🔢</div>
+        <div class="btn-icon">🔢</div>  <!-- Sayı ikonu -->
         <span>Kod Yazma Oyunu</span>
       </button>
-
+      
+      <!-- Gökdelen Yapma Oyunu Butonu -->
+      <!-- Mavi renk teması, 2 saniye gecikme ile yüzen animasyon -->
       <button class="btn c-structs floating" style="animation-delay: 2s" onclick="playAndGo('../BinaYapmaOyunu/BinaYapmaOyunu.html')">
-        <div class="btn-icon">🏗️</div>
+        <div class="btn-icon">🏗️</div>  <!-- İnşaat ikonu -->
         <span>Gökdelen Yapma Oyunu</span>
       </button>
-
+      
+      <!-- Hazine Avı Oyunu Butonu -->
+      <!-- Pembe renk teması, 2.5 saniye gecikme ile yüzen animasyon -->
       <button class="btn c-files floating" style="animation-delay: 2.5s" onclick="playAndGo('../HazineAvi/hazineavi.html')">
-        <div class="btn-icon">📁</div>
+        <div class="btn-icon">📁</div>  <!-- Klasör ikonu -->
         <span>Hazine Avı</span>
       </button>
-    </div>
-  </div>
+      
+    </div> <!-- game-buttons div kapanışı -->
+  </div> <!-- container div kapanışı -->
   
-  <!-- Leaderboard toggle button -->
+ 
+       
+  <!-- Lider tablosunu açma/kapama butonu -->
+  <!-- Sağ üst köşede sabit konumlandırılmış yuvarlak buton -->
   <button class="leaderboard-toggle" id="leaderboardToggle">🏆</button>
   
-  <!-- Leaderboard panel -->
+  <!-- Lider tablosu paneli -->
+  <!-- Başlangıçta gizli, JavaScript ile açılır/kapanır -->
   <div class="leaderboard-container" id="leaderboardContainer">
-    <h3><span>C Skor Tablosu</span> <span class="trophy">🏆</span></h3>
+    
+    <!-- Lider tablosu başlığı -->
+    <h3>
+      <span>C Skor Tablosu</span>     <!-- Başlık metni -->
+      <span class="trophy">🏆</span>  <!-- Kupa ikonu -->
+    </h3>
+    
+    <!-- Skor tablosu -->
     <table>
+      <!-- Tablo başlıkları -->
       <thead>
-        <tr><th>İsim</th><th>Toplam Skor</th></tr>
+        <tr>
+          <th>İsim</th>        <!-- Oyuncu ismi sütunu -->
+          <th>Toplam Skor</th> <!-- Toplam skor sütunu -->
+        </tr>
       </thead>
+      
+      <!-- Tablo içeriği -->
+      <!-- JavaScript tarafından dinamik olarak doldurulur -->
       <tbody id="leaderboard"></tbody>
     </table>
-  </div>
+    
+  </div> <!-- leaderboard-container div kapanışı -->
   
+ 
+  <!-- Sayfa etkileşimleri ve dinamik içerik için JavaScript dosyası -->
   <script src="script10.js"></script>
+  
 </body>
 </html>

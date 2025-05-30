@@ -4,26 +4,36 @@
   <meta charset="UTF-8" />
   <title>C Kod Canavarı Eğitimi</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Stil dosyasını dahil ediyoruz -->
   <link rel="stylesheet" href="style13.css">
 </head>
 <body>
   <div class="container">
+    <!-- Başlık -->
     <h1>👾 C Kod Canavarı Eğitimi</h1>
 
+    <!-- Canavar görseli alanı -->
     <div id="monster">
       <img id="monsterImage" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Crect fill='%23FF4444' width='200' height='200' rx='10'/%3E%3Ctext x='100' y='120' text-anchor='middle' font-size='60' fill='white'%3E😠%3C/text%3E%3C/svg%3E" alt="Kod Canavarı">
     </div>
 
+    <!-- Soru metni -->
     <p id="questionText">Canavar sinirli çünkü C kodu hatalı. Hadi düzelt!</p>
 
+    <!-- Kullanıcının kod gireceği alan -->
     <textarea id="codeInput"></textarea>
 
     <br>
+    <!-- Kodu kontrol eden buton -->
     <button class="btn" onclick="checkCode()">Kodu Kontrol Et</button>
+    <!-- Anasayfaya dönüş butonu -->
     <button class="btn" onclick="goHome()">Anasayfaya Dön</button>
+
+    <!-- Geri bildirim mesajlarının gösterileceği alan -->
     <div class="message" id="message"></div>
   </div>
 
+  <!-- JavaScript dosyasını dahil ediyoruz -->
   <script src="script13.js"></script>
 </body>
 </html>

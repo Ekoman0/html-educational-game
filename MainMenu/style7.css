@@ -1,403 +1,439 @@
+/* Ana renk değişkenleri - Site genelinde kullanılacak renkler */
+:root {
+  --primary: #6366f1;        /* Ana mavi renk */
+  --primary-hover: #4f46e5;  /* Ana rengin hover durumu */
+  --secondary: #ec4899;      /* İkincil pembe renk */
+  --success: #10b981;        /* Başarı yeşil rengi */
+  --background: #f8fafc;     /* Sayfa arkaplan rengi */
+  --card-bg: #ffffff;        /* Kart arkaplan rengi */
+}
+
+/* Tüm elementler için sıfırlama */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Ana sayfa gövdesi stil ayarları */
+body {
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background-color: var(--background);
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  /* Arkaplan için dekoratif gradyan efektleri */
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
+}
+
+/* Ana içerik konteyneri */
+.container {
+  width: 90%;
+  max-width: 800px;
+  text-align: center;
+  background: var(--card-bg);
+  padding: 3rem 2rem;
+  border-radius: 1.5rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(231, 231, 240, 0.8);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transform: translateY(0);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+/* Konteyner hover efekti - yukarı kaldırma */
+.container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+}
+
+/* Konteyner arkaplan animasyon efekti */
+.container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 70%);
+  opacity: 0;
+  z-index: -1;
+  transform: translate3d(0,0,0) rotate(0);
+  transition: opacity 0.5s;
+}
+
+/* Hover durumunda arkaplan animasyonu */
+.container:hover::before {
+  opacity: 1;
+  animation: rotate 15s linear infinite;
+}
+
+/* Döndürme animasyonu */
+@keyframes rotate {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Ana başlık stili */
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 2.5rem;
+  /* Gradyan metin efekti */
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  position: relative;
+  display: inline-block;
+}
+
+/* Başlık altında dekoratif çizgi */
+h1::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 25%;
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  border-radius: 2px;
+}
+
+/* Oyun butonları için grid düzeni */
+.game-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+}
+
+/* Buton temel stili */
+.btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: white;
+  padding: 1rem 1.5rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
+}
+
+/* Buton içeriği için z-index */
+.btn span {
+  position: relative;
+  z-index: 2;
+}
+
+/* Buton ikonu stili */
+.btn .btn-icon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+/* Buton hover efekti */
+.btn:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
+}
+
+/* Hover durumunda ikon büyütme */
+.btn:hover .btn-icon {
+  transform: scale(1.2);
+}
+
+/* Buton üzerinde parlama efekti */
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.7s;
+}
+
+/* Hover durumunda parlama animasyonu */
+.btn:hover::before {
+  left: 100%;
+}
+
+/* Liderlik tablosu konteyner stili */
+.leaderboard-container {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background-color: var(--card-bg);
+  border: 1px solid rgba(231, 231, 240, 0.8);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  width: 280px;
+  max-width: 90%;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+  transform: translateX(120%); /* Başlangıçta gizli */
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  z-index: 100;
+  overflow: hidden;
+}
+
+/* Liderlik tablosu açık durumu */
+.leaderboard-container.open {
+  transform: translateX(0);
+}
+
+/* Liderlik tablosu açma/kapama butonu */
+.leaderboard-toggle {
+  position: fixed;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  z-index: 101;
+  border: none;
+  transition: transform 0.3s;
+}
+
+/* Liderlik tablosu buton hover efekti */
+.leaderboard-toggle:hover {
+  transform: scale(1.1);
+}
+
+/* Liderlik tablosu başlığı */
+.leaderboard-container h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Kupa ikonu stili */
+.leaderboard-container h3 .trophy {
+  font-size: 1.5rem;
+  color: gold;
+  text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+}
+
+/* Liderlik tablosu tablo stili */
+.leaderboard-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Tablo başlık ve hücre stilleri */
+.leaderboard-container th,
+.leaderboard-container td {
+  border-bottom: 1px solid rgba(231, 231, 240, 0.8);
+  padding: 0.75rem 0.5rem;
+  font-size: 0.95rem;
+  text-align: left;
+}
+
+/* Tablo başlık stili */
+.leaderboard-container th {
+  font-weight: 600;
+  color: #64748b;
+}
+
+/* Tablo satır hover efekti */
+.leaderboard-container tbody tr {
+  transition: background-color 0.2s;
+}
+
+.leaderboard-container tbody tr:hover {
+  background-color: rgba(99, 102, 241, 0.05);
+}
+
+/* Skor sütunu stili */
+.leaderboard-container tbody td:last-child {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* İlk 3 sıra için özel renkler */
+.leaderboard-container tbody tr:nth-child(1) td:last-child {
+  color: gold; /* Altın - 1. sıra */
+}
+
+.leaderboard-container tbody tr:nth-child(2) td:last-child {
+  color: silver; /* Gümüş - 2. sıra */
+}
+
+.leaderboard-container tbody tr:nth-child(3) td:last-child {
+  color: #cd7f32; /* Bronz - 3. sıra */
+}
+
+/* Ses kontrolleri */
+.audio-controls {
+  position: fixed;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 101;
+}
+
+/* Ses butonları */
+.audio-btn {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  border: none;
+  transition: all 0.3s ease;
+}
+
+/* Ses buton hover efekti */
+.audio-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Sessize alınmış buton stili */
+.audio-btn.muted {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  opacity: 0.7;
+}
+
+/* Yüzen animasyon */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.floating {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* Nabız animasyonu */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* Konfeti efekti için parça */
+.confetti-piece {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: var(--primary);
+  top: -20px;
+  opacity: 0;
+}
+
+/* Konteyner hover durumunda konfeti animasyonu */
+.container:hover .confetti-piece {
+  animation: confetti 5s ease-in-out forwards;
+}
+
+/* Konfeti düşme animasyonu */
+@keyframes confetti {
+  0% { 
+    transform: rotate(0deg) translateY(0); 
+    opacity: 1;
+  }
+  100% { 
+    transform: rotate(360deg) translateY(1000px); 
+    opacity: 0;
+  }
+}
+
+/* Mobil cihazlar için responsive ayarlar */
+@media (max-width: 768px) {
+  .container {
+    padding: 2rem 1rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+  }
+  
+  .game-buttons {
+    gap: 1rem;
+  }
+  
+  .btn {
+    min-height: 100px;
+    padding: 0.75rem;
+  }
+
+  .audio-controls {
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .audio-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Koyu tema desteği */
+@media (prefers-color-scheme: dark) {
   :root {
-      --primary: #6366f1;
-      --primary-hover: #4f46e5;
-      --secondary: #ec4899;
-      --success: #10b981;
-      --background: #f8fafc;
-      --card-bg: #ffffff;
-    }
-    
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background-color: var(--background);
-      color: #1e293b;
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow-x: hidden;
-      background-image: 
-        radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.1) 0%, transparent 20%),
-        radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 30%);
-    }
-    
-    .container {
-      width: 90%;
-      max-width: 800px;
-      text-align: center;
-      background: var(--card-bg);
-      padding: 3rem 2rem;
-      border-radius: 1.5rem;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
-      border: 1px solid rgba(231, 231, 240, 0.8);
-      position: relative;
-      overflow: hidden;
-      z-index: 1;
-      transform: translateY(0);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-    }
-    
-    .container:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
-    }
-    
-    .container::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.05) 50%, transparent 70%);
-      opacity: 0;
-      z-index: -1;
-      transform: translate3d(0,0,0) rotate(0);
-      transition: opacity 0.5s;
-    }
-    
-    .container:hover::before {
-      opacity: 1;
-      animation: rotate 15s linear infinite;
-    }
-    
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    
-    h1 {
-      margin-bottom: 1.5rem;
-      font-size: 2.5rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      position: relative;
-      display: inline-block;
-    }
-    
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: -10px;
-      left: 25%;
-      width: 50%;
-      height: 4px;
-      background: linear-gradient(90deg, var(--primary), var(--secondary));
-      border-radius: 2px;
-    }
-    
-    .game-buttons {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      margin: 2.5rem 0;
-    }
-    
-    .btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
-      color: white;
-      padding: 1rem 1.5rem;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      border-radius: 0.75rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 120px;
-      box-shadow: 0 8px 25px -5px rgba(99, 102, 241, 0.3);
-    }
-    
-    .btn span {
-      position: relative;
-      z-index: 2;
-    }
-    
-    .btn .btn-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-      transition: transform 0.3s ease;
-    }
-    
-    .btn:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px -5px rgba(99, 102, 241, 0.4);
-    }
-    
-    .btn:hover .btn-icon {
-      transform: scale(1.2);
-    }
-    
-    .btn::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-      transition: left 0.7s;
-    }
-    
-    .btn:hover::before {
-      left: 100%;
-    }
-    
-    /* Leaderboard styles */
-    .leaderboard-container {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      background-color: var(--card-bg);
-      border: 1px solid rgba(231, 231, 240, 0.8);
-      border-radius: 1rem;
-      padding: 1.5rem;
-      width: 280px;
-      max-width: 90%;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      transform: translateX(120%);
-      transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-      z-index: 100;
-      overflow: hidden;
-    }
-    
-    .leaderboard-container.open {
-      transform: translateX(0);
-    }
-    
-    .leaderboard-toggle {
-      position: fixed;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      z-index: 101;
-      border: none;
-      transition: transform 0.3s;
-    }
-    
-    .leaderboard-toggle:hover {
-      transform: scale(1.1);
-    }
-    
-    .leaderboard-container h3 {
-      margin-top: 0;
-      margin-bottom: 1rem;
-      font-size: 1.25rem;
-      color: #1e293b;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    
-    .leaderboard-container h3 .trophy {
-      font-size: 1.5rem;
-      color: gold;
-      text-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
-    }
-    
-    .leaderboard-container table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    
-    .leaderboard-container th,
-    .leaderboard-container td {
-      border-bottom: 1px solid rgba(231, 231, 240, 0.8);
-      padding: 0.75rem 0.5rem;
-      font-size: 0.95rem;
-      text-align: left;
-    }
-    
-    .leaderboard-container th {
-      font-weight: 600;
-      color: #64748b;
-    }
-    
-    .leaderboard-container tbody tr {
-      transition: background-color 0.2s;
-    }
-    
-    .leaderboard-container tbody tr:hover {
-      background-color: rgba(99, 102, 241, 0.05);
-    }
-    
-    .leaderboard-container tbody td:last-child {
-      font-weight: 600;
-      color: var(--primary);
-    }
-    
-    /* Top 3 styling */
-    .leaderboard-container tbody tr:nth-child(1) td:last-child {
-      color: gold;
-    }
-    
-    .leaderboard-container tbody tr:nth-child(2) td:last-child {
-      color: silver;
-    }
-    
-    .leaderboard-container tbody tr:nth-child(3) td:last-child {
-      color: #cd7f32; /* bronze */
-    }
-
-    /* Audio Controls */
-    .audio-controls {
-      position: fixed;
-      top: 1.5rem;
-      left: 1.5rem;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 101;
-    }
-
-    .audio-btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-      cursor: pointer;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-      border: none;
-      transition: all 0.3s ease;
-    }
-
-    .audio-btn:hover {
-      transform: scale(1.1);
-    }
-
-    .audio-btn.muted {
-      background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
-      opacity: 0.7;
-    }
-    
-    /* Animations */
-    @keyframes float {
-      0% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0px); }
-    }
-    
-    .floating {
-      animation: float 5s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-      100% { transform: scale(1); }
-    }
-    
-    .pulse {
-      animation: pulse 2s ease-in-out infinite;
-    }
-    
-    /* Confetti effect for container hover */
-    .confetti-piece {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      background: var(--primary);
-      top: -20px;
-      opacity: 0;
-    }
-    
-    .container:hover .confetti-piece {
-      animation: confetti 5s ease-in-out forwards;
-    }
-    
-    @keyframes confetti {
-      0% { 
-        transform: rotate(0deg) translateY(0); 
-        opacity: 1;
-      }
-      100% { 
-        transform: rotate(360deg) translateY(1000px); 
-        opacity: 0;
-      }
-    }
-    
-    /* Responsive adjustments */
-    @media (max-width: 768px) {
-      .container {
-        padding: 2rem 1rem;
-      }
-      
-      h1 {
-        font-size: 2rem;
-      }
-      
-      .game-buttons {
-        gap: 1rem;
-      }
-      
-      .btn {
-        min-height: 100px;
-        padding: 0.75rem;
-      }
-
-      .audio-controls {
-        top: 1rem;
-        left: 1rem;
-      }
-
-      .audio-btn {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-      }
-    }
-    
-    /* Dark mode support */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --background: #0f172a;
-        --card-bg: #1e293b;
-      }
-      
-      body {
-        color: #f1f5f9;
-      }
-      
-      .container {
-        border-color: rgba(71, 85, 105, 0.3);
-      }
-      
-      .leaderboard-container {
-        border-color: rgba(71, 85, 105, 0.3);
-      }
-      
-      .leaderboard-container th {
-        color: #94a3b8;
-      }
-      
-      .leaderboard-container tbody tr:hover {
-        background-color: rgba(99, 102, 241, 0.1);
-      }
-    }
+    --background: #0f172a;  /* Koyu arkaplan */
+    --card-bg: #1e293b;     /* Koyu kart arkaplanı */
+  }
+  
+  body {
+    color: #f1f5f9; /* Açık metin rengi */
+  }
+  
+  .container {
+    border-color: rgba(71, 85, 105, 0.3);
+  }
+  
+  .leaderboard-container {
+    border-color: rgba(71, 85, 105, 0.3);
+  }
+  
+  .leaderboard-container th {
+    color: #94a3b8;
+  }
+  
+  .leaderboard-container tbody tr:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+  }
+}

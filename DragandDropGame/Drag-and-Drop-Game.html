@@ -4,45 +4,62 @@
   <meta charset="UTF-8">
   <title>Sürükle Bırak Kod Oyunu</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Harici CSS dosyası bağlantısı -->
   <link rel="stylesheet" href="style1.css">
 </head>
 <body>
+
+  <!-- Arka planda partikül animasyonu için alan -->
   <div class="particles" id="particles"></div>
 
+  <!-- Oyunun tüm içeriğini kapsayan ana konteyner -->
   <div class="game-container" id="gameCard">
+
+    <!-- Seri başarı göstergesi (örnek: üst üste doğru cevaplar) -->
     <div class="streak" id="streak">
       <span class="streak-flame">🔥</span>
-      <span id="streakCount">0</span>
+      <span id="streakCount">0</span> <!-- Seri sayacı -->
     </div>
 
+    <!-- Soru başlığı alanı -->
     <div class="card-header">
       <h2 id="question">1. Başlık oluşturmak için doğru HTML etiketlerini yerleştir.</h2>
     </div>
 
+    <!-- Sürüklenebilir öğelerin bulunduğu alan -->
     <div class="draggables" id="draggables"></div>
 
+    <!-- Kod kutusu: öğelerin bırakıldığı yer -->
     <div class="code-box" id="codeBox"></div>
 
+    <!-- Kullanıcının kodun doğru halini görebileceği önizleme alanı -->
     <div class="preview" id="preview">Önizleme: Burada doğru cevabı görebilirsiniz.</div>
 
+    <!-- Doğru/yanlış geri bildiriminin gösterildiği alan -->
     <div class="feedback" id="feedback"></div>
 
+    <!-- Puan gösterimi -->
     <div class="score">
       Puan: <div class="score-number" id="scoreNumber">0</div>
     </div>
 
+    <!-- İlerleme çubuğu ve soru numarası -->
     <div class="progress">
-      <div class="progress-number" id="questionNumber">1</div>
+      <div class="progress-number" id="questionNumber">1</div> <!-- Şu anki soru numarası -->
       <div class="progress-bar">
-        <div class="progress-fill" id="progressFill"></div>
+        <div class="progress-fill" id="progressFill"></div> <!-- Dolan ilerleme çubuğu -->
       </div>
-      <div class="progress-number total-progress">50</div>
+      <div class="progress-number total-progress">50</div> <!-- Toplam soru sayısı -->
     </div>
 
+    <!-- Ana menüye dönüş butonu -->
     <div class="home-button">
-      <a href="MainMenu.html">Ana Sayfaya Dön</a>
+       <a href="#" onclick="window.location.href = '../MainMenu/MainMenu.html'">Ana Sayfaya Dön</a>
     </div>
   </div>
-<script src="script1.js"></script>
+
+  <!-- Oyunun mantığını ve sürükle-bırak etkileşimini yöneten JavaScript dosyası -->
+  <script src="script1.js"></script>
 </body>
 </html>
