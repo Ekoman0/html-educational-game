@@ -164,7 +164,7 @@ const audioManager = new AudioManager();
 const firebaseConfig = {
   apiKey: "AIzaSyAIfrsCikknBrkiocDdY_8vGtth2c20Hao",              // API anahtarı
   authDomain: "learnhtmlgame.firebaseapp.com",                    // Kimlik doğrulama domain'i
-  databaseURL: "", // Veritabanı URL'si
+  databaseURL: "https://learnhtml-default-rtdb.firebaseio.com", // Veritabanı URL'si
   projectId: "learnhtmlgame",                                     // Proje ID'si
   storageBucket: "learnhtmlgame.appspot.com",                    // Depolama bucket'ı
   messagingSenderId: "58028478626",                               // Mesajlaşma servis ID'si
